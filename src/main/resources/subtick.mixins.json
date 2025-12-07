@@ -1,0 +1,29 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "cn.royan.subtick.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "subtick.MinecraftServerMixin",
+    "subtick.freeze.LivingEntityMixin",
+    "subtick.freeze.ServerWorldMixin",
+    "subtick.freeze.ServerWorldMixin_entity",
+    "subtick.freeze.WorldMixin",
+    "CommandManagerMixin",
+    "tick.freeze.MinecraftServerMixin",
+    "tick.rate.MinecraftServerMixin",
+    "tick.superhot.ServerPlayNetworkHandlerMixin"
+  ],
+  "client": [
+    "tick.freeze.client.ClientWorldMixin",
+    "tick.freeze.client.MinecraftMixin",
+    "tick.freeze.client.WorldRendererMixin",
+    "tick.network.ClientPlayNetworkHandlerMixin",
+    "tick.rate.client.TickTimerMixin"
+  ],
+  "server": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+	}
+}

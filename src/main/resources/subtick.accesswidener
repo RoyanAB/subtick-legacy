@@ -1,0 +1,8 @@
+accessWidener v1 named
+accessible class net/minecraft/server/world/ServerWorld$BlockEventQueue
+accessible field net/minecraft/server/world/ServerWorld idleTimeout I
+
+accessible field net/minecraft/world/World isTickingBlockEntities Z
+accessible field net/minecraft/world/World pendingBlockEntities Ljava/util/List;
+accessible field net/minecraft/world/World worldBorder Lnet/minecraft/world/border/WorldBorder;
+accessible field net/minecraft/world/World removedBlockEntities Ljava/util/List;
