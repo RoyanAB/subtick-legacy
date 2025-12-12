@@ -5,7 +5,6 @@ import cn.royan.subtick.interfaces.IQueues;
 import cn.royan.subtick.utils.Messenger;
 import cn.royan.subtick.utils.TickPhase;
 import cn.royan.subtick.utils.Translations;
-import net.minecraft.client.main.RunArgs;
 import net.minecraft.server.command.source.CommandSource;
 import net.minecraft.server.world.BlockEvent;
 import net.minecraft.server.world.ServerWorld;
@@ -84,6 +83,7 @@ public class Queues implements IQueues {
 			queue.sendQueueStep(actor, triple.getLeft());
 			sendFeedback(triple.getMiddle(), triple.getRight());
 		} catch (Exception e) {
+			e.printStackTrace();
 			Translations.m(actor, "queueCommand.err.crash", queue);
 		}
 

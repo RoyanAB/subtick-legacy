@@ -1,5 +1,8 @@
 package cn.royan.subtick.queue;
 
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.server.world.ScheduledTick;
 import net.minecraft.util.math.BlockPos;
 
 import java.util.Objects;
@@ -44,20 +47,16 @@ public class QueueElement {
 //		//#endif
 //	}
 //
-//	public QueueElement(TickingBlockEntity be) {
-//		this(be.getType(), be.getPos(), 0);
-//	}
+	public QueueElement(BlockEntity be) {
+		this(be.getBlock().getName(), be.getPos(), 0);
+	}
 //
-//	public QueueElement(Entity e) {
-//		this(e.getName().getString(), e.getId(), 0, 0, 0);
-//	}
-//
-//	public QueueElement(TickNextTickData<?> t) {
-//		this(t.getType() instanceof Block block ? block.getName().getString() : ((Fluid) t.getType()).toString(), t.pos, t.priority.getValue());
-//	}
-//
-//	public QueueElement(TickEntry<?> t) {
-//		this(t.getType() instanceof Block block ? block.getName().getString() : ((Fluid) t.getType()).toString(), t.pos, t.priority.getValue());
-//	}
+	public QueueElement(Entity e) {
+		this(e.getName(), e.getNetworkId(), 0, 0, 0);
+	}
+
+	public QueueElement(ScheduledTick t) {
+		this(t.getBlock().getName(), t.pos, t.priority);
+	}
 
 }

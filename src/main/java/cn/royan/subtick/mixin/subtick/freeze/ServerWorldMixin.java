@@ -4,6 +4,7 @@ import cn.royan.subtick.interfaces.WorldInterface;
 import cn.royan.subtick.helpers.TickHandler;
 import cn.royan.subtick.interfaces.ITickHandleable;
 import cn.royan.subtick.utils.TickPhase;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.PortalForcer;
@@ -51,15 +52,19 @@ public abstract class ServerWorldMixin implements WorldInterface {
 		return tickHandler().shouldTick((ServerWorld) (Object)this, TickPhase.WEATHER);
 	}
 
-	@WrapWithCondition(
+	@ModifyExpressionValue(
 		method = "tick",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/world/NaturalSpawner;tick(Lnet/minecraft/server/world/ServerWorld;ZZZ)I"
+			target = "Lnet/minecraft/world/Gamerules;getBoolean(Ljava/lang/String;)Z",
+			ordinal = 1
 		)
 	)
-	public boolean wrapMobSpawning(NaturalSpawner instance, ServerWorld world, boolean spawnAnimals, boolean spawnMonsters, boolean spawnRareMobs) {
-		return tickHandler().shouldTick((ServerWorld) (Object)this, TickPhase.MOB_SPAWNING);
+	private boolean wrapMobSpawning(boolean original) {
+		if (tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.MOB_SPAWNING)) {
+			return original;
+		}
+		return false;
 	}
 
 	@WrapWithCondition(
@@ -88,17 +93,18 @@ public abstract class ServerWorldMixin implements WorldInterface {
 		return false;
 	}
 
-	@WrapWithCondition(
+	@ModifyExpressionValue(
 		method = "tick",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/world/WorldData;setTimeOfDay(J)V"
+			target = "Lnet/minecraft/world/Gamerules;getBoolean(Ljava/lang/String;)Z",
+			ordinal = 2
 		)
 	)
-	public boolean wrapDayTimeUpdate(WorldData instance, long time) {
+	private boolean wrapDayTimeUpdate(boolean original) {
 		if(tickingTime) {
 			this.tickingTime = false;
-			return true;
+			return original;
 		}
 		return false;
 	}

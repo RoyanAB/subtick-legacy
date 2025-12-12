@@ -47,8 +47,8 @@ public abstract class ServerWorldMixin_entity extends World implements ITickHand
 		}
 		if(tickHandler().shouldTick((ServerWorld) (Object)this, TickPhase.BLOCK_ENTITY)) {
             this.tickBlockEntities();
-			this.pendingBlockEntities();
 		}
+		this.pendingBlockEntities();
 		this.profiler.pop();
 	}
 
@@ -103,7 +103,6 @@ public abstract class ServerWorldMixin_entity extends World implements ITickHand
 
 	@Unique
 	public void tickEntity() {
-		this.tickPlayers();
 		this.profiler.swap("regular");
 
 		for (int i = 0; i < this.entities.size(); ++i) {

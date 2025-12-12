@@ -1,5 +1,9 @@
 package cn.royan.subtick.queue;
 
+import cn.royan.subtick.queue.queues.BlockEntityQueue;
+import cn.royan.subtick.queue.queues.BlockEventQueue;
+import cn.royan.subtick.queue.queues.EntityQueue;
+import cn.royan.subtick.queue.queues.ScheduledTickQueue;
 import cn.royan.subtick.utils.TickingMode;
 import com.google.common.collect.ImmutableMap;
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
@@ -14,8 +18,6 @@ import java.util.Map;
 import java.util.Set;
 
 public abstract class TickingQueue {
-	//  public static final DynamicCommandExceptionType INVALID_MODE_EXCEPTION = new DynamicCommandExceptionType(key -> new LiteralMessage("Invalid mode '" + key + "'"));
-//  public static final DynamicCommandExceptionType INVALID_QUEUE_EXCEPTION = new DynamicCommandExceptionType(key -> new LiteralMessage("Invalid queue '" + key + "'"));
 	// Block events can happen multiple times in the same block, but only if no equivalent block event exists in the queue.
 	// To keep track of them, we have 2 queues; Block events get moved to spentQueue after ticking.
 	protected final ObjectLinkedOpenHashSet<QueueElement> queue = new ObjectLinkedOpenHashSet<>();
@@ -30,21 +32,19 @@ public abstract class TickingQueue {
 	protected TickingMode currentMode;
 	protected ServerWorld level;
 
-	public static final TickingQueue BLOCK_TICK = ScheduledTickQueue.block();
+	public static final TickingQueue BLOCK_TICK = new ScheduledTickQueue();
 	public static final TickingQueue BLOCK_EVENT = new BlockEventQueue();
-	public static final TickingQueue GLOBAL_ENTITY = new EntityQueue();
 	public static final TickingQueue ENTITY = new EntityQueue();
 	public static final TickingQueue BLOCK_ENTITY = new BlockEntityQueue();
 
 	private static final ImmutableMap<String, TickingQueue> BY_COMMAND_KEY = ImmutableMap.of(
-		"blockTick", BLOCK_TICK,
+		"tileTick", BLOCK_TICK,
 		"blockEvent", BLOCK_EVENT,
-		"global_entity", GLOBAL_ENTITY,
 		"entity", ENTITY,
 		"blockEntity", BLOCK_ENTITY);
 
 	public static String[] commandKeys = new String[]{
-		BLOCK_TICK.commandKey, GLOBAL_ENTITY.commandKey, BLOCK_EVENT.commandKey, ENTITY.commandKey, BLOCK_ENTITY.commandKey};
+		BLOCK_TICK.commandKey, BLOCK_EVENT.commandKey, ENTITY.commandKey, BLOCK_ENTITY.commandKey};
 
 	public TickingQueue(int phase, String commandKey, String nameSingle, String nameMultiple) {
 		this(new HashMap<>(), new TickingMode(nameSingle, nameMultiple), phase, commandKey);
@@ -88,7 +88,7 @@ public abstract class TickingQueue {
 		return currentMode.getNamePlural();
 	}
 
-	protected static boolean rangeCheck(BlockPos a, BlockPos b, long range) {
+	public static boolean rangeCheck(BlockPos a, BlockPos b, long range) {
 		if (range == -2) return false;
 		if (range == -1) return true;
 

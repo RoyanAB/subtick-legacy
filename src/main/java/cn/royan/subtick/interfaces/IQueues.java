@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
  */
 public interface IQueues {
 	static IQueues get(CommandSource c) {
-		return ((ITickHandleable) c.getServer()).tickHandler().queues();
+		return ((ITickHandleable) c.getServer()).tickHandler().queues;
 	}
 
 	/*

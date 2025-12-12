@@ -19,7 +19,7 @@ public class TickHandler implements ITickHandler {
 		STEPPING
 	}
 
-  private final Queues queues = new Queues(this);
+  	public final Queues queues = new Queues(this);
 
 	private State state = State.UNFROZEN;
 
@@ -55,7 +55,7 @@ public class TickHandler implements ITickHandler {
 		Messenger.m(c, "w currentPhase: " + currentPhase);
 		Messenger.m(c, "w state: " + state.name());
 		Messenger.m(c, "w Queue:");
-//		queues.printDebugInfo(c);
+		queues.printDebugInfo(c);
 		return 1;
 	}
 
@@ -111,11 +111,11 @@ public class TickHandler implements ITickHandler {
 
 			// Frozen cases ----------------
 			case FROZEN:
-//				queues.end();
+				queues.end();
 				return false;
 
 			case UNFREEZING:
-//				queues.end();
+				queues.end();
 				if (!phase.equals(currentPhase))
 					return false;
 
@@ -123,7 +123,7 @@ public class TickHandler implements ITickHandler {
 				return true;
 
 			case STEPPING:
-//				queues.end();
+				queues.end();
 				if (!phase.equals(currentPhase))
 					return false;
 
@@ -131,7 +131,7 @@ public class TickHandler implements ITickHandler {
 					if (phase.phase == targetPhase.phase) {
 						//stepping = false;
 						state = State.FROZEN;
-//						queues.execute();
+						queues.execute();
 						return false;
 					}
 
@@ -177,7 +177,7 @@ public class TickHandler implements ITickHandler {
 		switch (state) {
 			case FROZEN:
 				state = State.UNFREEZING;
-//				queues.scheduleEnd();
+				queues.scheduleEnd();
 //				ServerNetworkHandler.sendUnfrozen(c.getSourceWorld());
 				Translations.m(c, "tickCommand.unfreeze.success");
 				return 1;
@@ -217,7 +217,7 @@ public class TickHandler implements ITickHandler {
 
 			case FROZEN:
 				state = State.UNFREEZING;
-//				queues.scheduleEnd();
+				queues.scheduleEnd();
 //				ServerNetworkHandler.sendUnfrozen(c.getSourceWorld());
 				Translations.m(c, "tickCommand.unfreeze.success");
 				return 1;
@@ -252,7 +252,7 @@ public class TickHandler implements ITickHandler {
 		remainingTicks = ticks;
 		targetPhase = tickPhase;
 		if (ticks != 0 || !tickPhase.equals(currentPhase)) {
-//      queues.scheduleEnd();
+			queues.scheduleEnd();
 //			ServerNetworkHandler.sendTickStep(c.getSourceWorld(), ticks, tickPhase);
 		}
 		return 1;
@@ -278,7 +278,7 @@ public class TickHandler implements ITickHandler {
 		remainingTicks = ticks;
 		targetPhase = phase;
 		if (ticks != 0 || !phase.equals(currentPhase)) {
-//      queues.scheduleEnd();
+			queues.scheduleEnd();
 //			ServerNetworkHandler.sendTickStep(c.getSourceWorld(), ticks, phase);
 		}
 		return 1;
@@ -302,10 +302,10 @@ public class TickHandler implements ITickHandler {
 			return false;
 		}
 
-//		if (queues.scheduled) {
-//			Translations.m(c, "tickCommand.step.err.qstepping");
-//			return false;
-//		}
+		if (queues.scheduled) {
+			Translations.m(c, "tickCommand.step.err.qstepping");
+			return false;
+		}
 
 		return true;
 	}
@@ -319,8 +319,8 @@ public class TickHandler implements ITickHandler {
 		if(count == 0 && phase.isPriorTo(currentPhase))
 			return false;
 
-//		if(queues.scheduled)
-//			return false;
+		if(queues.scheduled)
+			return false;
 
 		return true;
 	}

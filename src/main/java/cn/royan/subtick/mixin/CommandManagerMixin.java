@@ -1,6 +1,7 @@
 package cn.royan.subtick.mixin;
 
 import cn.royan.subtick.commands.PhaseCommand;
+import cn.royan.subtick.commands.QueueCommand;
 import cn.royan.subtick.commands.TickCommand;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.handler.CommandManager;
@@ -21,5 +22,6 @@ public abstract class CommandManagerMixin extends CommandRegistry {
 	private void onRegister(MinecraftServer server, CallbackInfo ci) {
 		this.register(new TickCommand());
 		this.register(new PhaseCommand());
+		this.register(new QueueCommand());
 	}
 }

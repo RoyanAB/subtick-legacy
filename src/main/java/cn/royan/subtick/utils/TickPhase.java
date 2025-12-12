@@ -104,11 +104,11 @@ public class TickPhase {
 	}
 
 	public String getPhaseName() {
-		return commandKeys.get(phase);
+		return Translations.tr("subtick.tickPhase." + commandKeys.get(phase));
 	}
 
 	public static String getPhaseName(int phase) {
-		return commandKeys.get(phase);
+		return Translations.tr("subtick.tickPhase." + commandKeys.get(phase));
 	}
 
 	public static int byCommandKey(String key) {
@@ -125,6 +125,6 @@ public class TickPhase {
 
 	@Override
 	public boolean equals(Object obj) {
-		return this.dim == ((TickPhase)obj).dim && this.phase == ((TickPhase)obj).phase;
+		return this.dim == ((TickPhase) obj).dim && this.phase == ((TickPhase) obj).phase;
 	}
 }

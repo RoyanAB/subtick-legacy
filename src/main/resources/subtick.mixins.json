@@ -4,12 +4,13 @@
   "package": "cn.royan.subtick.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "CommandManagerMixin",
     "subtick.MinecraftServerMixin",
     "subtick.freeze.LivingEntityMixin",
     "subtick.freeze.ServerWorldMixin",
     "subtick.freeze.ServerWorldMixin_entity",
+    "subtick.freeze.ServerWorldMixin_scheduledtick",
     "subtick.freeze.WorldMixin",
-    "CommandManagerMixin",
     "tick.freeze.MinecraftServerMixin",
     "tick.rate.MinecraftServerMixin",
     "tick.superhot.ServerPlayNetworkHandlerMixin"
