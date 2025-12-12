@@ -1,7 +1,7 @@
 package cn.royan.subtick.network;
 
-import cn.royan.subtick.interfaces.MinecraftServerInterface;
 import cn.royan.subtick.helpers.ServerTickRateManager;
+import cn.royan.subtick.interfaces.MinecraftServerInterface;
 import io.netty.buffer.Unpooled;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;

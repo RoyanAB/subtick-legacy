@@ -1,7 +1,7 @@
 package cn.royan.subtick.mixin.tick.freeze.client;
 
-import cn.royan.subtick.interfaces.WorldInterface;
 import cn.royan.subtick.helpers.TickRateManager;
+import cn.royan.subtick.interfaces.WorldInterface;
 import net.minecraft.client.world.ClientWorld;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

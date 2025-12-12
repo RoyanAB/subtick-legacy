@@ -19,7 +19,7 @@ public class TickHandler implements ITickHandler {
 		STEPPING
 	}
 
-  	public final Queues queues = new Queues(this);
+	public final Queues queues = new Queues(this);
 
 	private State state = State.UNFROZEN;
 
@@ -311,17 +311,13 @@ public class TickHandler implements ITickHandler {
 	}
 
 	@Override
-	public boolean canStep(int count, TickPhase phase)
-	{
-		if(state != State.FROZEN)
+	public boolean canStep(int count, TickPhase phase) {
+		if (state != State.FROZEN)
 			return false;
 
-		if(count == 0 && phase.isPriorTo(currentPhase))
+		if (count == 0 && phase.isPriorTo(currentPhase))
 			return false;
 
-		if(queues.scheduled)
-			return false;
-
-		return true;
+		return !queues.scheduled;
 	}
 }

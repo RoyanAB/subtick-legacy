@@ -1,4 +1,4 @@
-package cn.royan.subtick.mixin.subtick.freeze;
+package cn.royan.subtick.mixin.subtick.queue;
 
 import cn.royan.subtick.interfaces.ServerWorldInterface;
 import net.minecraft.server.world.ScheduledTick;
@@ -9,7 +9,10 @@ import net.minecraft.world.WorldData;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.gen.WorldGeneratorType;
 import net.minecraft.world.storage.WorldStorage;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 
 import java.util.List;
 import java.util.Set;
@@ -36,7 +39,7 @@ public abstract class ServerWorldMixin_scheduledtick extends World implements Se
 
 	@Unique
 	@Override
-	public boolean startScheduledTick(){
+	public boolean startScheduledTick() {
 		if (this.data.getGeneratorType() == WorldGeneratorType.DEBUG_ALL_BLOCK_STATES) {
 			return false;
 		} else {

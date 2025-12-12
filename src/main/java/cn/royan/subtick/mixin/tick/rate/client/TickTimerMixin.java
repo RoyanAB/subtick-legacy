@@ -1,8 +1,8 @@
 package cn.royan.subtick.mixin.tick.rate.client;
 
 
-import cn.royan.subtick.interfaces.MinecraftInterface;
 import cn.royan.subtick.helpers.TickRateManager;
+import cn.royan.subtick.interfaces.MinecraftInterface;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.TickTimer;
 import org.spongepowered.asm.mixin.Mixin;

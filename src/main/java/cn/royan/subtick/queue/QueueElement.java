@@ -41,7 +41,7 @@ public class QueueElement {
 	}
 
 
-//	public QueueElement(BlockEventData be, int depth) {
+	//	public QueueElement(BlockEventData be, int depth) {
 //
 //		this(getLabelForBlockEvent(be.getBlock(), be.getParamA(), be.getParamB()), be.getPos(), depth);
 //		//#endif
@@ -50,7 +50,8 @@ public class QueueElement {
 	public QueueElement(BlockEntity be) {
 		this(be.getBlock().getName(), be.getPos(), 0);
 	}
-//
+
+	//
 	public QueueElement(Entity e) {
 		this(e.getName(), e.getNetworkId(), 0, 0, 0);
 	}

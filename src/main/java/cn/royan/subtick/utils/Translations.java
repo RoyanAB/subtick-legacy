@@ -9,9 +9,7 @@ import net.minecraft.server.command.source.CommandSource;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -19,11 +17,9 @@ import java.util.Objects;
 public class Translations {
 	private static Map<String, String> translationMap;
 
-	public static Map<String, String> getTranslationFromResourcePath(String path)
-	{
+	public static Map<String, String> getTranslationFromResourcePath(String path) {
 		String dataJSON;
-		try
-		{
+		try {
 			dataJSON = IOUtils.toString(
 				Objects.requireNonNull(Translations.class.getClassLoader().getResourceAsStream(path)),
 				StandardCharsets.UTF_8);
@@ -31,23 +27,21 @@ public class Translations {
 			return null;
 		}
 		Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-		return gson.fromJson(dataJSON, new TypeToken<LinkedHashMap<String, String>>() {}.getType());
+		return gson.fromJson(dataJSON, new TypeToken<LinkedHashMap<String, String>>() {
+		}.getType());
 	}
 
-	public static void updateLanguage(String lang)
-	{
+	public static void updateLanguage(String lang) {
 		Map<String, String> translations = getTranslationFromResourcePath(String.format("assets/subtick/lang/%s.json", lang));
 		translations.entrySet().removeIf(e -> e.getKey().startsWith("//"));
-		if (translations.isEmpty())
-		{
+		if (translations.isEmpty()) {
 			translationMap = null;
 			return;
 		}
 		translationMap = translations;
 	}
 
-	public static String tr(String key)
-	{
+	public static String tr(String key) {
 		return translationMap == null ? key : translationMap.getOrDefault(key, key);
 	}
 

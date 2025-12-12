@@ -68,7 +68,7 @@ public class ScheduledTickQueue extends TickingQueue {
 						success_steps++;
 				} else {
 					ScheduledTick nextTick = null;
-					if(iterator.hasNext())
+					if (iterator.hasNext())
 						nextTick = iterator.next();
 					if (nextTick == null || nextTick.priority != scheduledTick.priority)
 						success_steps++;

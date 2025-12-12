@@ -1,28 +1,23 @@
 package cn.royan.subtick.utils;
 
-public class TickingMode
-{
-  private final String name, nameMultiple;
+public class TickingMode {
+	private final String name, nameMultiple;
 
-  public TickingMode(String name, String nameMultiple)
-  {
-    this.name = name;
-    this.nameMultiple = nameMultiple;
-  }
+	public TickingMode(String name, String nameMultiple) {
+		this.name = name;
+		this.nameMultiple = nameMultiple;
+	}
 
-  @Deprecated
-  public String getName(int count)
-  {
-    return count == 1 ? name : nameMultiple;
-  }
+	@Deprecated
+	public String getName(int count) {
+		return count == 1 ? name : nameMultiple;
+	}
 
-  public String getName()
-  {
-    return name;
-  }
+	public String getName() {
+		return name;
+	}
 
-  public String getNamePlural()
-  {
-    return nameMultiple;
-  }
+	public String getNamePlural() {
+		return nameMultiple;
+	}
 }

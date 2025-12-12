@@ -1,67 +1,50 @@
 {
   "carpet.category.subtick": "SubTick",
-
   "carpet.rule.subtickDefaultPhase.desc": "The default tick phase to freeze at and step to",
-
   "carpet.rule.subtickTextFormat.desc": "Text format for normal text in subtick message feedback (Uses carpet format, search for \"format(components, ...)\" in https://github.com/gnembon/fabric-carpet/blob/master/docs/scarpet/api/Auxiliary.md)",
-
   "carpet.rule.subtickNumberFormat.desc": "Text format for numbers in subtick message feedback (Uses carpet format, search for \"format(components, ...)\" in https://github.com/gnembon/fabric-carpet/blob/master/docs/scarpet/api/Auxiliary.md)",
-
   "carpet.rule.subtickPhaseFormat.desc": "Text format for phases in subtick message feedback (Uses carpet format, search for \"format(components, ...)\" in https://github.com/gnembon/fabric-carpet/blob/master/docs/scarpet/api/Auxiliary.md)",
-
   "carpet.rule.subtickDimensionFormat.desc": "Text format for dimensions in subtick message feedback (Uses carpet format, search for \"format(components, ...)\" in https://github.com/gnembon/fabric-carpet/blob/master/docs/scarpet/api/Auxiliary.md)",
-
   "carpet.rule.subtickErrorFormat.desc": "Error text format for normal text in subtick message feedback (Uses carpet format, search for \"format(components, ...)\" in https://github.com/gnembon/fabric-carpet/blob/master/docs/scarpet/api/Auxiliary.md)",
-
   "carpet.rule.subtickHighlightColor.desc": "Color for subtick queueStep highlighting",
-
   "carpet.rule.subtickDefaultRange.desc": "Default range for queueStep",
-
-
-  "subtick.tickPhase.weather":                "Weather",
-  "subtick.tickPhase.mobSpawning":            "Mob Spawning",
-  "subtick.tickPhase.chunkSource":            "Chunk Source",
-  "subtick.tickPhase.time":                   "Time Increment",
-  "subtick.tickPhase.tileTick":               "Tile Tick",
-  "subtick.tickPhase.randomTick":             "Random Tick",
-  "subtick.tickPhase.village":                "Village",
-  "subtick.tickPhase.portalForcer":           "Portal Forcer",
-  "subtick.tickPhase.blockEvent":             "Block Event",
-  "subtick.tickPhase.globalEntity":           "Global Entity",
-  "subtick.tickPhase.entity":                 "Entity",
-  "subtick.tickPhase.blockEntity":            "Block Entity",
-  "subtick.tickPhase.entityTracker":          "Entity Tracker",
-
-
-  "subtick.feedback.tickCommand.when.frozen":   "Server frozen at {dim} {phase} phase",
+  "subtick.tickPhase.weather": "Weather",
+  "subtick.tickPhase.mobSpawning": "Mob Spawning",
+  "subtick.tickPhase.chunkSource": "Chunk Source",
+  "subtick.tickPhase.time": "Time Increment",
+  "subtick.tickPhase.tileTick": "Tile Tick",
+  "subtick.tickPhase.randomTick": "Random Tick",
+  "subtick.tickPhase.village": "Village",
+  "subtick.tickPhase.portalForcer": "Portal Forcer",
+  "subtick.tickPhase.blockEvent": "Block Event",
+  "subtick.tickPhase.globalEntity": "Global Entity",
+  "subtick.tickPhase.entity": "Entity",
+  "subtick.tickPhase.blockEntity": "Block Entity",
+  "subtick.tickPhase.entityTracker": "Entity Tracker",
+  "subtick.feedback.tickCommand.when.frozen": "Server frozen at {dim} {phase} phase",
   "subtick.feedback.tickCommand.when.unfrozen": "Server unfrozen at {dim} {phase} phase",
   "subtick.feedback.tickCommand.when.freezing": "Server freezing at {dim} {phase} phase",
   "subtick.feedback.tickCommand.when.unfreezing": "Server unfreezing at {dim} {phase} phase",
   "subtick.feedback.tickCommand.when.stepping": "Server stepping at {dim} {phase} phase",
-
   "subtick.feedback.tickCommand.freeze.err": "Cannot freeze; already frozen",
   "subtick.feedback.tickCommand.freeze.err.unfreezing": "Cannot freeze; already in the middle of unfreezing",
   "subtick.feedback.tickCommand.freeze.success": "Freezing at {dim} {phase} phase",
-
   "subtick.feedback.tickCommand.unfreeze.err": "Cannot unfreeze; already not frozen",
   "subtick.feedback.tickCommand.unfreeze.success": "Unfreezing",
-
   "subtick.feedback.tickCommand.step.err.notfrozen": "Cannot step; not frozen",
-  "subtick.feedback.tickCommand.step.err.stepping":  "Cannot step; already stepping",
+  "subtick.feedback.tickCommand.step.err.stepping": "Cannot step; already stepping",
   "subtick.feedback.tickCommand.step.err.qstepping": "Cannot step; already queueStepping",
   "subtick.feedback.tickCommand.step.err.backwards": "Cannot step to an earlier phase in the same tick",
-  "subtick.feedback.tickCommand.step.success.single":   "Stepping {n} tick, ending at {dim} {phase} phase",
+  "subtick.feedback.tickCommand.step.success.single": "Stepping {n} tick, ending at {dim} {phase} phase",
   "subtick.feedback.tickCommand.step.success.multiple": "Stepping {n} ticks, ending at {dim} {phase} phase",
   "subtick.feedback.tickCommand.step.err.unloaded": "Tick step failed to complete; should end at {dim} {phase} phase, but that phase does not execute while the dimension is unloaded. Load {dim} to complete. Blame mojank",
-
   "subtick.feedback.queueCommand.err.packetSize": "Highlights not sent because packet size exceeds maximum. Step less at a time to see highlights.",
   "subtick.feedback.queueCommand.err.crash": "Crashed while stepping {queue}",
   "subtick.feedback.queueCommand.err.exhausted": "{queue} queue exhausted",
-  "subtick.feedback.queueCommand.success.single":             "Stepped {n} {queue}",
-  "subtick.feedback.queueCommand.success.single.exhausted":   "Stepped {n} {queue} (queue exhausted)",
-  "subtick.feedback.queueCommand.success.multiple":           "Stepped {n} {queues}",
+  "subtick.feedback.queueCommand.success.single": "Stepped {n} {queue}",
+  "subtick.feedback.queueCommand.success.single.exhausted": "Stepped {n} {queue} (queue exhausted)",
+  "subtick.feedback.queueCommand.success.multiple": "Stepped {n} {queues}",
   "subtick.feedback.queueCommand.success.multiple.exhausted": "Stepped {n} {queues} (queue exhausted)",
-
   "subtick.client.align.top_left": "Top Left",
   "subtick.client.align.top": "Top",
   "subtick.client.align.top_right": "Top Right",

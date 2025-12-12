@@ -9,8 +9,8 @@
     "subtick.freeze.LivingEntityMixin",
     "subtick.freeze.ServerWorldMixin",
     "subtick.freeze.ServerWorldMixin_entity",
-    "subtick.freeze.ServerWorldMixin_scheduledtick",
     "subtick.freeze.WorldMixin",
+    "subtick.queue.ServerWorldMixin_scheduledtick",
     "tick.freeze.MinecraftServerMixin",
     "tick.rate.MinecraftServerMixin",
     "tick.superhot.ServerPlayNetworkHandlerMixin"
@@ -26,5 +26,5 @@
   ],
   "injectors": {
     "defaultRequire": 1
-	}
+  }
 }

@@ -37,16 +37,16 @@ public abstract class ServerWorldMixin_entity extends World implements ITickHand
 	@Overwrite
 	public void tickEntities() {
 		this.profiler.push("entities");
-		if(tickHandler().shouldTick((ServerWorld) (Object)this, TickPhase.GLOBAL_ENTITY)) {
+		if (tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.GLOBAL_ENTITY)) {
 			this.tickGlobalEntities();
 			this.removeGlobalEntities();
 		}
 		this.tickPlayers();
-		if(tickHandler().shouldTick((ServerWorld) (Object)this, TickPhase.ENTITY)) {
+		if (tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.ENTITY)) {
 			this.tickEntity();
 		}
-		if(tickHandler().shouldTick((ServerWorld) (Object)this, TickPhase.BLOCK_ENTITY)) {
-            this.tickBlockEntities();
+		if (tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.BLOCK_ENTITY)) {
+			this.tickBlockEntities();
 		}
 		this.pendingBlockEntities();
 		this.profiler.pop();
@@ -191,7 +191,7 @@ public abstract class ServerWorldMixin_entity extends World implements ITickHand
 	public void pendingBlockEntities() {
 		this.profiler.swap("pendingBlockEntities");
 		if (!this.pendingBlockEntities.isEmpty()) {
-			for(int m = 0; m < this.pendingBlockEntities.size(); ++m) {
+			for (int m = 0; m < this.pendingBlockEntities.size(); ++m) {
 				BlockEntity blockEntity2 = this.pendingBlockEntities.get(m);
 				if (!blockEntity2.isRemoved()) {
 					if (!this.blockEntities.contains(blockEntity2)) {

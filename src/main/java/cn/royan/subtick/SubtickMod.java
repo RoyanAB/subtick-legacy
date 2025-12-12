@@ -2,7 +2,6 @@ package cn.royan.subtick;
 
 import cn.royan.subtick.network.ServerNetworkHandler;
 import cn.royan.subtick.utils.Translations;
-import net.minecraft.client.Minecraft;
 import net.ornithemc.osl.entrypoints.api.ModInitializer;
 import net.ornithemc.osl.lifecycle.api.client.MinecraftClientEvents;
 import net.ornithemc.osl.networking.api.server.ServerConnectionEvents;
@@ -21,7 +20,7 @@ public class SubtickMod implements ModInitializer {
 		ServerConnectionEvents.LOGIN.register((a, b) -> {
 			ServerNetworkHandler.validCarpetPlayers.add(b);
 		});
-		MinecraftClientEvents.READY.register((a)->{
+		MinecraftClientEvents.READY.register((a) -> {
 			Translations.updateLanguage("en_us");
 		});
 	}

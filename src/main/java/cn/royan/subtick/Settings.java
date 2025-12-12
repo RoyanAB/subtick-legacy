@@ -1,10 +1,9 @@
 package cn.royan.subtick;
 
-public class Settings
-{
-  public static String subtickDefaultPhase = "tileTick";
+public class Settings {
+	public static String subtickDefaultPhase = "tileTick";
 
-  public static int subtickDefaultRange = 32;
+	public static int subtickDefaultRange = 32;
 
 	public static String subtickTextFormat = "ig";
 

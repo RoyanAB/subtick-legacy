@@ -30,7 +30,7 @@ public class BlockEntityQueue extends TickingQueue {
 			level.removedBlockEntities.clear();
 		}
 		queue.clear();
-		for(BlockEntity be : level.tickingBlockEntities)
+		for (BlockEntity be : level.tickingBlockEntities)
 			queue.add(new QueueElement(be));
 	}
 
@@ -40,18 +40,15 @@ public class BlockEntityQueue extends TickingQueue {
 		int success_steps = 0;
 
 		Iterator<BlockEntity> iterator = level.tickingBlockEntities.iterator();
-		while(success_steps < count && iterator.hasNext())
-		{
+		while (success_steps < count && iterator.hasNext()) {
 			BlockEntity blockEntity = iterator.next();
 			BlockPos tpos = blockEntity.getPos();
-			if(tpos == null)
-			{
+			if (tpos == null) {
 				queue.remove(new QueueElement(blockEntity));
 				continue;
-			}
-			else if(rangeCheck(tpos, pos, range))
-				success_steps ++;
-			executed_steps ++;
+			} else if (rangeCheck(tpos, pos, range))
+				success_steps++;
+			executed_steps++;
 
 			if (!blockEntity.isRemoved() && blockEntity.hasWorld()) {
 				BlockPos blockPos = blockEntity.getPos();

@@ -1,7 +1,7 @@
 package cn.royan.subtick.network;
 
-import cn.royan.subtick.interfaces.WorldInterface;
 import cn.royan.subtick.helpers.TickRateManager;
+import cn.royan.subtick.interfaces.WorldInterface;
 import net.minecraft.client.entity.living.player.LocalClientPlayerEntity;
 import net.minecraft.nbt.*;
 

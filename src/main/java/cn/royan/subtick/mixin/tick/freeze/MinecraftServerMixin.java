@@ -1,7 +1,7 @@
 package cn.royan.subtick.mixin.tick.freeze;
 
-import cn.royan.subtick.interfaces.MinecraftServerInterface;
 import cn.royan.subtick.helpers.ServerTickRateManager;
+import cn.royan.subtick.interfaces.MinecraftServerInterface;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

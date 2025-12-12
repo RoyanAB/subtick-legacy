@@ -3,7 +3,6 @@ package cn.royan.subtick.queue.queues;
 import cn.royan.subtick.queue.QueueElement;
 import cn.royan.subtick.queue.TickingQueue;
 import cn.royan.subtick.utils.TickPhase;
-import com.google.common.collect.Lists;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -13,14 +12,12 @@ import net.minecraft.util.crash.CrashReportCategory;
 import net.minecraft.util.math.BlockPos;
 import org.apache.commons.lang3.tuple.Triple;
 
-import java.util.Iterator;
-import java.util.List;
-
 public class EntityQueue extends TickingQueue {
 
 	public EntityQueue() {
 		super(TickPhase.ENTITY, "entity", "Entity", "Entities");
 	}
+
 	private int tickingID = 0;
 
 	@Override
@@ -28,7 +25,7 @@ public class EntityQueue extends TickingQueue {
 		super.start(level);
 		tickingID = 0;
 		queue.clear();
-		for(Entity e : level.entities)
+		for (Entity e : level.entities)
 			queue.add(new QueueElement(e));
 	}
 
@@ -36,8 +33,7 @@ public class EntityQueue extends TickingQueue {
 	public Triple<Integer, Integer, Boolean> step(int count, BlockPos pos, int range) {
 		int executed_steps = 0;
 		int success_steps = 0;
-		while(success_steps < count && tickingID < level.entities.size())
-		{
+		while (success_steps < count && tickingID < level.entities.size()) {
 			Entity entity = level.entities.get(tickingID);
 			Entity entity2 = entity.getMount();
 			if (entity2 != null) {
@@ -66,13 +62,13 @@ public class EntityQueue extends TickingQueue {
 					level.getChunkAt(k, l).removeEntity(entity);
 				}
 
-				level.entities.remove(tickingID --);
+				level.entities.remove(tickingID--);
 				level.onEntityRemoved(entity);
 			}
-			if(rangeCheck(entity.getSourceBlockPos(), pos, range))
-				success_steps ++;
-			executed_steps ++;
-			tickingID ++;
+			if (rangeCheck(entity.getSourceBlockPos(), pos, range))
+				success_steps++;
+			executed_steps++;
+			tickingID++;
 		}
 		return Triple.of(executed_steps, success_steps, exhausted = !(tickingID < level.entities.size()));
 	}

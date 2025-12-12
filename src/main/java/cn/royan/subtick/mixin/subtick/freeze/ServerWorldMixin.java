@@ -1,15 +1,14 @@
 package cn.royan.subtick.mixin.subtick.freeze;
 
-import cn.royan.subtick.interfaces.WorldInterface;
 import cn.royan.subtick.helpers.TickHandler;
 import cn.royan.subtick.interfaces.ITickHandleable;
+import cn.royan.subtick.interfaces.WorldInterface;
 import cn.royan.subtick.utils.TickPhase;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.PortalForcer;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.world.NaturalSpawner;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldData;
 import net.minecraft.world.chunk.ChunkSource;
@@ -35,9 +34,8 @@ public abstract class ServerWorldMixin implements WorldInterface {
 	private MinecraftServer server;
 
 	@Unique
-	private TickHandler tickHandler()
-	{
-		return ((ITickHandleable)server).tickHandler();
+	private TickHandler tickHandler() {
+		return ((ITickHandleable) server).tickHandler();
 	}
 
 
@@ -49,7 +47,7 @@ public abstract class ServerWorldMixin implements WorldInterface {
 		)
 	)
 	public boolean wrapTickWeather(World instance) {
-		return tickHandler().shouldTick((ServerWorld) (Object)this, TickPhase.WEATHER);
+		return tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.WEATHER);
 	}
 
 	@ModifyExpressionValue(
@@ -75,7 +73,7 @@ public abstract class ServerWorldMixin implements WorldInterface {
 		)
 	)
 	public boolean wrapChunkSource(ChunkSource instance) {
-		return tickHandler().shouldTick((ServerWorld) (Object)this, TickPhase.CHUNK_SOURCE);
+		return tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.CHUNK_SOURCE);
 	}
 
 	@WrapWithCondition(
@@ -86,7 +84,7 @@ public abstract class ServerWorldMixin implements WorldInterface {
 		)
 	)
 	public boolean wrapWorldTimeUpdate(WorldData instance, long time) {
-		if (tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.TIME)){
+		if (tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.TIME)) {
 			this.tickingTime = true;
 			return true;
 		}
@@ -102,7 +100,7 @@ public abstract class ServerWorldMixin implements WorldInterface {
 		)
 	)
 	private boolean wrapDayTimeUpdate(boolean original) {
-		if(tickingTime) {
+		if (tickingTime) {
 			this.tickingTime = false;
 			return original;
 		}
@@ -117,7 +115,7 @@ public abstract class ServerWorldMixin implements WorldInterface {
 		)
 	)
 	public boolean wrapTileTicks(ServerWorld instance, boolean flush) {
-		return tickHandler().shouldTick((ServerWorld) (Object)this, TickPhase.TILE_TICK);
+		return tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.TILE_TICK);
 	}
 
 	@WrapWithCondition(
@@ -128,7 +126,7 @@ public abstract class ServerWorldMixin implements WorldInterface {
 		)
 	)
 	public boolean wrapChunkTicks(ServerWorld instance) {
-		return tickHandler().shouldTick((ServerWorld) (Object)this, TickPhase.RANDOM_TICK);
+		return tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.RANDOM_TICK);
 	}
 
 	@WrapWithCondition(
@@ -139,7 +137,7 @@ public abstract class ServerWorldMixin implements WorldInterface {
 		)
 	)
 	public boolean wrapVillages(SavedVillageData instance) {
-		if (tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.VILLAGE)){
+		if (tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.VILLAGE)) {
 			this.tickingVillage = true;
 			return true;
 		}
@@ -154,7 +152,7 @@ public abstract class ServerWorldMixin implements WorldInterface {
 		)
 	)
 	public boolean wrapVillageSieges(VillageSiege instance) {
-		if(tickingVillage) {
+		if (tickingVillage) {
 			this.tickingVillage = false;
 			return true;
 		}
@@ -169,7 +167,7 @@ public abstract class ServerWorldMixin implements WorldInterface {
 		)
 	)
 	public boolean wrapPortalRemoval(PortalForcer instance, long time) {
-		return (tickHandler().shouldTick((ServerWorld) (Object)this, TickPhase.PORTAL_FORCER));
+		return (tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.PORTAL_FORCER));
 	}
 
 	@WrapWithCondition(
@@ -180,6 +178,6 @@ public abstract class ServerWorldMixin implements WorldInterface {
 		)
 	)
 	public boolean wrapBlockEvents(ServerWorld instance) {
-		return tickHandler().shouldTick((ServerWorld) (Object)this, TickPhase.BLOCK_EVENT);
+		return tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.BLOCK_EVENT);
 	}
 }

@@ -25,7 +25,7 @@ public abstract class WorldMixin implements WorldInterface {
 		)
 	)
 	public boolean disableGlobalEntityTick0(Entity instance, int value) {
-		if(this.isClient) return this.tickRateManager().shouldEntityTick(instance);
+		if (this.isClient) return this.tickRateManager().shouldEntityTick(instance);
 		return true;
 	}
 
@@ -37,7 +37,7 @@ public abstract class WorldMixin implements WorldInterface {
 		)
 	)
 	public boolean disableGlobalEntityTick1(Entity instance) {
-		if(this.isClient) return this.tickRateManager().shouldEntityTick(instance);
+		if (this.isClient) return this.tickRateManager().shouldEntityTick(instance);
 		return true;
 	}
 
@@ -49,7 +49,7 @@ public abstract class WorldMixin implements WorldInterface {
 		)
 	)
 	public boolean disableRegularEntityTick(World instance, Entity entity) {
-		if(this.isClient) return this.tickRateManager().shouldEntityTick(entity);
+		if (this.isClient) return this.tickRateManager().shouldEntityTick(entity);
 		return true;
 	}
 
@@ -61,7 +61,7 @@ public abstract class WorldMixin implements WorldInterface {
 		)
 	)
 	public boolean disableRegularBlockEntityTick(Tickable instance) {
-		if(this.isClient) return this.tickRateManager().runsNormally();
+		if (this.isClient) return this.tickRateManager().runsNormally();
 		return true;
 	}
 }
