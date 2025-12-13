@@ -6,19 +6,20 @@ import cn.royan.subtick.utils.TickPhase;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Tickable;
-import net.minecraft.util.crash.CrashException;
-import net.minecraft.util.crash.CrashReport;
-import net.minecraft.util.crash.CrashReportCategory;
 import net.minecraft.util.math.BlockPos;
 import org.apache.commons.lang3.tuple.Triple;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class BlockEntityQueue extends TickingQueue {
 
 	public BlockEntityQueue() {
 		super(TickPhase.BLOCK_ENTITY, "blockEntity", "Block Entity", "Block Entities");
 	}
+
+	private Iterator<BlockEntity> iterator;
 
 	@Override
 	public void start(ServerWorld level) {
@@ -29,6 +30,9 @@ public class BlockEntityQueue extends TickingQueue {
 			level.blockEntities.removeAll(level.removedBlockEntities);
 			level.removedBlockEntities.clear();
 		}
+		List<BlockEntity> thisTickBlockEntity = new ArrayList<>(level.tickingBlockEntities);
+		iterator = thisTickBlockEntity.iterator();
+
 		queue.clear();
 		for (BlockEntity be : level.tickingBlockEntities)
 			queue.add(new QueueElement(be));
@@ -39,7 +43,6 @@ public class BlockEntityQueue extends TickingQueue {
 		int executed_steps = 0;
 		int success_steps = 0;
 
-		Iterator<BlockEntity> iterator = level.tickingBlockEntities.iterator();
 		while (success_steps < count && iterator.hasNext()) {
 			BlockEntity blockEntity = iterator.next();
 			BlockPos tpos = blockEntity.getPos();
@@ -53,14 +56,7 @@ public class BlockEntityQueue extends TickingQueue {
 			if (!blockEntity.isRemoved() && blockEntity.hasWorld()) {
 				BlockPos blockPos = blockEntity.getPos();
 				if (level.isChunkLoaded(blockPos) && level.worldBorder.contains(blockPos)) {
-					try {
-						((Tickable) blockEntity).tick();
-					} catch (Throwable throwable2) {
-						CrashReport crashReport2 = CrashReport.of(throwable2, "Ticking block entity");
-						CrashReportCategory crashReportCategory2 = crashReport2.addCategory("Block entity being ticked");
-						blockEntity.populateCrashReport(crashReportCategory2);
-						throw new CrashException(crashReport2);
-					}
+					((Tickable) blockEntity).tick();
 				}
 			}
 

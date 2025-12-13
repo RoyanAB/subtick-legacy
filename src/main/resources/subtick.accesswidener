@@ -11,3 +11,8 @@ accessible field net/minecraft/server/world/ServerWorld scheduledTicksThisTick L
 
 accessible method net/minecraft/server/world/ServerWorld isChunkLoadedAt (IIZ)Z
 accessible method net/minecraft/server/world/ServerWorld onEntityRemoved (Lnet/minecraft/entity/Entity;)V
+
+accessible field net/minecraft/server/world/ServerWorld blockEvents [Lnet/minecraft/server/world/ServerWorld$BlockEventQueue;
+accessible field net/minecraft/server/world/ServerWorld nextBlockEventQueueIndex I
+accessible field net/minecraft/server/world/ServerWorld server Lnet/minecraft/server/MinecraftServer;
+accessible method net/minecraft/server/world/ServerWorld doBlockEvent (Lnet/minecraft/server/world/BlockEvent;)Z

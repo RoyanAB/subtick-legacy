@@ -19,7 +19,7 @@ public class TickHandler implements ITickHandler {
 		STEPPING
 	}
 
-	public final Queues queues = new Queues(this);
+	private final Queues queues = new Queues(this);
 
 	private State state = State.UNFROZEN;
 
@@ -44,8 +44,10 @@ public class TickHandler implements ITickHandler {
 		return targetPhase;
 	}
 
-//  @Override
-//  public Queues queues(){return queues;}
+	@Override
+	public Queues queues() {
+		return queues;
+	}
 
 	//public static boolean freezing(){return state == State.FREEZING;}
 

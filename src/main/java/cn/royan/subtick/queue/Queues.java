@@ -2,6 +2,7 @@ package cn.royan.subtick.queue;
 
 import cn.royan.subtick.helpers.TickHandler;
 import cn.royan.subtick.interfaces.IQueues;
+import cn.royan.subtick.queue.queues.BlockEventQueue;
 import cn.royan.subtick.utils.Messenger;
 import cn.royan.subtick.utils.TickPhase;
 import cn.royan.subtick.utils.Translations;
@@ -99,10 +100,14 @@ public class Queues implements IQueues {
 		should_end = false;
 		if (!stepping)
 			return;
-
-		prev_queue.step(1, BlockPos.ORIGIN, -2);
-		prev_queue.end();
-		prev_queue.exhausted = false;
+		try {
+			prev_queue.step(1, BlockPos.ORIGIN, -2);
+			prev_queue.end();
+			prev_queue.exhausted = false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			Translations.m(actor, "queueCommand.err.crash", queue);
+		}
 		tickHandler.advancePhase(level);
 		// this clears block event highlights
 //    ServerNetworkHandler.sendTickStep(level, 0, tickHandler.targetPhase());
@@ -111,8 +116,8 @@ public class Queues implements IQueues {
 
 	@Override
 	public void onScheduleBlockEvent(ServerWorld level, BlockEvent be) {
-//		if (stepping && queue instanceof BlockEventQueue beq)
-//			beq.updateQueue(level, be);
+		if (stepping && queue instanceof BlockEventQueue)
+			((BlockEventQueue) queue).updateQueue(level, be);
 	}
 
 	private void sendFeedback(int steps, boolean exhausted) {

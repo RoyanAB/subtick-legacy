@@ -10,6 +10,7 @@
     "subtick.freeze.ServerWorldMixin",
     "subtick.freeze.ServerWorldMixin_entity",
     "subtick.freeze.WorldMixin",
+    "subtick.queue.ServerWorldMixin_blockevent",
     "subtick.queue.ServerWorldMixin_scheduledtick",
     "tick.freeze.MinecraftServerMixin",
     "tick.rate.MinecraftServerMixin",

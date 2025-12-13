@@ -65,7 +65,7 @@ public interface ITickHandler {
 	/*
 	 * Returns the IQueues for this tick handler.
 	 */
-//  public IQueues queues();
+	IQueues queues();
 
 	/*
 	 * Returns whether the handler is frozen. This is used in the ServerLevel to know if it should record scheduled block events for queue stepping highlights.
