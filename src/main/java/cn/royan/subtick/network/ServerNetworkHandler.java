@@ -1,7 +1,7 @@
 package cn.royan.subtick.network;
 
 import cn.royan.subtick.helpers.ServerTickRateManager;
-import cn.royan.subtick.interfaces.MinecraftServerInterface;
+import cn.royan.subtick.interfaces.ITickHandleable;
 import io.netty.buffer.Unpooled;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -24,23 +24,6 @@ public class ServerNetworkHandler {
 		}
 	}
 
-	public static void updateFrozenStateToConnectedPlayers(MinecraftServer server) {
-		for (ServerPlayerEntity player : validCarpetPlayers) {
-			player.networkHandler.sendPacket(DataBuilder.create(player.server).withFrozenState().build());
-		}
-	}
-
-	public static void updateSuperHotStateToConnectedPlayers(MinecraftServer server) {
-		for (ServerPlayerEntity player : validCarpetPlayers) {
-			player.networkHandler.sendPacket(DataBuilder.create(player.server).withSuperHotState().build());
-		}
-	}
-
-	public static void updateTickPlayerActiveTimeoutToConnectedPlayers(MinecraftServer server) {
-		for (ServerPlayerEntity player : validCarpetPlayers) {
-			player.networkHandler.sendPacket(DataBuilder.create(player.server).withTickPlayerActiveTimeout().build());
-		}
-	}
 
 	private static class DataBuilder {
 		private final NbtCompound tag;
@@ -56,29 +39,8 @@ public class ServerNetworkHandler {
 		}
 
 		private DataBuilder withTickRate() {
-			ServerTickRateManager trm = ((MinecraftServerInterface) server).getTickRateManager();
+			ServerTickRateManager trm = ((ITickHandleable) server).tickHandler().serverTickRateManager;
 			tag.putFloat("TickRate", trm.tickrate());
-			return this;
-		}
-
-		private DataBuilder withFrozenState() {
-			ServerTickRateManager trm = ((MinecraftServerInterface) server).getTickRateManager();
-			NbtCompound tickingState = new NbtCompound();
-			tickingState.putBoolean("is_paused", trm.gameIsPaused());
-			tickingState.putBoolean("deepFreeze", trm.deeplyFrozen());
-			tag.put("TickingState", tickingState);
-			return this;
-		}
-
-		private DataBuilder withSuperHotState() {
-			ServerTickRateManager trm = ((MinecraftServerInterface) server).getTickRateManager();
-			tag.putBoolean("SuperHotState", trm.isSuperHot());
-			return this;
-		}
-
-		private DataBuilder withTickPlayerActiveTimeout() {
-			ServerTickRateManager trm = ((MinecraftServerInterface) server).getTickRateManager();
-			tag.putInt("TickPlayerActiveTimeout", trm.getPlayerActiveTimeout());
 			return this;
 		}
 

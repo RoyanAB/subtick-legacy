@@ -1,4 +1,4 @@
-package cn.royan.subtick.mixin.subtick.queue;
+package cn.royan.subtick.mixin.queue;
 
 import cn.royan.subtick.helpers.TickHandler;
 import cn.royan.subtick.interfaces.ITickHandleable;

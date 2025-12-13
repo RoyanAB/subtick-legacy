@@ -3,8 +3,6 @@ package cn.royan.subtick.commands;
 import cn.royan.subtick.Settings;
 import cn.royan.subtick.helpers.ServerTickRateManager;
 import cn.royan.subtick.interfaces.ITickHandleable;
-import cn.royan.subtick.interfaces.MinecraftServerInterface;
-import cn.royan.subtick.network.ServerNetworkHandler;
 import cn.royan.subtick.utils.Messenger;
 import cn.royan.subtick.utils.TickPhase;
 import net.minecraft.server.MinecraftServer;
@@ -47,9 +45,9 @@ public class TickCommand extends AbstractCommand {
 				case "rate":
 					queryTps(commandSource);
 					break;
-				case "superhot":
-					toggleSuperHot(commandSource);
-					break;
+//				case "superhot":
+//					toggleSuperHot(commandSource);
+//					break;
 				case "warp":
 					setWarp(commandSource, 0, null);
 					break;
@@ -112,7 +110,12 @@ public class TickCommand extends AbstractCommand {
 	@Override
 	public List<String> getSuggestions(MinecraftServer minecraftServer, CommandSource commandSource, String[] strings, @Nullable BlockPos blockPos) {
 		if (strings.length == 1) {
-			return suggestMatching(strings, Arrays.asList("freeze", "step", "rate", "superhot", "warp"));
+			return suggestMatching(strings, Arrays.asList(
+				"freeze",
+				"step",
+				"rate",
+//				"superhot",
+				"warp"));
 		} else if (strings.length == 2) {
 			if ("freeze".equalsIgnoreCase(strings[0])) {
 				ArrayList<String> suggestions = new ArrayList<>(Arrays.asList(TickPhase.commandSuggestions));
@@ -160,30 +163,30 @@ public class TickCommand extends AbstractCommand {
 
 	// RATE & WARP
 	private static int setTps(CommandSource source, float tps) {
-		ServerTickRateManager trm = ((MinecraftServerInterface) source.getServer()).getTickRateManager();
+		ServerTickRateManager trm = ((ITickHandleable) source.getServer()).tickHandler().serverTickRateManager;
 		trm.setTickRate(tps, true);
 		queryTps(source);
 		return (int) tps;
 	}
 
 	private static int queryTps(CommandSource source) {
-		ServerTickRateManager trm = ((MinecraftServerInterface) source.getServer()).getTickRateManager();
+		ServerTickRateManager trm = ((ITickHandleable) source.getServer()).tickHandler().serverTickRateManager;
 
 		Messenger.m(source, "w Current tps is: ", String.format("wb %.1f", trm.tickrate()));
 		return (int) trm.tickrate();
 	}
 
-	private static int toggleSuperHot(CommandSource source) {
-		ServerTickRateManager trm = ((MinecraftServerInterface) source.getServer()).getTickRateManager();
-		trm.setSuperHot(!trm.isSuperHot());
-		ServerNetworkHandler.updateSuperHotStateToConnectedPlayers(source.getServer());
-		if (trm.isSuperHot()) {
-			Messenger.m(source, "gi Superhot enabled");
-		} else {
-			Messenger.m(source, "gi Superhot disabled");
-		}
-		return 1;
-	}
+//	private static int toggleSuperHot(CommandSource source) {
+//		ServerTickRateManager trm = ((MinecraftServerInterface) source.getServer()).getTickRateManager();
+//		trm.setSuperHot(!trm.isSuperHot());
+//		ServerNetworkHandler.updateSuperHotStateToConnectedPlayers(source.getServer());
+//		if (trm.isSuperHot()) {
+//			Messenger.m(source, "gi Superhot enabled");
+//		} else {
+//			Messenger.m(source, "gi Superhot disabled");
+//		}
+//		return 1;
+//	}
 
 	private static int setWarp(CommandSource source, int advance, String tail_command) {
 		ServerPlayerEntity player;
@@ -191,7 +194,7 @@ public class TickCommand extends AbstractCommand {
 			player = ((ServerPlayerEntity) source.asEntity());
 		else
 			player = null; // may be null
-		ServerTickRateManager trm = ((MinecraftServerInterface) source.getServer()).getTickRateManager();
+		ServerTickRateManager trm = ((ITickHandleable) source.getServer()).tickHandler().serverTickRateManager;
 		Text message = trm.requestGameToWarpSpeed(player, advance, tail_command, source);
 		source.sendMessage(message);
 		return 1;

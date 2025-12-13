@@ -5,6 +5,7 @@ import cn.royan.subtick.queue.Queues;
 import cn.royan.subtick.utils.Messenger;
 import cn.royan.subtick.utils.TickPhase;
 import cn.royan.subtick.utils.Translations;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.source.CommandSource;
 import net.minecraft.server.world.ServerWorld;
 
@@ -28,6 +29,12 @@ public class TickHandler implements ITickHandler {
 
 	private TickPhase targetPhase = new TickPhase(0, 0);
 	private TickPhase currentPhase = new TickPhase(0, 0);
+
+	public ServerTickRateManager serverTickRateManager;
+
+	public TickHandler(MinecraftServer server) {
+		this.serverTickRateManager = new ServerTickRateManager(server);
+	}
 
 	@Override
 	public boolean frozen() {

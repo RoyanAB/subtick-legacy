@@ -1,4 +1,4 @@
-package cn.royan.subtick.mixin.subtick;
+package cn.royan.subtick.mixin;
 
 import cn.royan.subtick.helpers.TickHandler;
 import cn.royan.subtick.interfaces.ITickHandleable;
@@ -49,7 +49,7 @@ public class MinecraftServerMixin implements ITickHandleable {
 		)
 	)
 	private void onInit(CallbackInfo ci) {
-		tickHandler = new TickHandler();
+		tickHandler = new TickHandler((MinecraftServer)(Object)this);
 	}
 
 	@WrapWithCondition(

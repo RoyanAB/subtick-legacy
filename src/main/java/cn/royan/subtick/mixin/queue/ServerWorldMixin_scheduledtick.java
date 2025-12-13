@@ -1,4 +1,4 @@
-package cn.royan.subtick.mixin.subtick.queue;
+package cn.royan.subtick.mixin.queue;
 
 import cn.royan.subtick.interfaces.ServerWorldInterface;
 import net.minecraft.server.world.ScheduledTick;

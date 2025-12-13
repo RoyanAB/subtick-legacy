@@ -1,6 +1,7 @@
 package cn.royan.subtick.helpers;
 
 
+import cn.royan.subtick.interfaces.ITickHandleable;
 import cn.royan.subtick.network.ServerNetworkHandler;
 import cn.royan.subtick.utils.Messenger;
 import net.minecraft.entity.Entity;
@@ -15,8 +16,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-public class ServerTickRateManager extends TickRateManager {
+public class ServerTickRateManager  {
 	private static final float MIN_TICKRATE = 0.01f;
+	protected float tickrate = 20.0f;
+	protected long mspt = 50L;
 	private final MinecraftServer server;
 	/**
 	 * Functional interface that listens for tickrate changes. This is
@@ -35,51 +38,16 @@ public class ServerTickRateManager extends TickRateManager {
 		this.server = server;
 	}
 
+	public float tickrate() {
+		return tickrate;
+	}
+
+	public long mspt() {
+		return mspt;
+	}
+
 	public boolean isInWarpSpeed() {
 		return tickWarpStartTime != 0;
-	}
-
-	@Override
-	public boolean shouldEntityTick(Entity e) {
-		return (runsNormally() || (e instanceof PlayerEntity));
-	}
-
-	/**
-	 * Whether or not the game is deeply frozen.
-	 * This can be used for things that you may not normally want
-	 * to freeze, but may need to in some situations.
-	 * This should be checked with {@link #runGameElements} to make sure the
-	 * current tick is actually frozen, not only the game
-	 *
-	 * @return Whether or not the game is deeply frozen.
-	 */
-	public boolean deeplyFrozen() {
-		return deepFreeze;
-	}
-
-	/**
-	 * Used to update the frozen state of the game.
-	 * Handles connected clients as well.
-	 *
-	 * @param isPaused     Whether or not the game is paused
-	 * @param isDeepFreeze Whether or not the game is deeply frozen
-	 */
-	@Override
-	public void setFrozenState(boolean isPaused, boolean isDeepFreeze) {
-		super.setFrozenState(isPaused, isDeepFreeze);
-		ServerNetworkHandler.updateFrozenStateToConnectedPlayers(server);
-	}
-
-	public void resetPlayerActivity() {
-		if (playerActivityTimeout < PLAYER_GRACE) {
-			playerActivityTimeout = PLAYER_GRACE;
-			ServerNetworkHandler.updateTickPlayerActiveTimeoutToConnectedPlayers(server);
-		}
-	}
-
-	public void stepGameIfPaused(int ticks) {
-		playerActivityTimeout = PLAYER_GRACE + ticks;
-		ServerNetworkHandler.updateTickPlayerActiveTimeoutToConnectedPlayers(server);
 	}
 
 	public Text requestGameToWarpSpeed(ServerPlayerEntity player, int advance, String callback, CommandSource source) {
@@ -147,7 +115,7 @@ public class ServerTickRateManager extends TickRateManager {
 	}
 
 	public boolean continueWarp() {
-		if (!runGameElements)
+		if (((ITickHandleable) server).tickHandler().frozen())
 		// Returning false so we don't have to run at max speed when doing nothing
 		{
 			return false;
@@ -165,14 +133,19 @@ public class ServerTickRateManager extends TickRateManager {
 		}
 	}
 
-	//unused - mod compat reasons
-	@Override
+
 	public void setTickRate(float rate) {
 		setTickRate(rate, true);
 	}
 
 	public void setTickRate(float rate, boolean update) {
-		super.setTickRate(rate);
+		tickrate = rate;
+		long msptt = (long) (1000.0 / tickrate);
+		if (msptt <= 0L) {
+			msptt = 1L;
+			tickrate = 1000.0f;
+		}
+		mspt = msptt;
 		if (update) {
 			notifyTickrateListeners("carpet");
 		}

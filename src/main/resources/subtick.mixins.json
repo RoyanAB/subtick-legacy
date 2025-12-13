@@ -5,23 +5,15 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "CommandManagerMixin",
-    "subtick.MinecraftServerMixin",
-    "subtick.freeze.LivingEntityMixin",
-    "subtick.freeze.ServerWorldMixin",
-    "subtick.freeze.ServerWorldMixin_entity",
-    "subtick.freeze.WorldMixin",
-    "subtick.queue.ServerWorldMixin_blockevent",
-    "subtick.queue.ServerWorldMixin_scheduledtick",
-    "tick.freeze.MinecraftServerMixin",
-    "tick.rate.MinecraftServerMixin",
-    "tick.superhot.ServerPlayNetworkHandlerMixin"
+    "MinecraftServerMixin",
+    "freeze.LivingEntityMixin",
+    "freeze.ServerWorldMixin",
+    "freeze.ServerWorldMixin_entity",
+    "queue.ServerWorldMixin_blockevent",
+    "queue.ServerWorldMixin_scheduledtick",
+    "rate.MinecraftServerMixin"
   ],
   "client": [
-    "tick.freeze.client.ClientWorldMixin",
-    "tick.freeze.client.MinecraftMixin",
-    "tick.freeze.client.WorldRendererMixin",
-    "tick.network.ClientPlayNetworkHandlerMixin",
-    "tick.rate.client.TickTimerMixin"
   ],
   "server": [
   ],

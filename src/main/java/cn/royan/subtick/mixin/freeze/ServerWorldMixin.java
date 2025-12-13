@@ -1,8 +1,7 @@
-package cn.royan.subtick.mixin.subtick.freeze;
+package cn.royan.subtick.mixin.freeze;
 
 import cn.royan.subtick.helpers.TickHandler;
 import cn.royan.subtick.interfaces.ITickHandleable;
-import cn.royan.subtick.interfaces.WorldInterface;
 import cn.royan.subtick.utils.TickPhase;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
@@ -21,7 +20,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ServerWorld.class)
-public abstract class ServerWorldMixin implements WorldInterface {
+public abstract class ServerWorldMixin {
 
 	@Unique
 	private boolean tickingTime = false;

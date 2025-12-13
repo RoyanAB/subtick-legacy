@@ -1,6 +1,6 @@
-package cn.royan.subtick.mixin.tick.rate;
+package cn.royan.subtick.mixin.rate;
 
-import cn.royan.subtick.interfaces.MinecraftServerInterface;
+import cn.royan.subtick.interfaces.ITickHandleable;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static net.minecraft.server.MinecraftServer.getTimeMillis;
 
 @Mixin(MinecraftServer.class)
-public abstract class MinecraftServerMixin implements MinecraftServerInterface {
+public abstract class MinecraftServerMixin implements ITickHandleable {
 	@Shadow
 	@Final
 	private static Logger LOGGER;
@@ -61,7 +61,7 @@ public abstract class MinecraftServerMixin implements MinecraftServerInterface {
 	)
 	private void modifiedRunLoop(CallbackInfo ci, @Local long l) throws InterruptedException {
 		while (this.running) {
-			if (this.getTickRateManager().isInWarpSpeed() && this.getTickRateManager().continueWarp()) {
+			if (this.tickHandler().serverTickRateManager.isInWarpSpeed() && this.tickHandler().serverTickRateManager.continueWarp()) {
 				this.tick();
 				this.nextTickTime = getTimeMillis();
 				this.running = true;
@@ -70,7 +70,7 @@ public abstract class MinecraftServerMixin implements MinecraftServerInterface {
 
 			long m = getTimeMillis();
 			long n = m - this.nextTickTime;
-			long mspt = this.getTickRateManager().mspt();
+			long mspt = this.tickHandler().serverTickRateManager.mspt();
 			if (n > /*2000L*/1000L + 20 * mspt && this.nextTickTime - this.lastWarnTime >= /*15000L*/10000L + 100 * mspt) {
 				LOGGER.warn("Can't keep up! Did the system time change, or is the server overloaded? Running {}ms behind, skipping {} tick(s)", n, n / mspt);
 				n = 2000L;

@@ -1,4 +1,4 @@
-package cn.royan.subtick.mixin.subtick.freeze;
+package cn.royan.subtick.mixin.freeze;
 
 import cn.royan.subtick.interfaces.ITickHandleable;
 import cn.royan.subtick.utils.TickPhase;
