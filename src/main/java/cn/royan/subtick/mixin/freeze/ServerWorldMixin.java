@@ -115,7 +115,7 @@ public abstract class ServerWorldMixin {
     )
     public boolean wrapTileTicks(ServerWorld instance, boolean flush) {
         return tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.TILE_TICK);
-    }
+	}
 
     @WrapWithCondition(
             method = "tick",

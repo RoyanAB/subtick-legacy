@@ -60,7 +60,7 @@ public class MinecraftServerMixin implements ITickHandleable {
             )
     )
     public boolean wrapServerTickUpdate(MinecraftServer instance, int value) {
-        return this.tickHandler().frozen();
+		return !this.tickHandler().frozen();
     }
 
     @WrapWithCondition(
@@ -71,7 +71,7 @@ public class MinecraftServerMixin implements ITickHandleable {
             )
     )
     public boolean wrapAutosave(MinecraftServer instance, boolean silent) {
-        return this.tickHandler().frozen();
+        return !this.tickHandler().frozen();
     }
 
     @WrapWithCondition(
