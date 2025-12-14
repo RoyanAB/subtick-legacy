@@ -104,9 +104,9 @@ public class ServerNetworkHandler {
 	public static void updateTickSpeedToConnectedPlayers(MinecraftServer server) {
 		ServerTickRateManager trm = ((ITickHandleable) server).tickHandler().serverTickRateManager;
 		NbtCompound tag = new NbtCompound();
-		NbtCompound tickingState = new NbtCompound();
-		tickingState.putFloat("rate", trm.tickrate());
-		tag.put("TickRate", tickingState);
+		NbtCompound rate = new NbtCompound();
+		rate.putFloat("rate", trm.tickrate());
+		tag.put("TickRate", rate);
 		sendNbt(tag);
 	}
 

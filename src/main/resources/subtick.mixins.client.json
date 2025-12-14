@@ -4,9 +4,14 @@
   "package": "cn.royan.subtick.client.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-
   ],
   "client": [
+    "WorldMixin",
+    "ClientPlayNetworkHandlerMixin",
+    "ClientWorldMixin",
+    "EntityMixin",
+    "TickTimerMixin",
+    "WorldRendererMixin"
   ],
   "server": [
   ],

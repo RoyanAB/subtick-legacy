@@ -1,187 +1,173 @@
 package cn.royan.subtick.client;
 
+import cn.royan.subtick.client.interfaces.IEntity;
+import cn.royan.subtick.client.render.LevelRenderer;
 import cn.royan.subtick.queue.QueueElement;
 import cn.royan.subtick.utils.TickPhase;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ClientTickHandler
-{
-  private static final Minecraft mc = Minecraft.getInstance();
-  public static final List<QueueElement> queue = new ArrayList<>();
-  public static int newQueueElementCount = 0;
-  public static final List<String> dimensions = new ArrayList<>();
-  public static boolean frozen;
-  public static TickPhase tickPhase = TickPhase.INVALID;
-  public static int queueIndex1 = 0, queueIndex2 = 0;
+public class ClientTickHandler {
+	private static final Minecraft mc = Minecraft.getInstance();
+	public static final List<QueueElement> queue = new ArrayList<>();
+	public static int newQueueElementCount = 0;
+	public static final List<String> dimensions = new ArrayList<>();
+	public static boolean frozen;
+	public static TickPhase tickPhase = TickPhase.INVALID;
+	public static int queueIndex1 = 0, queueIndex2 = 0;
 
-  private static boolean stepping;
-  private static int remaining_ticks;
-  public static boolean skip_block_entities;
+	private static boolean stepping;
+	private static int remaining_ticks;
+	public static boolean skip_block_entities;
 
-  private static void clearRenders()
-  {
-    LevelRenderer.clear();
-    mc.level.tickingEntities.forEach((entity) -> ((IEntity)entity).setCGlowing(false));
-  }
+	public static long mspt = 50L;
 
-  public static void setFreeze(CompoundTag tag)
-  {
-    if(frozen = tag.getBoolean("is_paused"))
-    {
-      try
-      {
-        setPhase(new TickPhase(tag));
-        ListTag listTag = (ListTag)tag.get("dims");
-        dimensions.clear();
-        for(Tag element : listTag)
-          dimensions.add(((CompoundTag)element).getString("d"));
-      }
-      catch(Exception e)
-      {
-        setPhase(TickPhase.INVALID);
-      }
-    }
-    else
-    {
-      ClientBlockEntityQueue.end(mc.level);
-      clearQueue();
-      clearRenders();
-    }
-  }
+	private static void clearRenders() {
+		LevelRenderer.clear();
+		mc.world.entities.forEach((entity) -> ((IEntity) entity).setCGlowing(false));
+	}
 
-  public static void setPhase(TickPhase phase)
-  {
-    tickPhase = phase;
-    clearQueue();
-    clearRenders();
-    queueIndex1 = 0;
-    queueIndex2 = 0;
-  }
+	public static void setTickRate(float rate) {
+		long msptt = (long) (1000.0 / rate);
+		if (msptt <= 0L) {
+			msptt = 1L;
+		}
+		mspt = msptt;
+	}
 
-  public static synchronized void clearQueue()
-  {
-    queue.clear();
-  }
+	public static void setFreeze(NbtCompound tag) {
+		if (frozen = tag.getBoolean("is_paused")) {
+			try {
+				setPhase(new TickPhase(tag));
+				NbtList listTag = (NbtList) tag.get("dims");
+				dimensions.clear();
+				for (NbtElement element : listTag.elements)
+					dimensions.add(((NbtCompound) element).getString("d"));
+			} catch (Exception e) {
+				setPhase(TickPhase.INVALID);
+			}
+		} else {
+//			ClientBlockEntityQueue.end(mc.world);
+			clearQueue();
+			clearRenders();
+		}
+	}
 
-  public static synchronized void setQueue(ListTag tag)
-  {
-    int l = queue.size();
-    queue.clear();
-    tag.forEach((Tag t) ->
-    {
-      CompoundTag t1 = (CompoundTag)t;
-      queue.add(new QueueElement(t1.getString("s"), t1.getInt("x"), t1.getInt("y"), t1.getInt("z"), t1.getInt("d")));
-    });
-    newQueueElementCount = Math.max(0, queue.size() - l);
-  }
+	public static void setPhase(TickPhase phase) {
+		tickPhase = phase;
+		clearQueue();
+		clearRenders();
+		queueIndex1 = 0;
+		queueIndex2 = 0;
+	}
 
-  public static synchronized void queueStep(CompoundTag tag)
-  {
-    setQueue((ListTag)tag.get("queue"));
-    int steps = tag.getInt("steps");
-    newQueueElementCount = tag.getInt("newElements");
-    queueIndex1 = queueIndex2;
-    queueIndex2 += steps;
-    // out of bounds protection
-    int index2 = Math.min(queueIndex2, queue.size());
-    int index1 = Math.min(queueIndex1, index2);
+	public static synchronized void clearQueue() {
+		queue.clear();
+	}
 
-    clearRenders();
-    if(tickPhase.phase() == TickPhase.ENTITY)
-    {
-      ClientLevel level = mc.level;
-      level.tickingEntities.forEach((entity) -> ((IEntity)entity).setCGlowing(false));
-      for(int i = queueIndex1; i < queueIndex2; i ++)
-      {
-        QueueElement element = queue.get(i);
-        ((IEntity)level.getEntity(element.x())).setCGlowing(true);
-      }
-      return;
-    }
+	public static synchronized void setQueue(NbtList tag) {
+		int l = queue.size();
+		queue.clear();
+		tag.elements.forEach((NbtElement t) ->
+		{
+			NbtCompound t1 = (NbtCompound) t;
+			queue.add(new QueueElement(t1.getString("s"), t1.getInt("x"), t1.getInt("y"), t1.getInt("z"), t1.getInt("d")));
+		});
+		newQueueElementCount = Math.max(0, queue.size() - l);
+	}
 
-    boolean blockEntity = tickPhase.phase() == TickPhase.BLOCK_ENTITY;
-    boolean depth = tickPhase.phase() == TickPhase.BLOCK_EVENT || tickPhase.phase() == TickPhase.BLOCK_TICK;
-    int i = 0;
-    Iterator<QueueElement> iter = queue.iterator();
-    while(i < index1)
-    {
-      QueueElement element = iter.next();
-      LevelRenderer.addCuboidFaces(element.x(), element.y(), element.z(), Configs.STEPPED_BG.getColor());
-      if(depth)
-        LevelRenderer.addLabel(++i, element.depth(), element.x(), element.y(), element.z(), Configs.STEPPED_TEXT.getColor(), Configs.STEPPED_DEPTH.getColor());
-      else
-        LevelRenderer.addText(String.valueOf(++i), element.x(), element.y(), element.z(), Configs.STEPPED_TEXT.getColor());
-    }
-    while(i < index2)
-    {
-      QueueElement element = iter.next();
-      LevelRenderer.addCuboidFaces(element.x(), element.y(), element.z(), Configs.STEPPING_BG.getColor());
-      if(depth)
-        LevelRenderer.addLabel(++i, element.depth(), element.x(), element.y(), element.z(), Configs.STEPPING_TEXT.getColor(), Configs.STEPPING_DEPTH.getColor());
-      else
-        LevelRenderer.addText(String.valueOf(++i), element.x(), element.y(), element.z(), Configs.STEPPING_TEXT.getColor());
+	public static synchronized void queueStep(NbtCompound tag) {
+		setQueue((NbtList) tag.get("queue"));
+		int steps = tag.getInt("steps");
+		newQueueElementCount = tag.getInt("newElements");
+		queueIndex1 = queueIndex2;
+		queueIndex2 += steps;
+		// out of bounds protection
+		int index2 = Math.min(queueIndex2, queue.size());
+		int index1 = Math.min(queueIndex1, index2);
 
-      if(blockEntity)
-        ClientBlockEntityQueue.addPos(element);
-    }
-    while(i < queue.size() - newQueueElementCount)
-    {
-      QueueElement element = iter.next();
-      LevelRenderer.addCuboidFaces(element.x(), element.y(), element.z(), Configs.TO_STEP_BG.getColor());
-      if(depth)
-        LevelRenderer.addLabel(++i, element.depth(), element.x(), element.y(), element.z(), Configs.TO_STEP_TEXT.getColor(), Configs.TO_STEP_DEPTH.getColor());
-      else
-        LevelRenderer.addText(String.valueOf(++i), element.x(), element.y(), element.z(), Configs.TO_STEP_TEXT.getColor());
-    }
-    while(i < queue.size())
-    {
-      QueueElement element = iter.next();
-      LevelRenderer.addCuboidFaces(element.x(), element.y(), element.z(), Configs.NEW_BG.getColor());
-      if(depth)
-        LevelRenderer.addLabel(++i, element.depth(), element.x(), element.y(), element.z(), Configs.NEW_TEXT.getColor(), Configs.NEW_DEPTH.getColor());
-      else
-        LevelRenderer.addText(String.valueOf(++i), element.x(), element.y(), element.z(), Configs.NEW_TEXT.getColor());
-    }
-  }
+		clearRenders();
+		if (tickPhase.phase == TickPhase.ENTITY) {
+			ClientWorld level = mc.world;
+			level.entities.forEach((entity) -> ((IEntity) entity).setCGlowing(false));
+			for (int i = queueIndex1; i < queueIndex2; i++) {
+				QueueElement element = queue.get(i);
+				((IEntity) level.getEntity(element.x)).setCGlowing(true);
+			}
+			return;
+		}
 
-  public static void scheduleTickStep(int ticks)
-  {
-    //#if MC >= 12006
-    //$$ if(ticks <= 0)
-    //#else
-    if(ticks <= TickSpeed.PLAYER_GRACE)
-    //#endif
-      return;
+		boolean blockEntity = tickPhase.phase == TickPhase.BLOCK_ENTITY;
+		boolean depth = tickPhase.phase == TickPhase.BLOCK_EVENT || tickPhase.phase == TickPhase.TILE_TICK;
+		int i = 0;
+		Iterator<QueueElement> iter = queue.iterator();
+		while (i < index1) {
+			QueueElement element = iter.next();
+			LevelRenderer.addCuboidFaces(element.x, element.y, element.z, Configs.STEPPED_BG.getColor());
+			if (depth)
+				LevelRenderer.addLabel(++i, element.depth, element.x, element.y, element.z, Configs.STEPPED_TEXT.getColor(), Configs.STEPPED_DEPTH.getColor());
+			else
+				LevelRenderer.addText(String.valueOf(++i), element.x, element.y, element.z, Configs.STEPPED_TEXT.getColor());
+		}
+		while (i < index2) {
+			QueueElement element = iter.next();
+			LevelRenderer.addCuboidFaces(element.x, element.y, element.z, Configs.STEPPING_BG.getColor());
+			if (depth)
+				LevelRenderer.addLabel(++i, element.depth, element.x, element.y, element.z, Configs.STEPPING_TEXT.getColor(), Configs.STEPPING_DEPTH.getColor());
+			else
+				LevelRenderer.addText(String.valueOf(++i), element.x, element.y, element.z, Configs.STEPPING_TEXT.getColor());
 
-    clearQueue();
-    clearRenders();
+//			if (blockEntity)
+//				ClientBlockEntityQueue.addPos(element);
+		}
+		while (i < queue.size() - newQueueElementCount) {
+			QueueElement element = iter.next();
+			LevelRenderer.addCuboidFaces(element.x, element.y, element.z, Configs.TO_STEP_BG.getColor());
+			if (depth)
+				LevelRenderer.addLabel(++i, element.depth, element.x, element.y, element.z, Configs.TO_STEP_TEXT.getColor(), Configs.TO_STEP_DEPTH.getColor());
+			else
+				LevelRenderer.addText(String.valueOf(++i), element.x, element.y, element.z, Configs.TO_STEP_TEXT.getColor());
+		}
+		while (i < queue.size()) {
+			QueueElement element = iter.next();
+			LevelRenderer.addCuboidFaces(element.x, element.y, element.z, Configs.NEW_BG.getColor());
+			if (depth)
+				LevelRenderer.addLabel(++i, element.depth, element.x, element.y, element.z, Configs.NEW_TEXT.getColor(), Configs.NEW_DEPTH.getColor());
+			else
+				LevelRenderer.addText(String.valueOf(++i), element.x, element.y, element.z, Configs.NEW_TEXT.getColor());
+		}
+	}
 
-    if(ClientBlockEntityQueue.end(mc.level))
-      skip_block_entities = true;
+	public static void scheduleTickStep(int ticks) {
+		if (ticks <= 2)
+			return;
 
-    stepping = true;
-    remaining_ticks = ticks;
-  }
+		clearQueue();
+		clearRenders();
 
-  public static boolean shouldTick()
-  {
-    return !frozen || stepping;
-  }
+//		if (ClientBlockEntityQueue.end(mc.world))
+//			skip_block_entities = true;
 
-  public static void onTick(ClientLevel level)
-  {
-    //#if MC >= 12006
-    //$$ if(stepping && -- remaining_ticks <= 0)
-    //#else
-    if(stepping && -- remaining_ticks <= TickSpeed.PLAYER_GRACE)
-    //#endif
-      stepping = false;
+		stepping = true;
+		remaining_ticks = ticks;
+	}
 
-    ClientBlockEntityQueue.step(level);
-    skip_block_entities = false;
-  }
+	public static boolean shouldTick() {
+		return !frozen || stepping;
+	}
+
+	public static void onTick(ClientWorld level) {
+		if (stepping && --remaining_ticks <= 2)
+			stepping = false;
+
+//		ClientBlockEntityQueue.step(level);
+		skip_block_entities = false;
+	}
 }

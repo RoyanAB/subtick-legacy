@@ -16,3 +16,5 @@ accessible field net/minecraft/server/world/ServerWorld blockEvents [Lnet/minecr
 accessible field net/minecraft/server/world/ServerWorld nextBlockEventQueueIndex I
 accessible field net/minecraft/server/world/ServerWorld server Lnet/minecraft/server/MinecraftServer;
 accessible method net/minecraft/server/world/ServerWorld doBlockEvent (Lnet/minecraft/server/world/BlockEvent;)Z
+
+accessible field net/minecraft/nbt/NbtList elements Ljava/util/List;

@@ -1,8 +1,10 @@
 package cn.royan.subtick.client;
 
+import cn.royan.subtick.utils.TickPhase;
 import net.minecraft.client.entity.living.player.LocalClientPlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtList;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,32 +17,32 @@ public class ClientNetworkHandler {
 	static  {
 		dataHandlers.put("TickRate", (p, t) ->
 		{
-//			ClientTickHandler.setFreeze((CompoundTag) t);
+			ClientTickHandler.setTickRate(((NbtCompound) t).getFloat("rate"));
 		});
 
 		dataHandlers.put("TickingState", (p, t) ->
 		{
-//			ClientTickHandler.setFreeze((CompoundTag) t);
+			ClientTickHandler.setFreeze((NbtCompound) t);
 		});
 
 		dataHandlers.put("TickPhase", (p, t) ->
 		{
-//			ClientTickHandler.setPhase(new TickPhase((CompoundTag) t));
+			ClientTickHandler.setPhase(new TickPhase((NbtCompound) t));
 		});
 
 		dataHandlers.put("TickPlayerActiveTimeout", (p, t) ->
 		{
-//			ClientTickHandler.scheduleTickStep(((NumericTag) t).getAsInt());
+			ClientTickHandler.scheduleTickStep(((NbtCompound) t).getInt("TickPlayerActiveTimeout"));
 		});
 
 		dataHandlers.put("Queue", (p, t) ->
 		{
-//			ClientTickHandler.setQueue((ListTag) t);
+			ClientTickHandler.setQueue((NbtList) t);
 		});
 
 		dataHandlers.put("QueueStep", (p, t) ->
 		{
-//			ClientTickHandler.queueStep((CompoundTag) t);
+			ClientTickHandler.queueStep((NbtCompound) t);
 		});
 	}
 
