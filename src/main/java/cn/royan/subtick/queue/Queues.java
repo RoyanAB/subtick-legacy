@@ -2,6 +2,7 @@ package cn.royan.subtick.queue;
 
 import cn.royan.subtick.helpers.TickHandler;
 import cn.royan.subtick.interfaces.IQueues;
+import cn.royan.subtick.network.ServerNetworkHandler;
 import cn.royan.subtick.queue.queues.BlockEventQueue;
 import cn.royan.subtick.utils.Messenger;
 import cn.royan.subtick.utils.TickPhase;
@@ -110,7 +111,7 @@ public class Queues implements IQueues {
 		}
 		tickHandler.advancePhase(level);
 		// this clears block event highlights
-//    ServerNetworkHandler.sendTickStep(level, 0, tickHandler.targetPhase());
+	    ServerNetworkHandler.sendTickStep(level, 0, tickHandler.targetPhase());
 		stepping = false;
 	}
 

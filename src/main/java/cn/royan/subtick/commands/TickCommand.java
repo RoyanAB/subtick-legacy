@@ -179,7 +179,6 @@ public class TickCommand extends AbstractCommand {
 //	private static int toggleSuperHot(CommandSource source) {
 //		ServerTickRateManager trm = ((MinecraftServerInterface) source.getServer()).getTickRateManager();
 //		trm.setSuperHot(!trm.isSuperHot());
-//		ServerNetworkHandler.updateSuperHotStateToConnectedPlayers(source.getServer());
 //		if (trm.isSuperHot()) {
 //			Messenger.m(source, "gi Superhot enabled");
 //		} else {

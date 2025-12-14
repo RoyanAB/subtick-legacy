@@ -1,6 +1,7 @@
 package cn.royan.subtick.helpers;
 
 import cn.royan.subtick.interfaces.ITickHandler;
+import cn.royan.subtick.network.ServerNetworkHandler;
 import cn.royan.subtick.queue.Queues;
 import cn.royan.subtick.utils.Messenger;
 import cn.royan.subtick.utils.TickPhase;
@@ -176,7 +177,7 @@ public class TickHandler implements ITickHandler {
 		state = State.FREEZING;
 		TickPhase tickPhase = new TickPhase((ServerWorld) c.getSourceWorld(), phase);
 		targetPhase = tickPhase;
-//		ServerNetworkHandler.sendFrozen(c.getSourceWorld(), tickPhase);
+		ServerNetworkHandler.sendFrozen((ServerWorld) c.getSourceWorld(), tickPhase);
 		Translations.m(c, "tickCommand.freeze.success", tickPhase);
 		return 1;
 	}
@@ -187,17 +188,17 @@ public class TickHandler implements ITickHandler {
 			case FROZEN:
 				state = State.UNFREEZING;
 				queues.scheduleEnd();
-//				ServerNetworkHandler.sendUnfrozen(c.getSourceWorld());
+				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getSourceWorld());
 				Translations.m(c, "tickCommand.unfreeze.success");
 				return 1;
 			case FREEZING:
 				state = State.UNFROZEN;
-//				ServerNetworkHandler.sendUnfrozen(c.getSourceWorld());
+				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getSourceWorld());
 				Translations.m(c, "tickCommand.unfreeze.success");
 				return 1;
 			case STEPPING:
 				state = State.UNFREEZING;
-//				ServerNetworkHandler.sendUnfrozen(c.getSourceWorld());
+				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getSourceWorld());
 				Translations.m(c, "tickCommand.unfreeze.success");
 				return 1;
 			default:
@@ -216,7 +217,7 @@ public class TickHandler implements ITickHandler {
 				state = State.FREEZING;
 				TickPhase tickPhase = new TickPhase((ServerWorld) c.getSourceWorld(), phase);
 				targetPhase = tickPhase;
-//				ServerNetworkHandler.sendFrozen(c.getSourceWorld(), tickPhase);
+				ServerNetworkHandler.sendFrozen((ServerWorld) c.getSourceWorld(), tickPhase);
 				Translations.m(c, "tickCommand.freeze.success", tickPhase);
 				return 1;
 
@@ -227,19 +228,19 @@ public class TickHandler implements ITickHandler {
 			case FROZEN:
 				state = State.UNFREEZING;
 				queues.scheduleEnd();
-//				ServerNetworkHandler.sendUnfrozen(c.getSourceWorld());
+				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getSourceWorld());
 				Translations.m(c, "tickCommand.unfreeze.success");
 				return 1;
 
 			case FREEZING:
 				state = State.UNFROZEN;
-//				ServerNetworkHandler.sendUnfrozen(c.getSourceWorld());
+				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getSourceWorld());
 				Translations.m(c, "tickCommand.unfreeze.success");
 				return 1;
 
 			case STEPPING:
 				state = State.UNFREEZING;
-//				ServerNetworkHandler.sendUnfrozen(c.getSourceWorld());
+				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getSourceWorld());
 				Translations.m(c, "tickCommand.unfreeze.success");
 				return 1;
 		}
@@ -262,7 +263,7 @@ public class TickHandler implements ITickHandler {
 		targetPhase = tickPhase;
 		if (ticks != 0 || !tickPhase.equals(currentPhase)) {
 			queues.scheduleEnd();
-//			ServerNetworkHandler.sendTickStep(c.getSourceWorld(), ticks, tickPhase);
+			ServerNetworkHandler.sendTickStep((ServerWorld) c.getSourceWorld(), ticks, tickPhase);
 		}
 		return 1;
 	}
@@ -288,7 +289,7 @@ public class TickHandler implements ITickHandler {
 		targetPhase = phase;
 		if (ticks != 0 || !phase.equals(currentPhase)) {
 			queues.scheduleEnd();
-//			ServerNetworkHandler.sendTickStep(c.getSourceWorld(), ticks, phase);
+			ServerNetworkHandler.sendTickStep((ServerWorld) c.getSourceWorld(), ticks, phase);
 		}
 		return 1;
 	}

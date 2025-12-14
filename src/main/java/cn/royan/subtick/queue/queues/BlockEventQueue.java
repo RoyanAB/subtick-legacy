@@ -1,5 +1,6 @@
 package cn.royan.subtick.queue.queues;
 
+import cn.royan.subtick.network.ServerNetworkHandler;
 import cn.royan.subtick.queue.QueueElement;
 import cn.royan.subtick.queue.TickingQueue;
 import cn.royan.subtick.utils.TickPhase;
@@ -29,7 +30,7 @@ public class BlockEventQueue extends TickingQueue {
 	public void updateQueue(ServerWorld level, BlockEvent be) {
 		if (queue.add(new QueueElement(be, depth))) {
 			newQueueElementsCount++;
-//			ServerNetworkHandler.sendQueue(queue, spentQueue, level);
+			ServerNetworkHandler.sendQueue(queue, spentQueue, level);
 		}
 		exhausted = false;
 	}

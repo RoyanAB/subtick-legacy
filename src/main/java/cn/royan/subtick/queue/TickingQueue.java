@@ -1,5 +1,6 @@
 package cn.royan.subtick.queue;
 
+import cn.royan.subtick.network.ServerNetworkHandler;
 import cn.royan.subtick.queue.queues.BlockEntityQueue;
 import cn.royan.subtick.queue.queues.BlockEventQueue;
 import cn.royan.subtick.queue.queues.EntityQueue;
@@ -99,7 +100,7 @@ public abstract class TickingQueue {
 	}
 
 	public void sendQueueStep(CommandSource actor, int count) {
-//    ServerNetworkHandler.sendQueueStep(queue, spentQueue, newQueueElementsCount, count, actor.getLevel(), actor);
+		ServerNetworkHandler.sendQueueStep(queue, spentQueue, newQueueElementsCount, count, actor.getLevel(), actor);
 		newQueueElementsCount = 0;
 	}
 
