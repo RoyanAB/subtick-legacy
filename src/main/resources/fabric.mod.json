@@ -37,6 +37,6 @@
   "depends": {
     "fabricloader": ">=0.14.21",
     "minecraft": "1.12.2",
-    "osl-entrypoints": ">=0.4.0"
+    "malilib": "*"
   }
 }
