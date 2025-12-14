@@ -9,6 +9,7 @@
     "ClientPlayNetworkHandlerMixin",
     "ClientWorldMixin",
     "EntityMixin",
+    "GameGuiMixin",
     "GameRendererMixin",
     "TickTimerMixin",
     "WorldMixin",
