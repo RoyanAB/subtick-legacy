@@ -1,6 +1,8 @@
 package cn.royan.subtick.client.render;
 
 import cn.royan.subtick.client.ClientTickHandler;
+import cn.royan.subtick.client.config.AlignConfig;
+import cn.royan.subtick.client.config.Configs;
 import cn.royan.subtick.queue.QueueElement;
 import cn.royan.subtick.utils.TickPhase;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -63,7 +65,7 @@ public class HudRenderer {
 
 			TickPhase tickPhase = ClientTickHandler.tickPhase;
 
-			Align align = (Align) Configs.HUD_ALIGNMENT.getOptionListValue();
+			AlignConfig align = Configs.HUD_ALIGNMENT.getValue();
 			int xOff = Configs.HUD_OFFSET_X.getIntegerValue();
 			int yOff = Configs.HUD_OFFSET_Y.getIntegerValue();
 
@@ -91,7 +93,7 @@ public class HudRenderer {
 				while (i < indices.getRight()) {
 					QueueElement element = ClientTickHandler.queue.get(i++);
 					Text s = queue[j++] = text(element, i, depth);
-					wQueue = Math.max(wQueue, font.getWidth(String.valueOf(s)));
+					wQueue = Math.max(wQueue, font.getWidth(s.getString()));
 				}
 				wQueue += 2;
 				int wAll = wDimPhase + wQueue + 10;
@@ -112,12 +114,6 @@ public class HudRenderer {
 	}
 
 	public static void renderHudA(TickPhase phase, int x, int y, int wDim, int wPhase, int h) {
-//		RenderSystem.setShader(GameRenderer::getPositionColorShader);
-//		RenderSystem.enableBlend();
-//		RenderSystem.defaultBlendFunc();
-//
-//		Tesselator tesselator = Tesselator.getInstance();
-//		BufferBuilder buffer = tesselator.getBuilder();
 		GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		GlStateManager.disableTexture();
@@ -134,6 +130,7 @@ public class HudRenderer {
 		tessellator.end();
 
 		x += 2;
+		GlStateManager.enableTexture();
 		for (int y1 = y + 2, i = 0; i < ClientTickHandler.dimensions.size(); i++, y1 += h)
 			font.draw(ClientTickHandler.dimensions.get(i), x, y1, i < phase.dim ? STEPPED_TEXT : TO_STEP_TEXT);
 
@@ -165,6 +162,7 @@ public class HudRenderer {
 		tessellator.end();
 
 		x += 2;
+		GlStateManager.enableTexture();
 		for (int y1 = y + 2, i = 0; i < ClientTickHandler.dimensions.size(); i++, y1 += h)
 			font.draw(ClientTickHandler.dimensions.get(i), x, y1, i < phase.dim ? STEPPED_TEXT : TO_STEP_TEXT);
 
@@ -174,7 +172,7 @@ public class HudRenderer {
 
 		x += wPhase + 10;
 		for (int y1 = y + 2, i = 0; i < queue.length; i++, y1 += h)
-			font.draw(String.valueOf(queue[i]), x, y1, i < iqueue1 ? STEPPED_TEXT : i < iqueue2 ? STEPPING_TEXT : i >= iqueue3 ? NEW_TEXT : TO_STEP_TEXT);
+			font.draw(queue[i].getFormattedString(), x, y1, i < iqueue1 ? STEPPED_TEXT : i < iqueue2 ? STEPPING_TEXT : i >= iqueue3 ? NEW_TEXT : TO_STEP_TEXT);
 	}
 
 	private static void drawTableA(BufferBuilder buffer, int x, int y, int h, int w, int count, int index) {

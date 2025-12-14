@@ -46,7 +46,7 @@ public class QueueElement {
 
 	private static String getLabelForBlockEvent(Block block, int a, int b) {
 		if (block instanceof PistonBaseBlock)
-			return block.getName() + (a == 0 ? " |→ " : " |← ") + Direction.byId(b);
+			return block.getName() + (b == 0 ? " |→ " : " |← ") + Direction.byId(a);
 
 		return block.getName();
 	}
