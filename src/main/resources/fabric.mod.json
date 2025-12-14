@@ -21,10 +21,14 @@
   "entrypoints": {
     "init": [
       "cn.royan.subtick.SubtickMod"
+    ],
+    "client-init": [
+      "cn.royan.subtick.client.SubtickClientMod"
     ]
   },
   "mixins": [
-    "subtick.mixins.json"
+    "subtick.mixins.json",
+    "subtick.mixins.client.json"
   ],
   "accessWidener": "subtick.accesswidener",
   "depends": {
