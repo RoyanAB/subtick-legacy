@@ -46,11 +46,11 @@ public class AlignConfig extends BaseOptionListConfigValue {
 	}
 
 	public int getX(int w) {
-		return (int) (x * ((getScaledWindowHeight() - w) / 2));
+		return (int) (x * (getScaledWindowHeight() - w));
 	}
 
 	public int getY(int h) {
-		return (int) (y * ((getScaledWindowWidth() - h) / 2));
+		return (int) (y * ((getScaledWindowWidth() - h) / 4));
 	}
 
 	public static double getScaledWindowWidth() {
