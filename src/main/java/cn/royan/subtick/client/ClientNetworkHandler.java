@@ -52,7 +52,6 @@ public class ClientNetworkHandler {
 			if (dataHandlers.containsKey(key)) {
 				dataHandlers.get(key).accept(player, compound.get(key));
 			}
-			System.out.println(compound.toString());
 		}
 	}
 }

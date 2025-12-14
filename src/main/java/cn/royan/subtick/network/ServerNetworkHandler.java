@@ -52,7 +52,6 @@ public class ServerNetworkHandler {
 		NbtCompound nbtCompound = new NbtCompound();
 		nbtCompound.put("Carpet", tag);
 		packetBuf.writeNbtCompound(nbtCompound);
-		System.out.println(tag.toString());
 
 		try {
 			player.networkHandler.sendPacket(new CustomPayloadS2CPacket(CARPET_CHANNEL, packetBuf));
@@ -71,7 +70,6 @@ public class ServerNetworkHandler {
 		NbtCompound nbtCompound = new NbtCompound();
 		nbtCompound.put("Carpet", tag);
 		packetBuf.writeNbtCompound(nbtCompound);
-		System.out.println(tag.toString());
 
 		try {
 			player.networkHandler.sendPacket(new CustomPayloadS2CPacket(CARPET_CHANNEL, packetBuf));

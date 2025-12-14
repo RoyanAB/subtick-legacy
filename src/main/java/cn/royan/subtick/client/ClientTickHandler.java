@@ -55,7 +55,7 @@ public class ClientTickHandler {
 				setPhase(TickPhase.INVALID);
 			}
 		} else {
-//			ClientBlockEntityQueue.end(mc.world);
+			ClientBlockEntityQueue.end(mc.world);
 			clearQueue();
 			clearRenders();
 		}
@@ -125,8 +125,8 @@ public class ClientTickHandler {
 			else
 				LevelRenderer.addText(String.valueOf(++i), element.x, element.y, element.z, Configs.STEPPING_TEXT.getColor());
 
-//			if (blockEntity)
-//				ClientBlockEntityQueue.addPos(element);
+			if (blockEntity)
+				ClientBlockEntityQueue.addPos(element);
 		}
 		while (i < queue.size() - newQueueElementCount) {
 			QueueElement element = iter.next();
@@ -153,8 +153,8 @@ public class ClientTickHandler {
 		clearQueue();
 		clearRenders();
 
-//		if (ClientBlockEntityQueue.end(mc.world))
-//			skip_block_entities = true;
+		if (ClientBlockEntityQueue.end(mc.world))
+			skip_block_entities = true;
 
 		stepping = true;
 		remaining_ticks = ticks;
@@ -168,7 +168,7 @@ public class ClientTickHandler {
 		if (stepping && --remaining_ticks <= 2)
 			stepping = false;
 
-//		ClientBlockEntityQueue.step(level);
+		ClientBlockEntityQueue.step(level);
 		skip_block_entities = false;
 	}
 }
