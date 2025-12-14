@@ -1,8 +1,11 @@
 package cn.royan.subtick.client.config;
 
 import com.google.common.collect.ImmutableList;
+import malilib.config.category.BaseConfigOptionCategory;
 import malilib.config.category.ConfigOptionCategory;
 import malilib.config.option.*;
+import malilib.util.data.ModInfo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +34,10 @@ public class Configs{
 		MAX_HIGHLIGHT_SIZE = new IntegerConfig("maxHighlightSize", 10, "Maximum number of highlighted elements in the queue HUD\nUseful to control the number of highlights when the queue is bigger than maxQueueSize");
 
 	public static final ImmutableList<ConfigOption<?>> OPTIONS;
+	public static final ConfigOptionCategory GENERAL;
 	public static final List<ConfigOptionCategory> CATEGORIES = new ArrayList<>();
+
+	public static final ModInfo MOD_INFO = new ModInfo("subtick", "Subtick");
 
 	static {
 		OPTIONS = ImmutableList.of(
@@ -53,6 +59,7 @@ public class Configs{
 			MAX_QUEUE_SIZE,
 			MAX_HIGHLIGHT_SIZE
 		);
-//		CATEGORIES.add(BaseConfigOptionCategory.normal(SubtickMod.MOD_INFO, "Options", OPTIONS));
+		GENERAL = BaseConfigOptionCategory.normal(MOD_INFO, "Options", OPTIONS);
+		CATEGORIES.add(GENERAL);
 	}
 }

@@ -44,14 +44,5 @@
   "subtick.feedback.queueCommand.success.single": "Stepped {n} {queue}",
   "subtick.feedback.queueCommand.success.single.exhausted": "Stepped {n} {queue} (queue exhausted)",
   "subtick.feedback.queueCommand.success.multiple": "Stepped {n} {queues}",
-  "subtick.feedback.queueCommand.success.multiple.exhausted": "Stepped {n} {queues} (queue exhausted)",
-  "subtick.client.align.top_left": "Top Left",
-  "subtick.client.align.top": "Top",
-  "subtick.client.align.top_right": "Top Right",
-  "subtick.client.align.left": "Left",
-  "subtick.client.align.center": "Center",
-  "subtick.client.align.right": "Right",
-  "subtick.client.align.bottom_left": "Bottom Left",
-  "subtick.client.align.bottom": "Bottom",
-  "subtick.client.align.bottom_right": "Bottom Right"
+  "subtick.feedback.queueCommand.success.multiple.exhausted": "Stepped {n} {queues} (queue exhausted)"
 }

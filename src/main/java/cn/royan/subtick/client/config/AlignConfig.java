@@ -11,28 +11,26 @@ import java.util.Map;
 
 public class AlignConfig extends BaseOptionListConfigValue {
 	public static final AlignConfig
-		TOP_LEFT = new AlignConfig(0, 0, "top_left"),
-		TOP = new AlignConfig(1, 0, "top"),
-		TOP_RIGHT = new AlignConfig(2, 0, "top_right"),
-		LEFT = new AlignConfig(0, 1, "left"),
-		CENTER = new AlignConfig(1, 1, "center"),
-		RIGHT = new AlignConfig(2, 1, "right"),
-		BOTTOM_LEFT = new AlignConfig(0, 2, "bottom_left"),
-		BOTTOM = new AlignConfig(1, 2, "bottom"),
-		BOTTOM_RIGHT = new AlignConfig(2, 2, "bottom_right");
+		TOP_LEFT = new AlignConfig(0, 0, "top_left", "subtick.client.align.top_left"),
+		TOP = new AlignConfig(1, 0, "top", "subtick.client.align.top"),
+		TOP_RIGHT = new AlignConfig(2, 0, "top_right", "subtick.client.align.top_right"),
+		LEFT = new AlignConfig(0, 1, "left", "subtick.client.align.left"),
+		CENTER = new AlignConfig(1, 1, "center", "subtick.client.align.center"),
+		RIGHT = new AlignConfig(2, 1, "right", "subtick.client.align.right"),
+		BOTTOM_LEFT = new AlignConfig(0, 2, "bottom_left", "subtick.client.align.bottom_left"),
+		BOTTOM = new AlignConfig(1, 2, "bottom", "subtick.client.align.bottom"),
+		BOTTOM_RIGHT = new AlignConfig(2, 2, "bottom_right", "subtick.client.align.bottom_right");
 
 	public static final ImmutableList<AlignConfig> VALUES = ImmutableList.of(TOP_LEFT, TOP, TOP_RIGHT, LEFT, CENTER, RIGHT, BOTTOM_LEFT, BOTTOM, BOTTOM_RIGHT);
 
 	private final int x, y;
-	private final String translationKey;
 
 	private static final Map<String, AlignConfig> byString = new HashMap<>();
 
-	public AlignConfig(int x, int y, String key) {
-		super(key, key);
+	public AlignConfig(int x, int y, String name, String key) {
+		super(name, key);
 		this.x = x;
 		this.y = y;
-		translationKey = key;
 	}
 
 	static {
@@ -65,8 +63,4 @@ public class AlignConfig extends BaseOptionListConfigValue {
 		return sr.getScaledHeight();
 	}
 
-	@Override
-	public String getDisplayName() {
-		return Translations.tr("subtick.client.align." + translationKey);
-	}
 }
