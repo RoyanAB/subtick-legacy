@@ -100,7 +100,7 @@ public abstract class TickingQueue {
 	}
 
 	public void sendQueueStep(CommandSource actor, int count) {
-		ServerNetworkHandler.sendQueueStep(queue, spentQueue, newQueueElementsCount, count, actor.getLevel(), actor);
+		ServerNetworkHandler.sendQueueStep(queue, spentQueue, newQueueElementsCount, count, (ServerWorld) actor.getSourceWorld(), actor);
 		newQueueElementsCount = 0;
 	}
 
