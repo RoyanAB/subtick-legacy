@@ -1,8 +1,8 @@
 package cn.royan.subtick.client.render.shape;
 
 import cn.royan.subtick.client.render.interfaces.Line;
-import cn.royan.subtick.utils.Color4f;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import malilib.util.data.Color4f;
 
 import java.util.Objects;
 

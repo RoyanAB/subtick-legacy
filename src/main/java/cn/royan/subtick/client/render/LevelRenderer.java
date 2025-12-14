@@ -7,11 +7,11 @@ import cn.royan.subtick.client.render.shape.DepthLabel;
 import cn.royan.subtick.client.render.shape.LineCuboid;
 import cn.royan.subtick.client.render.shape.QuadCuboid;
 import cn.royan.subtick.client.render.shape.TextBasic;
-import cn.royan.subtick.utils.Color4f;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tessellator;
+import malilib.util.data.Color4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.living.player.PlayerEntity;
 

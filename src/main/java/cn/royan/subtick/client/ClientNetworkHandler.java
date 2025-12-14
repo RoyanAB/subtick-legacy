@@ -4,6 +4,7 @@ import cn.royan.subtick.utils.TickPhase;
 import net.minecraft.client.entity.living.player.LocalClientPlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.nbt.NbtInt;
 import net.minecraft.nbt.NbtList;
 
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public class ClientNetworkHandler {
 
 		dataHandlers.put("TickPlayerActiveTimeout", (p, t) ->
 		{
-			ClientTickHandler.scheduleTickStep(((NbtCompound) t).getInt("TickPlayerActiveTimeout"));
+			ClientTickHandler.scheduleTickStep(((NbtInt) t).getInt());
 		});
 
 		dataHandlers.put("Queue", (p, t) ->
@@ -51,6 +52,7 @@ public class ClientNetworkHandler {
 			if (dataHandlers.containsKey(key)) {
 				dataHandlers.get(key).accept(player, compound.get(key));
 			}
+			System.out.println(compound.toString());
 		}
 	}
 }

@@ -6,11 +6,12 @@
   "mixins": [
   ],
   "client": [
-    "WorldMixin",
     "ClientPlayNetworkHandlerMixin",
     "ClientWorldMixin",
     "EntityMixin",
+    "GameRendererMixin",
     "TickTimerMixin",
+    "WorldMixin",
     "WorldRendererMixin"
   ],
   "server": [

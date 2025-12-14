@@ -1,5 +1,6 @@
 package cn.royan.subtick.client;
 
+import cn.royan.subtick.client.config.Configs;
 import cn.royan.subtick.client.interfaces.IEntity;
 import cn.royan.subtick.client.render.LevelRenderer;
 import cn.royan.subtick.queue.QueueElement;
