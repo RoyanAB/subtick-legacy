@@ -2,6 +2,7 @@ package cn.royan.subtick.client;
 
 import cn.royan.subtick.client.config.Configs;
 import cn.royan.subtick.client.interfaces.IEntity;
+import cn.royan.subtick.client.interfaces.ITickTimer;
 import cn.royan.subtick.client.render.LevelRenderer;
 import cn.royan.subtick.queue.QueueElement;
 import cn.royan.subtick.utils.TickPhase;
@@ -46,6 +47,7 @@ public class ClientTickHandler {
 	public static void setFreeze(NbtCompound tag) {
 		if (frozen = tag.getBoolean("is_paused")) {
 			try {
+				((ITickTimer) mc.timer).reset();
 				setPhase(new TickPhase(tag));
 				NbtList listTag = (NbtList) tag.get("dims");
 				dimensions.clear();

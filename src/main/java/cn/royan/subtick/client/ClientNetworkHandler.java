@@ -15,7 +15,7 @@ public class ClientNetworkHandler {
 
 	private static final Map<String, BiConsumer<LocalClientPlayerEntity, NbtElement>> dataHandlers = new HashMap<>();
 
-	static  {
+	static {
 		dataHandlers.put("TickRate", (p, t) ->
 		{
 			ClientTickHandler.setTickRate(((NbtCompound) t).getFloat("rate"));

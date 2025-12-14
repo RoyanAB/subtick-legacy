@@ -7,7 +7,6 @@ import cn.royan.subtick.utils.TickPhase;
 import cn.royan.subtick.utils.Translations;
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
-import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;

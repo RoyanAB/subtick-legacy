@@ -5,7 +5,7 @@ import net.ornithemc.osl.entrypoints.api.client.ClientModInitializer;
 public class SubtickClientMod implements ClientModInitializer {
 
 	@Override
-	public void initClient(){
+	public void initClient() {
 
 	}
 }

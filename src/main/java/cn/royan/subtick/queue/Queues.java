@@ -111,7 +111,7 @@ public class Queues implements IQueues {
 		}
 		tickHandler.advancePhase(level);
 		// this clears block event highlights
-	    ServerNetworkHandler.sendTickStep(level, 0, tickHandler.targetPhase());
+		ServerNetworkHandler.sendTickStep(level, 0, tickHandler.targetPhase());
 		stepping = false;
 	}
 

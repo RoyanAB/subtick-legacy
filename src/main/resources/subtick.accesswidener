@@ -18,3 +18,5 @@ accessible field net/minecraft/server/world/ServerWorld server Lnet/minecraft/se
 accessible method net/minecraft/server/world/ServerWorld doBlockEvent (Lnet/minecraft/server/world/BlockEvent;)Z
 
 accessible field net/minecraft/nbt/NbtList elements Ljava/util/List;
+
+accessible field net/minecraft/client/Minecraft timer Lnet/minecraft/client/TickTimer;

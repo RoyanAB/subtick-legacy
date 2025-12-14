@@ -4,8 +4,6 @@ package cn.royan.subtick.helpers;
 import cn.royan.subtick.interfaces.ITickHandleable;
 import cn.royan.subtick.network.ServerNetworkHandler;
 import cn.royan.subtick.utils.Messenger;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.handler.CommandHandler;
 import net.minecraft.server.command.source.CommandSource;
@@ -16,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-public class ServerTickRateManager  {
+public class ServerTickRateManager {
 	private static final float MIN_TICKRATE = 0.01f;
 	protected float tickrate = 20.0f;
 	protected long mspt = 50L;

@@ -11,33 +11,33 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 public class ClientBlockEntityQueue {
-    private static boolean stepping;
-    private static final HashSet<BlockEntity> ticked_block_entities = new HashSet<>();
-    private static final HashSet<BlockPos> poses = new HashSet<>();
+	private static boolean stepping;
+	private static final HashSet<BlockEntity> ticked_block_entities = new HashSet<>();
+	private static final HashSet<BlockPos> poses = new HashSet<>();
 
-    private static void start(ClientWorld level) {
-        if (!level.pendingBlockEntities.isEmpty()) {
-            level.tickingBlockEntities.addAll(level.pendingBlockEntities);
-            level.pendingBlockEntities.clear();
-        }
-    }
+	private static void start(ClientWorld level) {
+		if (!level.pendingBlockEntities.isEmpty()) {
+			level.tickingBlockEntities.addAll(level.pendingBlockEntities);
+			level.pendingBlockEntities.clear();
+		}
+	}
 
-    public static void addPos(QueueElement element) {
-        poses.add(element.blockPos());
-    }
+	public static void addPos(QueueElement element) {
+		poses.add(element.blockPos());
+	}
 
-    public static void step(ClientWorld level) {
-        if (poses.isEmpty())
-            return;
+	public static void step(ClientWorld level) {
+		if (poses.isEmpty())
+			return;
 
-        if (!stepping) {
-            start(level);
-            stepping = true;
-            level.isTickingBlockEntities = true;
-        }
+		if (!stepping) {
+			start(level);
+			stepping = true;
+			level.isTickingBlockEntities = true;
+		}
 
-        Iterator<BlockEntity> iterator = new ArrayList<>(level.tickingBlockEntities).iterator();
-        while (iterator.hasNext()) {
+		Iterator<BlockEntity> iterator = new ArrayList<>(level.tickingBlockEntities).iterator();
+		while (iterator.hasNext()) {
 			BlockEntity blockEntity = iterator.next();
 			if (blockEntity.getPos() == null)
 				continue;
@@ -60,17 +60,17 @@ public class ClientBlockEntityQueue {
 				}
 				break;
 			}
-        }
-        poses.clear();
-    }
+		}
+		poses.clear();
+	}
 
-    public static boolean end(ClientWorld level) {
-        if (!stepping)
-            return false;
-        stepping = false;
+	public static boolean end(ClientWorld level) {
+		if (!stepping)
+			return false;
+		stepping = false;
 
-        Iterator<BlockEntity> iterator = new ArrayList<>(level.tickingBlockEntities).iterator();
-        while (iterator.hasNext()) {
+		Iterator<BlockEntity> iterator = new ArrayList<>(level.tickingBlockEntities).iterator();
+		while (iterator.hasNext()) {
 			BlockEntity blockEntity = iterator.next();
 
 			if (!ticked_block_entities.contains(blockEntity)) {
@@ -89,10 +89,10 @@ public class ClientBlockEntityQueue {
 					}
 				}
 			}
-        }
+		}
 
-        level.isTickingBlockEntities = false;
-        ticked_block_entities.clear();
-        return true;
-    }
+		level.isTickingBlockEntities = false;
+		ticked_block_entities.clear();
+		return true;
+	}
 }

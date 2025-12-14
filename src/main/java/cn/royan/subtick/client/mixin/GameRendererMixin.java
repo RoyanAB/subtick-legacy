@@ -9,15 +9,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin {
-	@Inject(
-		method = "render(IFJ)V",
-		at = @At(
-			value = "FIELD",
-			target = "Lnet/minecraft/client/render/GameRenderer;newCamPitch:Z"
-		)
-	)
-	private void render(int anaglyphRenderPass, float tickDelta, long renderTimeLimit, CallbackInfo ci)
-	{
-		LevelRenderer.render(tickDelta);
-	}
+    @Inject(
+            method = "render(IFJ)V",
+            at = @At(
+                    value = "FIELD",
+                    target = "Lnet/minecraft/client/render/GameRenderer;newCamPitch:Z"
+            )
+    )
+    private void render(int anaglyphRenderPass, float tickDelta, long renderTimeLimit, CallbackInfo ci) {
+        LevelRenderer.render(tickDelta);
+    }
 }

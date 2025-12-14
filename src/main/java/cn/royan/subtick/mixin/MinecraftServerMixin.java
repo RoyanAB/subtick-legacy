@@ -17,71 +17,71 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MinecraftServer.class)
 public class MinecraftServerMixin implements ITickHandleable {
-	@Shadow
-	public ServerWorld[] worlds;
-	@Unique
-	private TickHandler tickHandler;
+    @Shadow
+    public ServerWorld[] worlds;
+    @Unique
+    private TickHandler tickHandler;
 
-	@Unique
-	@Override
-	public TickHandler tickHandler() {
-		return this.tickHandler;
-	}
+    @Unique
+    @Override
+    public TickHandler tickHandler() {
+        return this.tickHandler;
+    }
 
-	@Inject(
-		method = "run",
-		at = @At(
-			value = "INVOKE",
-			shift = At.Shift.AFTER,
-			target = "Lnet/minecraft/server/MinecraftServer;init()Z"
-		)
-	)
-	private void addDim(CallbackInfo ci) {
-		TickPhase.reset();
-		for (ServerWorld world : this.worlds)
-			TickPhase.addDimension(world);
-	}
+    @Inject(
+            method = "run",
+            at = @At(
+                    value = "INVOKE",
+                    shift = At.Shift.AFTER,
+                    target = "Lnet/minecraft/server/MinecraftServer;init()Z"
+            )
+    )
+    private void addDim(CallbackInfo ci) {
+        TickPhase.reset();
+        for (ServerWorld world : this.worlds)
+            TickPhase.addDimension(world);
+    }
 
-	@Inject(
-		method = "<init>",
-		at = @At(
-			"RETURN"
-		)
-	)
-	private void onInit(CallbackInfo ci) {
-		tickHandler = new TickHandler((MinecraftServer)(Object)this);
-	}
+    @Inject(
+            method = "<init>",
+            at = @At(
+                    "RETURN"
+            )
+    )
+    private void onInit(CallbackInfo ci) {
+        tickHandler = new TickHandler((MinecraftServer) (Object) this);
+    }
 
-	@WrapWithCondition(
-		method = "tick",
-		at = @At(
-			value = "FIELD",
-			target = "Lnet/minecraft/server/MinecraftServer;ticks:I", opcode = 181 /* PUTFIELD */
-		)
-	)
-	public boolean wrapServerTickUpdate(MinecraftServer instance, int value) {
-		return this.tickHandler().frozen();
-	}
+    @WrapWithCondition(
+            method = "tick",
+            at = @At(
+                    value = "FIELD",
+                    target = "Lnet/minecraft/server/MinecraftServer;ticks:I", opcode = 181 /* PUTFIELD */
+            )
+    )
+    public boolean wrapServerTickUpdate(MinecraftServer instance, int value) {
+        return this.tickHandler().frozen();
+    }
 
-	@WrapWithCondition(
-		method = "tick",
-		at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/server/MinecraftServer;saveWorlds(Z)V"
-		)
-	)
-	public boolean wrapAutosave(MinecraftServer instance, boolean silent) {
-		return this.tickHandler().frozen();
-	}
+    @WrapWithCondition(
+            method = "tick",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/server/MinecraftServer;saveWorlds(Z)V"
+            )
+    )
+    public boolean wrapAutosave(MinecraftServer instance, boolean silent) {
+        return this.tickHandler().frozen();
+    }
 
-	@WrapWithCondition(
-		method = "tickWorlds",
-		at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/server/entity/EntityTracker;tick()V"
-		)
-	)
-	public boolean wrapEntityTracker(EntityTracker instance, @Local ServerWorld serverWorld) {
-		return tickHandler().shouldTick(serverWorld, TickPhase.ENTITY_TRACKER);
-	}
+    @WrapWithCondition(
+            method = "tickWorlds",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/server/entity/EntityTracker;tick()V"
+            )
+    )
+    public boolean wrapEntityTracker(EntityTracker instance, @Local ServerWorld serverWorld) {
+        return tickHandler().shouldTick(serverWorld, TickPhase.ENTITY_TRACKER);
+    }
 }
