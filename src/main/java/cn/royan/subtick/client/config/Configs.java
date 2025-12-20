@@ -9,8 +9,10 @@ import malilib.util.data.ModInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Configs{
-	public static final BooleanConfig SHOW_HUD = new BooleanConfig("showHUD", true, "Controls whether the hud is shown");
+public class Configs {
+	public static final BooleanConfig
+		SHOW_HUD = new BooleanConfig("showHUD", true, "Controls whether the hud is shown"),
+		SMOOTH_CLIENTANIMATIONS = new BooleanConfig("smoothClientAnimations", false, "Smooth client animations with low tps settings");
 	public static final ColorConfig
 		STEPPED_BG = new ColorConfig("steppedBG", "#80000000", "Background color for things already stepped through"),
 		STEPPED_TEXT = new ColorConfig("steppedText", "#FFAAAAAA", "Text color for things already stepped through"),
@@ -42,6 +44,7 @@ public class Configs{
 	static {
 		OPTIONS = ImmutableList.of(
 			SHOW_HUD,
+			SMOOTH_CLIENTANIMATIONS,
 			STEPPED_BG,
 			STEPPED_TEXT,
 			STEPPED_DEPTH,

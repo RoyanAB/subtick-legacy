@@ -1,6 +1,6 @@
 package cn.royan.subtick.utils;
 
-import cn.royan.subtick.Settings;
+import cn.royan.subtick.SubtickMod;
 import cn.royan.subtick.queue.TickingQueue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -47,7 +47,7 @@ public class Translations {
 
 
 	public static String[] tr(String key, TickPhase phase, Integer n) {
-		String t = (key.contains(".err") ? Settings.subtickErrorFormat : Settings.subtickTextFormat) + " ";
+		String t = (key.contains(".err") ? SubtickMod.settings.subtickErrorFormat : SubtickMod.settings.subtickTextFormat) + " ";
 		String tr = t + tr(key);
 
 		t = "\0" + t;
@@ -60,7 +60,7 @@ public class Translations {
 	}
 
 	public static String[] tr(String key, TickPhase phase) {
-		String t = (key.contains(".err") ? Settings.subtickErrorFormat : Settings.subtickTextFormat) + " ";
+		String t = (key.contains(".err") ? SubtickMod.settings.subtickErrorFormat : SubtickMod.settings.subtickTextFormat) + " ";
 		String tr = t + tr(key);
 
 		t = "\0" + t;
@@ -107,28 +107,28 @@ public class Translations {
 	}
 
 	public static String t(boolean err) {
-		return err ? Settings.subtickErrorFormat + " " : Settings.subtickTextFormat + " ";
+		return err ? SubtickMod.settings.subtickErrorFormat + " " : SubtickMod.settings.subtickTextFormat + " ";
 	}
 
 	public static String n(int x) {
-		return Settings.subtickNumberFormat + " " + x;
+		return SubtickMod.settings.subtickNumberFormat + " " + x;
 	}
 
 	public static String queue(TickingQueue queue) {
-		return Settings.subtickPhaseFormat + " " + queue.getName();
+		return SubtickMod.settings.subtickPhaseFormat + " " + queue.getName();
 	}
 
 	public static String queues(TickingQueue queue) {
-		return Settings.subtickPhaseFormat + " " + queue.getNamePlural();
+		return SubtickMod.settings.subtickPhaseFormat + " " + queue.getNamePlural();
 	}
 
 	public static String phase(TickPhase phase) {
-		return Settings.subtickPhaseFormat + " " + phase.getPhaseName();
+		return SubtickMod.settings.subtickPhaseFormat + " " + phase.getPhaseName();
 	}
 
 	public static String dim(TickPhase phase) {
 		String path = phase.getPath();
-		return Settings.subtickDimensionFormat + " " + path.substring(0, 1).toUpperCase() + path.substring(1)
-			+ "\0^" + Settings.subtickDimensionFormat + " " + path;
+		return SubtickMod.settings.subtickDimensionFormat + " " + path.substring(0, 1).toUpperCase() + path.substring(1)
+			+ "\0^" + SubtickMod.settings.subtickDimensionFormat + " " + path;
 	}
 }

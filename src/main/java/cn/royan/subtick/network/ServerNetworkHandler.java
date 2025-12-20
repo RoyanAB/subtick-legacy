@@ -1,12 +1,15 @@
 package cn.royan.subtick.network;
 
+import cn.royan.subtick.client.ClientNetworkHandler;
 import cn.royan.subtick.helpers.ServerTickRateManager;
 import cn.royan.subtick.interfaces.ITickHandleable;
+import cn.royan.subtick.interfaces.ITickHandler;
 import cn.royan.subtick.queue.QueueElement;
 import cn.royan.subtick.utils.TickPhase;
 import cn.royan.subtick.utils.Translations;
 import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.network.PacketByteBuf;
@@ -22,23 +25,22 @@ import java.util.Set;
 
 public class ServerNetworkHandler {
 
-	public static final String CARPET_CHANNEL = "carpet:hello";
-	public static final int HI = 69;
-	public static final int HELLO = 420;
-	public static final int DATA = 1;
+	public static final String CHANNEL = "subtick:hello";
+	public static final Set<ServerPlayerEntity> subTickPlayers = new HashSet<>();
 
-	public static final Set<ServerPlayerEntity> validCarpetPlayers = new HashSet<>();
+	public static void addPlayer(ServerPlayerEntity playerEntity) {
+		subTickPlayers.add(playerEntity);
+		ITickHandler tickHandler = ((ITickHandleable) playerEntity.getServer()).tickHandler();
+		sendFrozen(playerEntity, tickHandler.frozen(), tickHandler.currentPhase());
+	}
 
 	private static boolean tryClient(ServerWorld level, NbtCompound tag) {
-//		if (level.server.isDedicatedServer())
-//			return false;
-//
-//		FriendlyByteBuf packetBuf = new FriendlyByteBuf(Unpooled.buffer());
-//		packetBuf.writeVarInt(CarpetClient.DATA);
-//		packetBuf.writeNbt(tag);
-//		Minecraft minecraft = Minecraft.getInstance();
-//		ClientNetworkHandler.handleData(packetBuf, minecraft.player);
-		return false;
+		if (level.server.isDedicated())
+			return false;
+
+		Minecraft minecraft = Minecraft.getInstance();
+		ClientNetworkHandler.onServerData(tag, minecraft.player);
+		return true;
 	}
 
 	public static void sendNbt(ServerPlayerEntity player, NbtCompound tag, CommandSource actor) {
@@ -47,13 +49,10 @@ public class ServerNetworkHandler {
 			return;
 
 		PacketByteBuf packetBuf = new PacketByteBuf(Unpooled.buffer());
-		packetBuf.writeVarInt(DATA);
-		NbtCompound nbtCompound = new NbtCompound();
-		nbtCompound.put("Carpet", tag);
-		packetBuf.writeNbtCompound(nbtCompound);
+		packetBuf.writeNbtCompound(tag);
 
 		try {
-			player.networkHandler.sendPacket(new CustomPayloadS2CPacket(CARPET_CHANNEL, packetBuf));
+			player.networkHandler.sendPacket(new CustomPayloadS2CPacket(CHANNEL, packetBuf));
 		} catch (IllegalArgumentException e) {
 			Translations.m(actor, "queueCommand.err.packetSize");
 		}
@@ -65,13 +64,10 @@ public class ServerNetworkHandler {
 			return;
 
 		PacketByteBuf packetBuf = new PacketByteBuf(Unpooled.buffer());
-		packetBuf.writeVarInt(DATA);
-		NbtCompound nbtCompound = new NbtCompound();
-		nbtCompound.put("Carpet", tag);
-		packetBuf.writeNbtCompound(nbtCompound);
+		packetBuf.writeNbtCompound(tag);
 
 		try {
-			player.networkHandler.sendPacket(new CustomPayloadS2CPacket(CARPET_CHANNEL, packetBuf));
+			player.networkHandler.sendPacket(new CustomPayloadS2CPacket(CHANNEL, packetBuf));
 		} catch (IllegalArgumentException e) {
 		}
 	}
@@ -80,7 +76,7 @@ public class ServerNetworkHandler {
 		if (tryClient(level, tag))
 			return;
 
-		for (ServerPlayerEntity player : validCarpetPlayers) {
+		for (ServerPlayerEntity player : subTickPlayers) {
 			if (player.getServerWorld() != level) continue;
 
 			sendNbt(player, tag, actor);
@@ -91,7 +87,7 @@ public class ServerNetworkHandler {
 		if (tryClient(level, tag))
 			return;
 
-		for (ServerPlayerEntity player : validCarpetPlayers) {
+		for (ServerPlayerEntity player : subTickPlayers) {
 			if (player.getServerWorld() != level) continue;
 
 			sendNbt(player, tag);
@@ -99,7 +95,7 @@ public class ServerNetworkHandler {
 	}
 
 	public static void sendNbt(NbtCompound tag) {
-		for (ServerPlayerEntity player : validCarpetPlayers) {
+		for (ServerPlayerEntity player : subTickPlayers) {
 			sendNbt(player, tag);
 		}
 	}
@@ -133,7 +129,7 @@ public class ServerNetworkHandler {
 	}
 
 	public static void sendFrozen(ServerPlayerEntity player, boolean frozen, TickPhase tickPhase) {
-		if (!validCarpetPlayers.contains(player))
+		if (!subTickPlayers.contains(player))
 			return;
 
 		NbtCompound tag = new NbtCompound();

@@ -1,6 +1,5 @@
 package cn.royan.subtick.client.config;
 
-import cn.royan.subtick.utils.Translations;
 import com.google.common.collect.ImmutableList;
 import malilib.config.value.BaseOptionListConfigValue;
 import net.minecraft.client.Minecraft;

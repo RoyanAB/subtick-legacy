@@ -1,6 +1,6 @@
 package cn.royan.subtick.commands;
 
-import cn.royan.subtick.Settings;
+import cn.royan.subtick.SubtickMod;
 import cn.royan.subtick.helpers.ServerTickRateManager;
 import cn.royan.subtick.interfaces.ITickHandleable;
 import cn.royan.subtick.utils.Messenger;
@@ -37,10 +37,10 @@ public class TickCommand extends AbstractCommand {
 			String action = strings[0].toLowerCase();
 			switch (action) {
 				case "freeze":
-					toggleFreeze(commandSource, Settings.subtickDefaultPhase);
+					toggleFreeze(commandSource, SubtickMod.settings.subtickDefaultPhase);
 					break;
 				case "step":
-					step(commandSource, 1, Settings.subtickDefaultPhase);
+					step(commandSource, 1, SubtickMod.settings.subtickDefaultPhase);
 					break;
 				case "rate":
 					queryTps(commandSource);
@@ -63,15 +63,15 @@ public class TickCommand extends AbstractCommand {
 			if ("status".equalsIgnoreCase(strings[1])) {
 				freezeStatus(commandSource);
 			} else if ("on".equalsIgnoreCase(strings[1])) {
-				setFreeze(commandSource, Settings.subtickDefaultPhase, true);
+				setFreeze(commandSource, SubtickMod.settings.subtickDefaultPhase, true);
 			} else if ("off".equalsIgnoreCase(strings[1])) {
-				setFreeze(commandSource, Settings.subtickDefaultPhase, false);
+				setFreeze(commandSource, SubtickMod.settings.subtickDefaultPhase, false);
 			} else if (Arrays.asList(TickPhase.commandSuggestions).contains(strings[1]))
 				setFreeze(commandSource, strings[1], true);
 		}
 
 		if (strings.length == 2 && "step".equalsIgnoreCase(strings[0])) {
-			step(commandSource, MathHelper.clamp(Integer.parseInt(strings[1]), 1, 72000), Settings.subtickDefaultPhase);
+			step(commandSource, MathHelper.clamp(Integer.parseInt(strings[1]), 1, 72000), SubtickMod.settings.subtickDefaultPhase);
 		}
 
 		if (strings.length == 2 && "rate".equalsIgnoreCase(strings[0])) {

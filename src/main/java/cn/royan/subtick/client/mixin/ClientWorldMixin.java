@@ -9,13 +9,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientWorld.class)
 public class ClientWorldMixin {
-    @Inject(
-            method = "tick",
-            at = @At(
-                    "TAIL"
-            )
-    )
-    private void onTick(CallbackInfo ci) {
-        ClientTickHandler.onTick((ClientWorld) (Object) this);
-    }
+	@Inject(
+		method = "tick",
+		at = @At(
+			"TAIL"
+		)
+	)
+	private void onTick(CallbackInfo ci) {
+		ClientTickHandler.onTick((ClientWorld) (Object) this);
+	}
 }

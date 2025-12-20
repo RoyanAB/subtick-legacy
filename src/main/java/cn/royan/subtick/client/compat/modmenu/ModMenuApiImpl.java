@@ -6,13 +6,12 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 import malilib.gui.BaseScreen;
 
 public class ModMenuApiImpl implements ModMenuApi {
-    @Override
-    public ConfigScreenFactory<?> getModConfigScreenFactory()
-    {
-        return (currentScreen) -> {
-            BaseScreen screen = GuiConfig.create();
-            screen.setParent(currentScreen);
-            return screen;
-        };
-    }
+	@Override
+	public ConfigScreenFactory<?> getModConfigScreenFactory() {
+		return (currentScreen) -> {
+			BaseScreen screen = GuiConfig.create();
+			screen.setParent(currentScreen);
+			return screen;
+		};
+	}
 }

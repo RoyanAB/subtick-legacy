@@ -1,29 +1,28 @@
 package cn.royan.subtick;
 
-import cn.royan.subtick.network.ServerNetworkHandler;
 import cn.royan.subtick.utils.Translations;
-import net.minecraft.server.MinecraftServer;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.ornithemc.osl.entrypoints.api.ModInitializer;
-import net.ornithemc.osl.lifecycle.api.client.MinecraftClientEvents;
-import net.ornithemc.osl.lifecycle.api.server.MinecraftServerEvents;
-import net.ornithemc.osl.networking.api.server.ServerConnectionEvents;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class SubtickMod implements ModInitializer {
+	public static final Logger LOGGER = LogManager.getLogger("subtick");
 
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod name as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
-	public static final Logger LOGGER = LogManager.getLogger("Example Mod");
+	public static final String MOD_ID = "subtick";
+	public static String MOD_VERSION = "unknown";
+	public static String MOD_NAME = "unknown";
+
+	public static Settings settings;
 
 	@Override
 	public void init() {
-		ServerConnectionEvents.LOGIN.register((a, b) -> {
-			ServerNetworkHandler.validCarpetPlayers.add(b);
-		});
-		MinecraftServerEvents.READY.register((a) -> {
-			Translations.updateLanguage("en_us");
-		});
+		ModMetadata metadata = FabricLoader.getInstance().getModContainer(MOD_ID).orElseThrow(RuntimeException::new).getMetadata();
+		MOD_NAME = metadata.getName();
+		MOD_VERSION = metadata.getVersion().getFriendlyString();
+
+		settings = Settings.loadConfig(FabricLoader.getInstance().getConfigDir().resolve("subtick.json"));
+		Translations.updateLanguage(settings.language);
 	}
 }

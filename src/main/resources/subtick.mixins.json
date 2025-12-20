@@ -6,6 +6,7 @@
   "mixins": [
     "CommandManagerMixin",
     "MinecraftServerMixin",
+    "ServerPlayNetworkHandlerMixin",
     "freeze.LivingEntityMixin",
     "freeze.ServerWorldMixin",
     "freeze.ServerWorldMixin_entity",

@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameGui.class)
 public class GameGuiMixin {
-    @Inject(
+	@Inject(
 		method = "render",
 		at = @At(
 			value = "INVOKE",
@@ -18,7 +18,7 @@ public class GameGuiMixin {
 			target = "Lnet/minecraft/client/gui/GameGui;renderStatusEffects(Lnet/minecraft/client/render/Window;)V"
 		)
 	)
-    private void renderHud(float tickDelta, CallbackInfo ci) {
+	private void renderHud(float tickDelta, CallbackInfo ci) {
 		HudRenderer.render();
-    }
+	}
 }
