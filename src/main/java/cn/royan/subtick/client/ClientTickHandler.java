@@ -11,6 +11,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -101,8 +102,15 @@ public class ClientTickHandler {
 			ClientWorld level = mc.world;
 			level.entities.forEach((entity) -> ((IEntity) entity).setCGlowing(false));
 			for (int i = queueIndex1; i < queueIndex2; i++) {
-				QueueElement element = queue.get(i);
-				((IEntity) level.getEntity(element.x)).setCGlowing(true);
+				try {
+					QueueElement element = queue.get(i);
+					if (rangeCheck(new BlockPos(element.x, element.y, element.z), mc.player.getSourceBlockPos(), 64)) {
+						if (level.getEntity(element.depth) != null)
+							((IEntity) level.getEntity(element.depth)).setCGlowing(true);
+					}
+				} catch (Throwable e) {
+
+				}
 			}
 			return;
 		}
@@ -172,5 +180,15 @@ public class ClientTickHandler {
 
 		ClientBlockEntityQueue.step(level);
 		skip_block_entities = false;
+	}
+
+	public static boolean rangeCheck(BlockPos a, BlockPos b, long range) {
+		if (range == -2) return false;
+		if (range == -1) return true;
+
+		long x = a.getX() - b.getX();
+		long y = a.getY() - b.getY();
+		long z = a.getZ() - b.getZ();
+		return x * x + y * y + z * z <= range * range;
 	}
 }

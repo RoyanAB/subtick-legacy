@@ -60,7 +60,7 @@ public class QueueElement {
 	}
 
 	public QueueElement(Entity e) {
-		this(e.getName(), e.getNetworkId(), 0, 0, 0);
+		this(e.getName(), e.getSourceBlockPos().getX(), e.getSourceBlockPos().getY(), e.getSourceBlockPos().getZ(), e.getNetworkId());
 	}
 
 	public QueueElement(ScheduledTick t) {
