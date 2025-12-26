@@ -32,7 +32,7 @@ public class OnlineMappingProvider {
 	public static final String YARN_META_URL = "https://meta.ornithemc.net/v3/versions/feather/" + MINECRAFT_VERSION;
 	public static final String YARN_MAPPING_URL_BASE = "https://maven.ornithemc.net/releases/net/ornithemc/feather/";
 	public static final String MAPPINGS_JAR_LOCATION = "mappings/mappings.tiny";
-	public static final String STORAGE_DIRECTORY = String.format("./config/%s/mapping/", "spark");
+	public static final String STORAGE_DIRECTORY = String.format("./config/%s/mapping/", SubtickMod.MOD_ID);
 	public static final String YARN_VERSION_CACHE_FILE = STORAGE_DIRECTORY + "yarn_version.json";
 
 	private static String getMappingFileName(String yarnVersion) {
