@@ -1,6 +1,7 @@
 package cn.royan.subtick;
 
 import cn.royan.subtick.utils.Translations;
+import cn.royan.subtick.utils.deobfuscator.StackTraceDeobfuscator;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.ornithemc.osl.entrypoints.api.ModInitializer;
@@ -24,5 +25,6 @@ public class SubtickMod implements ModInitializer {
 
 		settings = Settings.loadConfig(FabricLoader.getInstance().getConfigDir().resolve("subtick.json"));
 		Translations.updateLanguage(settings.language);
+		StackTraceDeobfuscator.fetchMapping();
 	}
 }

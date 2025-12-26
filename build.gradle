@@ -29,6 +29,8 @@ dependencies {
 	modImplementation "malilib:malilib-ornithe-1.12.2:0.60.2"
 	modImplementation "com.terraformersmc:modmenu:0.3.1+mc1.12.2"
 
+	include(implementation("net.fabricmc:tiny-mappings-parser:0.3.0+build.17"))
+
 	ploceus.dependOsl(project.osl_version)
 }
 

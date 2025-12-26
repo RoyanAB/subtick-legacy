@@ -2,18 +2,18 @@
   "schemaVersion": 1,
   "id": "subtick",
   "version": "${version}",
-  "name": "SubTick",
+  "name": "SubTick-Legacy",
   "description": "A carpet extension allowing for finer tick step control.",
   "authors": [
     "lntricate",
     "AB"
   ],
   "contributors": [
-    "SpaceWalker"
+    "SpaceWalker",
+    "Fallen_Breath"
   ],
   "contact": {
-    "homepage": "https://example.com/",
-    "sources": "https://github.com/OrnitheMC/ornithe-template-mod"
+    "sources": "https://github.com/RoyanAB/subtick-legacy"
   },
   "license": "LGPLv3",
   "icon": "assets/subtick/icon.png",

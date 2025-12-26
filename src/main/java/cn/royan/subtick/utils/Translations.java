@@ -71,7 +71,7 @@ public class Translations {
 	}
 
 
-	public static String[] tr(String key, TickingQueue queue, Integer n) {
+	public static String[] tr(String key, TickingQueue queue, Integer n, StackTraceElement[] stackTraceElements) {
 		String t = t(key.contains(".err"));
 		String tr = t + tr(key);
 
@@ -82,6 +82,8 @@ public class Translations {
 		}
 		if (n != null)
 			tr = tr.replace("{n}", "\0" + n(n) + t);
+		if (stackTraceElements != null)
+			tr = tr.replace("{stack}", "\0" + stack(stackTraceElements) + t);
 
 		return tr.split("\0");
 	}
@@ -99,11 +101,15 @@ public class Translations {
 	}
 
 	public static void m(CommandSource source, String key, TickingQueue queue) {
-		Messenger.m(source, (Object[]) tr("subtick.feedback." + key, queue, null));
+		Messenger.m(source, (Object[]) tr("subtick.feedback." + key, queue, null, null));
 	}
 
 	public static void m(CommandSource source, String key, TickingQueue queue, int n) {
-		Messenger.m(source, (Object[]) tr("subtick.feedback." + key, queue, n));
+		Messenger.m(source, (Object[]) tr("subtick.feedback." + key, queue, n, null));
+	}
+
+	public static void m(CommandSource source, String key, TickingQueue queue, StackTraceElement[] stackTraceElements) {
+		Messenger.m(source, (Object[]) tr("subtick.feedback." + key, queue, null, stackTraceElements));
 	}
 
 	public static String t(boolean err) {
@@ -130,5 +136,14 @@ public class Translations {
 		String path = phase.getPath();
 		return SubtickMod.settings.subtickDimensionFormat + " " + path.substring(0, 1).toUpperCase() + path.substring(1)
 			+ "\0^" + SubtickMod.settings.subtickDimensionFormat + " " + path;
+	}
+
+	public static String stack(StackTraceElement[] stackTraceElements) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 2; i < stackTraceElements.length; i++) {
+			sb.append(stackTraceElements[i].toString()).append("\n");
+		}
+		return SubtickMod.settings.subtickErrorFormat + " StackTrace"
+			+ "\0^" + "w " + sb.toString();
 	}
 }

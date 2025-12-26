@@ -7,6 +7,7 @@ import cn.royan.subtick.queue.queues.BlockEventQueue;
 import cn.royan.subtick.utils.Messenger;
 import cn.royan.subtick.utils.TickPhase;
 import cn.royan.subtick.utils.Translations;
+import cn.royan.subtick.utils.deobfuscator.StackTraceDeobfuscator;
 import net.minecraft.server.command.source.CommandSource;
 import net.minecraft.server.world.BlockEvent;
 import net.minecraft.server.world.ServerWorld;
@@ -86,7 +87,7 @@ public class Queues implements IQueues {
 			sendFeedback(triple.getMiddle(), triple.getRight());
 		} catch (Exception e) {
 			e.printStackTrace();
-			Translations.m(actor, "queueCommand.err.crash", queue);
+			Translations.m(actor, "queueCommand.err.crash", queue, StackTraceDeobfuscator.deobfuscateStackTrace(e.getStackTrace()));
 		}
 
 		prev_queue = queue;
@@ -107,7 +108,7 @@ public class Queues implements IQueues {
 			prev_queue.exhausted = false;
 		} catch (Exception e) {
 			e.printStackTrace();
-			Translations.m(actor, "queueCommand.err.crash", queue);
+			Translations.m(actor, "queueCommand.err.crash", queue, StackTraceDeobfuscator.deobfuscateStackTrace(e.getStackTrace()));
 		}
 		tickHandler.advancePhase(level);
 		// this clears block event highlights
