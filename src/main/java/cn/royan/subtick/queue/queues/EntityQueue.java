@@ -26,7 +26,7 @@ public class EntityQueue extends TickingQueue {
 		super.start(level);
 		queue.clear();
 		for (Entity e : level.entities)
-			queue.add(new QueueElement(e));
+				queue.add(new QueueElement(e));
 		List<Entity> thisTickEntity = new ArrayList<>(level.entities);
 		iterator = thisTickEntity.iterator();
 	}
@@ -59,10 +59,8 @@ public class EntityQueue extends TickingQueue {
 
 				iterator.remove();
 				level.onEntityRemoved(entity);
-
-				queue.remove(new QueueElement(entity));
 			}
-			if (rangeCheck(entity.getSourceBlockPos(), pos, range) && !(entity instanceof ServerPlayerEntity))
+			if (rangeCheck(entity.getSourceBlockPos(), pos, range))
 				success_steps++;
 			executed_steps++;
 		}
