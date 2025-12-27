@@ -40,6 +40,7 @@
   "subtick.feedback.tickCommand.step.err.unloaded": "Tick step failed to complete; should end at {dim} {phase} phase, but that phase does not execute while the dimension is unloaded. Load {dim} to complete. Blame mojank",
   "subtick.feedback.queueCommand.err.packetSize": "Highlights not sent because packet size exceeds maximum. Step less at a time to see highlights.",
   "subtick.feedback.queueCommand.err.crash": "Crashed while stepping {queue} ({stack})",
+  "subtick.feedback.queueCommand.err.crashRunning": "Crashed while running",
   "subtick.feedback.queueCommand.err.exhausted": "{queue} queue exhausted",
   "subtick.feedback.queueCommand.success.single": "Stepped {n} {queue}",
   "subtick.feedback.queueCommand.success.single.exhausted": "Stepped {n} {queue} (queue exhausted)",

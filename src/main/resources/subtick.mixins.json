@@ -12,7 +12,8 @@
     "freeze.ServerWorldMixin_entity",
     "queue.ServerWorldMixin_blockevent",
     "queue.ServerWorldMixin_scheduledtick",
-    "rate.MinecraftServerMixin"
+    "rate.MinecraftServerMixin",
+    "yeetCrash.MinecraftServerMixin"
   ],
   "client": [
   ],

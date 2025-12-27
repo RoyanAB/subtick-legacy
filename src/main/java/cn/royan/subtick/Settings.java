@@ -24,6 +24,8 @@ public class Settings {
 
 	public String subtickErrorFormat = "ir";
 
+	public boolean subtickYeetCrash = true;
+
 	public String language = "en_us";
 
 	private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
