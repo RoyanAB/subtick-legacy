@@ -10,6 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 import java.util.Objects;
+import java.util.UUID;
 
 public class QueueElement {
 	public final String label;
@@ -17,15 +18,16 @@ public class QueueElement {
 	public int y;
 	public int z;
 	public int depth;
+	public UUID uuid;
 
 	@Override
 	public boolean equals(Object o) {
-		return ((QueueElement) o).x == x && ((QueueElement) o).y == y && ((QueueElement) o).z == z;
+		return ((QueueElement) o).x == x && ((QueueElement) o).y == y && ((QueueElement) o).z == z && ((QueueElement) o).uuid == uuid;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(x, y, z);
+		return Objects.hash(x, y, z, uuid);
 	}
 
 	public BlockPos blockPos() {
@@ -42,6 +44,7 @@ public class QueueElement {
 		this.y = y;
 		this.z = z;
 		this.depth = depth;
+		this.uuid = UUID.randomUUID();
 	}
 
 	private static String getLabelForBlockEvent(Block block, int a, int b) {
