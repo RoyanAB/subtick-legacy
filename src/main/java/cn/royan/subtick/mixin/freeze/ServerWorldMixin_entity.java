@@ -1,6 +1,7 @@
 package cn.royan.subtick.mixin.freeze;
 
 import cn.royan.subtick.interfaces.ITickHandleable;
+import cn.royan.subtick.interfaces.ServerWorldInterface;
 import cn.royan.subtick.utils.TickPhase;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.state.BlockState;
@@ -27,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import java.util.Iterator;
 
 @Mixin(ServerWorld.class)
-public abstract class ServerWorldMixin_entity extends World implements ITickHandleable {
+public abstract class ServerWorldMixin_entity extends World implements ITickHandleable, ServerWorldInterface {
 	protected ServerWorldMixin_entity(WorldStorage storage, WorldData data, Dimension dimension, Profiler profiler, boolean isClient) {
 		super(storage, data, dimension, profiler, isClient);
 	}
@@ -51,8 +52,8 @@ public abstract class ServerWorldMixin_entity extends World implements ITickHand
 		}
 		if (tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.BLOCK_ENTITY)) {
 			this.tickBlockEntities();
+			this.pendingBlockEntities();
 		}
-		this.pendingBlockEntities();
 		this.profiler.pop();
 	}
 
@@ -192,6 +193,7 @@ public abstract class ServerWorldMixin_entity extends World implements ITickHand
 	}
 
 	@Unique
+	@Override
 	public void pendingBlockEntities() {
 		this.profiler.swap("pendingBlockEntities");
 		if (!this.pendingBlockEntities.isEmpty()) {

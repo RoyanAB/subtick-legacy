@@ -1,5 +1,6 @@
 package cn.royan.subtick.queue.queues;
 
+import cn.royan.subtick.interfaces.ServerWorldInterface;
 import cn.royan.subtick.queue.QueueElement;
 import cn.royan.subtick.queue.TickingQueue;
 import cn.royan.subtick.utils.TickPhase;
@@ -24,14 +25,13 @@ public class BlockEntityQueue extends TickingQueue {
 	@Override
 	public void start(ServerWorld level) {
 		super.start(level);
-		level.isTickingBlockEntities = true;
 		if (!level.removedBlockEntities.isEmpty()) {
 			level.tickingBlockEntities.removeAll(level.removedBlockEntities);
 			level.blockEntities.removeAll(level.removedBlockEntities);
 			level.removedBlockEntities.clear();
 		}
-		List<BlockEntity> thisTickBlockEntity = new ArrayList<>(level.tickingBlockEntities);
-		iterator = thisTickBlockEntity.iterator();
+		level.isTickingBlockEntities = true;
+		iterator = level.tickingBlockEntities.iterator();
 
 		queue.clear();
 		for (BlockEntity be : level.tickingBlockEntities)
@@ -74,5 +74,6 @@ public class BlockEntityQueue extends TickingQueue {
 	@Override
 	public void end() {
 		level.isTickingBlockEntities = false;
+		((ServerWorldInterface) level).pendingBlockEntities();
 	}
 }
