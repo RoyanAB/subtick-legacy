@@ -40,6 +40,7 @@ public class EntityQueue extends TickingQueue {
 			Entity entity2 = entity.getMount();
 			if (entity2 != null) {
 				if (!entity2.removed && entity2.hasPassenger(entity)) {
+					executed_steps++;
 					continue;
 				}
 
