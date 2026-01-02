@@ -21,6 +21,8 @@ import net.minecraft.world.storage.WorldStorage;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.util.Iterator;
 
@@ -30,12 +32,14 @@ public abstract class ServerWorldMixin_entity extends World implements ITickHand
 		super(storage, data, dimension, profiler, isClient);
 	}
 
-	/**
-	 * @author AB
-	 * @reason To split tickEntities method
-	 */
-	@Overwrite
-	public void tickEntities() {
+	@Redirect(
+		method = "tickEntities",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/world/World;tickEntities()V"
+		)
+	)
+	public void splitTickEntities(World instance){
 		this.profiler.push("entities");
 		if (tickHandler().shouldTick((ServerWorld) (Object) this, TickPhase.GLOBAL_ENTITY)) {
 			this.tickGlobalEntities();

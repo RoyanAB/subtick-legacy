@@ -6,11 +6,17 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.living.player.PlayerEntity;
 import net.minecraft.util.Tickable;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(World.class)
 public abstract class WorldMixin {
+	@Shadow
+	@Final
+	public boolean isClient;
+
 	@WrapWithCondition(
 		method = "tickEntities",
 		at = @At(
@@ -20,7 +26,7 @@ public abstract class WorldMixin {
 		)
 	)
 	public boolean disableGlobalEntityTick0(Entity instance, int value) {
-		return ClientTickHandler.shouldTick() || instance instanceof PlayerEntity;
+		return ClientTickHandler.shouldTick() || instance instanceof PlayerEntity || !this.isClient;
 	}
 
 	@WrapWithCondition(
@@ -31,7 +37,7 @@ public abstract class WorldMixin {
 		)
 	)
 	public boolean disableGlobalEntityTick1(Entity instance) {
-		return ClientTickHandler.shouldTick() || instance instanceof PlayerEntity;
+		return ClientTickHandler.shouldTick() || instance instanceof PlayerEntity || !this.isClient;
 	}
 
 	@WrapWithCondition(
@@ -42,7 +48,7 @@ public abstract class WorldMixin {
 		)
 	)
 	public boolean disableRegularEntityTick(World instance, Entity entity) {
-		return ClientTickHandler.shouldTick() || entity instanceof PlayerEntity;
+		return ClientTickHandler.shouldTick() || entity instanceof PlayerEntity || !this.isClient;
 	}
 
 	@WrapWithCondition(
@@ -53,6 +59,6 @@ public abstract class WorldMixin {
 		)
 	)
 	public boolean disableRegularBlockEntityTick(Tickable instance) {
-		return !ClientTickHandler.skip_block_entities && ClientTickHandler.shouldTick();
+		return !ClientTickHandler.skip_block_entities && ClientTickHandler.shouldTick() || !this.isClient;
 	}
 }
