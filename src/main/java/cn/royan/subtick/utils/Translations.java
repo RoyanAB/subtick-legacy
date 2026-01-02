@@ -9,42 +9,35 @@ import net.minecraft.server.command.source.CommandSource;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class Translations {
 	private static Map<String, String> translationMap;
 
-	public static Map<String, String> getTranslationFromResourcePath(String path) {
-		String dataJSON;
-		try {
-			dataJSON = IOUtils.toString(
-				Objects.requireNonNull(Translations.class.getClassLoader().getResourceAsStream(path)),
-				StandardCharsets.UTF_8);
-		} catch (NullPointerException | IOException e) {
-			return null;
+	public static void getTranslationFromResourcePath(String lang) {
+		InputStream langFile = Translations.class.getClassLoader().getResourceAsStream(String.format("assets/subtick/lang/%s.json", lang));
+		if (langFile == null) {
+			if (lang.equals("en_us"))
+				return;
+			else
+				getTranslationFromResourcePath("en_us");
 		}
-		Gson gson = new GsonBuilder().enableComplexMapKeySerialization().create();
-		return gson.fromJson(dataJSON, new TypeToken<LinkedHashMap<String, String>>() {
-		}.getType());
-	}
-
-	public static void updateLanguage(String lang) {
-		Map<String, String> translations = getTranslationFromResourcePath(String.format("assets/subtick/lang/%s.json", lang));
-		translations.entrySet().removeIf(e -> e.getKey().startsWith("//"));
-		if (translations.isEmpty()) {
-			translationMap = null;
+		String jsonData;
+		try {
+			jsonData = IOUtils.toString(langFile, StandardCharsets.UTF_8);
+		} catch (IOException e) {
 			return;
 		}
-		translationMap = translations;
+		Gson gson = new GsonBuilder().setLenient().create(); // lenient allows for comments
+		translationMap = gson.fromJson(jsonData, new TypeToken<Map<String, String>>() {
+		}.getType());
 	}
 
 	public static String tr(String key) {
 		return translationMap == null ? key : translationMap.getOrDefault(key, key);
 	}
-
 
 	public static String[] tr(String key, TickPhase phase, Integer n) {
 		String t = (key.contains(".err") ? SubtickMod.settings.subtickErrorFormat : SubtickMod.settings.subtickTextFormat) + " ";
@@ -144,6 +137,6 @@ public class Translations {
 			sb.append(stackTraceElements[i].toString()).append("\n");
 		}
 		return SubtickMod.settings.subtickErrorFormat + " StackTrace"
-			+ "\0^" + "w " + sb.toString();
+			+ "\0^" + "w " + sb;
 	}
 }

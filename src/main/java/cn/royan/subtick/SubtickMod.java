@@ -24,7 +24,7 @@ public class SubtickMod implements ModInitializer {
 		MOD_VERSION = metadata.getVersion().getFriendlyString();
 
 		settings = Settings.loadConfig(FabricLoader.getInstance().getConfigDir().resolve("subtick.json"));
-		Translations.updateLanguage(settings.language);
+		Translations.getTranslationFromResourcePath(settings.language);
 		StackTraceDeobfuscator.fetchMapping();
 	}
 }
