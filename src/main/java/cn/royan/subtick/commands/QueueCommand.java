@@ -1,6 +1,6 @@
 package cn.royan.subtick.commands;
 
-import cn.royan.subtick.SubtickMod;
+import cn.royan.subtick.SubtickSettings;
 import cn.royan.subtick.interfaces.IQueues;
 import cn.royan.subtick.queue.TickingQueue;
 import net.minecraft.server.MinecraftServer;
@@ -11,6 +11,8 @@ import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+
+import static carpet.commands.CarpetAbstractCommand.canUseCommand;
 
 public class QueueCommand extends AbstractCommand {
 	@Override
@@ -27,32 +29,32 @@ public class QueueCommand extends AbstractCommand {
 	public void run(MinecraftServer minecraftServer, CommandSource source, String[] strings) throws CommandException {
 
 		if (strings.length == 1 && Arrays.asList(TickingQueue.commandKeys).contains(strings[0])) {
-			step(source, strings[0], "", 1, SubtickMod.settings.subtickDefaultRange, false);
+			step(source, strings[0], "", 1, SubtickSettings.subtickDefaultRange, false);
 		}
 
 		if (strings.length == 2 && Arrays.asList(TickingQueue.commandKeys).contains(strings[0])) {
 			if ("force".equalsIgnoreCase(strings[1]))
-				step(source, strings[0], "", 1, SubtickMod.settings.subtickDefaultRange, true);
-			step(source, strings[0], "", Integer.parseInt(strings[1]), SubtickMod.settings.subtickDefaultRange, false);
+				step(source, strings[0], "", 1, SubtickSettings.subtickDefaultRange, true);
+			step(source, strings[0], "", Integer.parseInt(strings[1]), SubtickSettings.subtickDefaultRange, false);
 		}
 
 		if (strings.length == 3 && Arrays.asList(TickingQueue.commandKeys).contains(strings[0])) {
 			Set<String> modes = TickingQueue.byCommandKey(strings[0]).getModes();
 			if ("force".equalsIgnoreCase(strings[2]))
-				step(source, strings[0], "", Integer.parseInt(strings[1]), SubtickMod.settings.subtickDefaultRange, true);
+				step(source, strings[0], "", Integer.parseInt(strings[1]), SubtickSettings.subtickDefaultRange, true);
 			if (modes.contains(strings[2]))
-				step(source, strings[0], strings[2], Integer.parseInt(strings[1]), SubtickMod.settings.subtickDefaultRange, false);
+				step(source, strings[0], strings[2], Integer.parseInt(strings[1]), SubtickSettings.subtickDefaultRange, false);
 		}
 
 		if (strings.length == 4 && Arrays.asList(TickingQueue.commandKeys).contains(strings[0])) {
 			if ("force".equalsIgnoreCase(strings[3]))
-				step(source, strings[0], strings[2], Integer.parseInt(strings[1]), SubtickMod.settings.subtickDefaultRange, true);
+				step(source, strings[0], strings[2], Integer.parseInt(strings[1]), SubtickSettings.subtickDefaultRange, true);
 		}
 	}
 
 	@Override
-	public int getRequiredPermissionLevel() {
-		return 2;
+	public boolean canUse(MinecraftServer server, CommandSource source) {
+		return canUseCommand(source, SubtickSettings.tickCommand);
 	}
 
 	@Override

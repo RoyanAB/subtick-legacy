@@ -1,6 +1,6 @@
 package cn.royan.subtick.utils;
 
-import cn.royan.subtick.SubtickMod;
+import cn.royan.subtick.SubtickSettings;
 import cn.royan.subtick.queue.TickingQueue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,16 +11,17 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.Map;
 
 public class Translations {
 	private static Map<String, String> translationMap;
 
-	public static void getTranslationFromResourcePath(String lang) {
+	public static Map<String, String> getTranslationFromResourcePath(String lang) {
 		InputStream langFile = Translations.class.getClassLoader().getResourceAsStream(String.format("assets/subtick/lang/%s.json", lang));
 		if (langFile == null) {
 			if (lang.equals("en_us"))
-				return;
+				return Collections.emptyMap();
 			else
 				getTranslationFromResourcePath("en_us");
 		}
@@ -28,11 +29,12 @@ public class Translations {
 		try {
 			jsonData = IOUtils.toString(langFile, StandardCharsets.UTF_8);
 		} catch (IOException e) {
-			return;
+			return Collections.emptyMap();
 		}
 		Gson gson = new GsonBuilder().setLenient().create(); // lenient allows for comments
 		translationMap = gson.fromJson(jsonData, new TypeToken<Map<String, String>>() {
 		}.getType());
+		return translationMap;
 	}
 
 	public static String tr(String key) {
@@ -40,7 +42,7 @@ public class Translations {
 	}
 
 	public static String[] tr(String key, TickPhase phase, Integer n) {
-		String t = (key.contains(".err") ? SubtickMod.settings.subtickErrorFormat : SubtickMod.settings.subtickTextFormat) + " ";
+		String t = (key.contains(".err") ? SubtickSettings.subtickErrorFormat : SubtickSettings.subtickTextFormat) + " ";
 		String tr = t + tr(key);
 
 		t = "\0" + t;
@@ -53,7 +55,7 @@ public class Translations {
 	}
 
 	public static String[] tr(String key, TickPhase phase) {
-		String t = (key.contains(".err") ? SubtickMod.settings.subtickErrorFormat : SubtickMod.settings.subtickTextFormat) + " ";
+		String t = (key.contains(".err") ? SubtickSettings.subtickErrorFormat : SubtickSettings.subtickTextFormat) + " ";
 		String tr = t + tr(key);
 
 		t = "\0" + t;
@@ -106,29 +108,29 @@ public class Translations {
 	}
 
 	public static String t(boolean err) {
-		return err ? SubtickMod.settings.subtickErrorFormat + " " : SubtickMod.settings.subtickTextFormat + " ";
+		return err ? SubtickSettings.subtickErrorFormat + " " : SubtickSettings.subtickTextFormat + " ";
 	}
 
 	public static String n(int x) {
-		return SubtickMod.settings.subtickNumberFormat + " " + x;
+		return SubtickSettings.subtickNumberFormat + " " + x;
 	}
 
 	public static String queue(TickingQueue queue) {
-		return SubtickMod.settings.subtickPhaseFormat + " " + queue.getName();
+		return SubtickSettings.subtickPhaseFormat + " " + queue.getName();
 	}
 
 	public static String queues(TickingQueue queue) {
-		return SubtickMod.settings.subtickPhaseFormat + " " + queue.getNamePlural();
+		return SubtickSettings.subtickPhaseFormat + " " + queue.getNamePlural();
 	}
 
 	public static String phase(TickPhase phase) {
-		return SubtickMod.settings.subtickPhaseFormat + " " + phase.getPhaseName();
+		return SubtickSettings.subtickPhaseFormat + " " + phase.getPhaseName();
 	}
 
 	public static String dim(TickPhase phase) {
 		String path = phase.getPath();
-		return SubtickMod.settings.subtickDimensionFormat + " " + path.substring(0, 1).toUpperCase() + path.substring(1)
-			+ "\0^" + SubtickMod.settings.subtickDimensionFormat + " " + path;
+		return SubtickSettings.subtickDimensionFormat + " " + path.substring(0, 1).toUpperCase() + path.substring(1)
+			+ "\0^" + SubtickSettings.subtickDimensionFormat + " " + path;
 	}
 
 	public static String stack(StackTraceElement[] stackTraceElements) {
@@ -136,7 +138,7 @@ public class Translations {
 		for (int i = 2; i < stackTraceElements.length; i++) {
 			sb.append(stackTraceElements[i].toString()).append("\n");
 		}
-		return SubtickMod.settings.subtickErrorFormat + " StackTrace"
+		return SubtickSettings.subtickErrorFormat + " StackTrace"
 			+ "\0^" + "w " + sb;
 	}
 }

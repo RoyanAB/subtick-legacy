@@ -1,5 +1,6 @@
 package cn.royan.subtick.commands;
 
+import cn.royan.subtick.SubtickSettings;
 import cn.royan.subtick.interfaces.ITickHandleable;
 import cn.royan.subtick.utils.TickPhase;
 import net.minecraft.server.MinecraftServer;
@@ -12,6 +13,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static carpet.commands.CarpetAbstractCommand.canUseCommand;
 
 public class PhaseCommand extends AbstractCommand {
 	@Override
@@ -44,8 +47,8 @@ public class PhaseCommand extends AbstractCommand {
 	}
 
 	@Override
-	public int getRequiredPermissionLevel() {
-		return 2;
+	public boolean canUse(MinecraftServer server, CommandSource source) {
+		return canUseCommand(source, SubtickSettings.tickCommand);
 	}
 
 	@Override

@@ -4,9 +4,9 @@
   "package": "cn.royan.subtick.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "CommandManagerMixin",
     "MinecraftServerMixin",
     "ServerPlayNetworkHandlerMixin",
+    "carpet.HudControllerMixin",
     "freeze.LivingEntityMixin",
     "freeze.ServerWorldMixin",
     "freeze.ServerWorldMixin_entity",

@@ -1,6 +1,6 @@
 package cn.royan.subtick.commands;
 
-import cn.royan.subtick.SubtickMod;
+import cn.royan.subtick.SubtickSettings;
 import cn.royan.subtick.helpers.ServerTickRateManager;
 import cn.royan.subtick.interfaces.ITickHandleable;
 import cn.royan.subtick.utils.Messenger;
@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static carpet.commands.CarpetAbstractCommand.canUseCommand;
+
 public class TickCommand extends AbstractCommand {
 	@Override
 	public String getName() {
@@ -37,10 +39,10 @@ public class TickCommand extends AbstractCommand {
 			String action = strings[0].toLowerCase();
 			switch (action) {
 				case "freeze":
-					toggleFreeze(commandSource, SubtickMod.settings.subtickDefaultPhase);
+					toggleFreeze(commandSource, SubtickSettings.subtickDefaultPhase);
 					break;
 				case "step":
-					step(commandSource, 1, SubtickMod.settings.subtickDefaultPhase);
+					step(commandSource, 1, SubtickSettings.subtickDefaultPhase);
 					break;
 				case "rate":
 					queryTps(commandSource);
@@ -63,15 +65,15 @@ public class TickCommand extends AbstractCommand {
 			if ("status".equalsIgnoreCase(strings[1])) {
 				freezeStatus(commandSource);
 			} else if ("on".equalsIgnoreCase(strings[1])) {
-				setFreeze(commandSource, SubtickMod.settings.subtickDefaultPhase, true);
+				setFreeze(commandSource, SubtickSettings.subtickDefaultPhase, true);
 			} else if ("off".equalsIgnoreCase(strings[1])) {
-				setFreeze(commandSource, SubtickMod.settings.subtickDefaultPhase, false);
+				setFreeze(commandSource, SubtickSettings.subtickDefaultPhase, false);
 			} else if (Arrays.asList(TickPhase.commandSuggestions).contains(strings[1]))
 				setFreeze(commandSource, strings[1], true);
 		}
 
 		if (strings.length == 2 && "step".equalsIgnoreCase(strings[0])) {
-			step(commandSource, MathHelper.clamp(Integer.parseInt(strings[1]), 1, 72000), SubtickMod.settings.subtickDefaultPhase);
+			step(commandSource, MathHelper.clamp(Integer.parseInt(strings[1]), 1, 72000), SubtickSettings.subtickDefaultPhase);
 		}
 
 		if (strings.length == 2 && "rate".equalsIgnoreCase(strings[0])) {
@@ -103,8 +105,8 @@ public class TickCommand extends AbstractCommand {
 	}
 
 	@Override
-	public int getRequiredPermissionLevel() {
-		return 2;
+	public boolean canUse(MinecraftServer server, CommandSource source) {
+		return canUseCommand(source, SubtickSettings.tickCommand);
 	}
 
 	@Override

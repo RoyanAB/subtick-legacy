@@ -1,6 +1,6 @@
 package cn.royan.subtick.mixin.yeetCrash;
 
-import cn.royan.subtick.SubtickMod;
+import cn.royan.subtick.SubtickSettings;
 import cn.royan.subtick.interfaces.ITickHandleable;
 import cn.royan.subtick.utils.Messenger;
 import cn.royan.subtick.utils.Translations;
@@ -15,7 +15,7 @@ public abstract class MinecraftServerMixin implements ITickHandleable {
 		method = "tick"
 	)
 	private void yeetCrashOnTickServer(Operation<Void> original) {
-		if (SubtickMod.settings.subtickYeetCrash) {
+		if (SubtickSettings.yeetCrash) {
 			try {
 				original.call();
 			} catch (Throwable t) {

@@ -19,8 +19,8 @@
   "icon": "assets/subtick/icon.png",
   "environment": "*",
   "entrypoints": {
-    "init": [
-      "cn.royan.subtick.SubtickMod"
+    "preLaunch": [
+      "cn.royan.subtick.SubtickMod::loadExtension"
     ],
     "client-init": [
       "cn.royan.subtick.client.SubtickClientMod"
@@ -37,6 +37,7 @@
   "depends": {
     "fabricloader": ">=0.14.21",
     "minecraft": "1.12.2",
-    "malilib": "*"
+    "malilib": "*",
+    "carpet": "*"
   }
 }
