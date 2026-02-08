@@ -5,8 +5,8 @@ import cn.royan.subtick.interfaces.ITickHandleable;
 import cn.royan.subtick.utils.TickPhase;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.server.EntityMap;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.entity.EntityTracker;
 import net.minecraft.server.world.ServerWorld;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -78,10 +78,10 @@ public class MinecraftServerMixin implements ITickHandleable {
 		method = "tickWorlds",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/server/entity/EntityTracker;tick()V"
+			target = "Lnet/minecraft/server/EntityMap;tick()V"
 		)
 	)
-	public boolean wrapEntityTracker(EntityTracker instance, @Local ServerWorld serverWorld) {
+	public boolean wrapEntityTracker(EntityMap instance, @Local ServerWorld serverWorld) {
 		return tickHandler().shouldTick(serverWorld, TickPhase.ENTITY_TRACKER);
 	}
 }

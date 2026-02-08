@@ -65,7 +65,7 @@ public abstract class ServerWorldMixin_entity extends World implements ITickHand
 			Entity entity = this.globalEntities.get(i);
 
 			try {
-				++entity.time;
+				++entity.ticks;
 				entity.tick();
 			} catch (Throwable throwable) {
 				CrashReport crashReport = CrashReport.of(throwable, "Ticking entity");
@@ -94,13 +94,13 @@ public abstract class ServerWorldMixin_entity extends World implements ITickHand
 			Entity entity = this.entitiesToRemove.get(i);
 			int j = entity.chunkX;
 			int k = entity.chunkZ;
-			if (entity.isLoaded && this.isChunkLoadedAt(j, k, true)) {
+			if (entity.inChunk && this.isChunkLoadedAt(j, k, true)) {
 				this.getChunkAt(j, k).removeEntity(entity);
 			}
 		}
 
 		for (int i = 0; i < this.entitiesToRemove.size(); ++i) {
-			this.onEntityRemoved(this.entitiesToRemove.get(i));
+			this.notifyEntityRemoved(this.entitiesToRemove.get(i));
 		}
 
 		this.entitiesToRemove.clear();
@@ -124,7 +124,7 @@ public abstract class ServerWorldMixin_entity extends World implements ITickHand
 			this.profiler.push("tick");
 			if (!entity.removed && !(entity instanceof ServerPlayerEntity)) {
 				try {
-					this.updateEntity(entity);
+					this.tickEntity(entity);
 				} catch (Throwable throwable2) {
 					CrashReport crashReport2 = CrashReport.of(throwable2, "Ticking entity");
 					CrashReportCategory crashReportCategory2 = crashReport2.addCategory("Entity being ticked");
@@ -138,12 +138,12 @@ public abstract class ServerWorldMixin_entity extends World implements ITickHand
 			if (entity.removed) {
 				int k = entity.chunkX;
 				int l = entity.chunkZ;
-				if (entity.isLoaded && this.isChunkLoadedAt(k, l, true)) {
+				if (entity.inChunk && this.isChunkLoadedAt(k, l, true)) {
 					this.getChunkAt(k, l).removeEntity(entity);
 				}
 
 				this.entities.remove(i--);
-				this.onEntityRemoved(entity);
+				this.notifyEntityRemoved(entity);
 			}
 
 			this.profiler.pop();

@@ -5,14 +5,14 @@ import cn.royan.subtick.client.config.AlignConfig;
 import cn.royan.subtick.client.config.Configs;
 import cn.royan.subtick.queue.QueueElement;
 import cn.royan.subtick.utils.TickPhase;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tessellator;
 import malilib.config.option.ColorConfig;
 import malilib.util.data.Color4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.TextRenderer;
+import net.minecraft.client.render.platform.GlStateManager;
+import net.minecraft.client.render.vertex.BufferBuilder;
+import net.minecraft.client.render.vertex.DefaultVertexFormat;
+import net.minecraft.client.render.vertex.Tesselator;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import org.apache.commons.lang3.tuple.Pair;
@@ -119,8 +119,8 @@ public class HudRenderer {
 		GlStateManager.disableTexture();
 		GlStateManager.enableBlend();
 
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferBuilder = tessellator.getBuilder();
+		Tesselator tessellator = Tesselator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
 		bufferBuilder.begin(7, DefaultVertexFormat.POSITION_COLOR);
 
 		drawTableB(bufferBuilder, x, y, h, wDim, ClientTickHandler.dimensions.size(), phase.dim);
@@ -145,8 +145,8 @@ public class HudRenderer {
 		GlStateManager.disableTexture();
 		GlStateManager.enableBlend();
 
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferBuilder = tessellator.getBuilder();
+		Tesselator tessellator = Tesselator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
 		bufferBuilder.begin(7, DefaultVertexFormat.POSITION_COLOR);
 
 		drawTableB(bufferBuilder, x, y, h, wDim, ClientTickHandler.dimensions.size(), phase.dim);

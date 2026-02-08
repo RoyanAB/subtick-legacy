@@ -53,7 +53,7 @@ public abstract class ServerWorldMixin {
 		method = "tick",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/world/Gamerules;getBoolean(Ljava/lang/String;)Z",
+			target = "Lnet/minecraft/world/GameRules;getBoolean(Ljava/lang/String;)Z",
 			ordinal = 1
 		)
 	)
@@ -94,7 +94,7 @@ public abstract class ServerWorldMixin {
 		method = "tick",
 		at = @At(
 			value = "INVOKE",
-			target = "Lnet/minecraft/world/Gamerules;getBoolean(Ljava/lang/String;)Z",
+			target = "Lnet/minecraft/world/GameRules;getBoolean(Ljava/lang/String;)Z",
 			ordinal = 2
 		)
 	)

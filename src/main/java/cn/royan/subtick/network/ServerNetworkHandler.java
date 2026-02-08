@@ -121,7 +121,7 @@ public class ServerNetworkHandler {
 			// Why is NBT like this? i know you can make a list of StringTags, but there seems to be no way of doing it in mojang code
 			NbtCompound element = new NbtCompound();
 			element.putString("d", dim);
-			listTag.add(element);
+			listTag.addElement(element);
 		}
 		tickingState.put("dims", listTag);
 		tag.put("TickingState", tickingState);
@@ -149,7 +149,7 @@ public class ServerNetworkHandler {
 		for (String dim : TickPhase.getDimensions()) {
 			NbtCompound element = new NbtCompound();
 			element.putString("d", dim);
-			listTag.add(element);
+			listTag.addElement(element);
 		}
 		tickingState.put("dims", listTag);
 		tag.put("TickingState", tickingState);
@@ -196,7 +196,7 @@ public class ServerNetworkHandler {
 			elementTag.putInt("y", element.y);
 			elementTag.putInt("z", element.z);
 			elementTag.putInt("d", element.depth);
-			list.add(elementTag);
+			list.addElement(elementTag);
 		}
 		for (QueueElement element : queue) {
 			NbtCompound elementTag = new NbtCompound();
@@ -205,7 +205,7 @@ public class ServerNetworkHandler {
 			elementTag.putInt("y", element.y);
 			elementTag.putInt("z", element.z);
 			elementTag.putInt("d", element.depth);
-			list.add(elementTag);
+			list.addElement(elementTag);
 		}
 		queueTag.put("queue", list);
 		queueTag.putInt("steps", steps);
@@ -227,7 +227,7 @@ public class ServerNetworkHandler {
 			elementTag.putInt("y", element.y);
 			elementTag.putInt("z", element.z);
 			elementTag.putInt("d", element.depth);
-			list.add(elementTag);
+			list.addElement(elementTag);
 		}
 		for (QueueElement element : queue) {
 			NbtCompound elementTag = new NbtCompound();
@@ -236,7 +236,7 @@ public class ServerNetworkHandler {
 			elementTag.putInt("y", element.y);
 			elementTag.putInt("z", element.z);
 			elementTag.putInt("d", element.depth);
-			list.add(elementTag);
+			list.addElement(elementTag);
 		}
 		tag.put("Queue", list);
 		sendNbt(level, tag);

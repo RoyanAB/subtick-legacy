@@ -1,7 +1,7 @@
 plugins {
 	id 'maven-publish'
-	id 'net.fabricmc.fabric-loom-remap' version '1.14-SNAPSHOT'
-	id 'ploceus' version '1.14-SNAPSHOT'
+	id 'net.fabricmc.fabric-loom-remap' version '1.15-SNAPSHOT'
+	id 'ploceus' version '1.15-SNAPSHOT'
 }
 
 base {
@@ -22,12 +22,10 @@ repositories {
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings ploceus.featherMappings(project.feather_build)
-	exceptions ploceus.raven(project.raven_build) // remove this line if not using exceptions patches
-	signatures ploceus.sparrow(project.sparrow_build) // remove this line if not using generics patches
 
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	modImplementation "malilib:malilib-ornithe-1.12.2:0.60.2"
-	modImplementation "com.terraformersmc:modmenu:0.3.1+mc1.12.2"
+	modImplementation "com.terraformersmc:modmenu:${project.mod_menu_version}"
+	modImplementation "malilib:malilib-ornithe-${project.minecraft_version}:${project.malilib_version}"
 
 	include(implementation("net.fabricmc:tiny-mappings-parser:0.3.0+build.17"))
 

@@ -53,7 +53,7 @@ public class Queues implements IQueues {
 
 	@Override
 	public void schedule(CommandSource c, TickingQueue newQueue, String modeKey, int count, BlockPos pos, int range, boolean force) {
-		level = (ServerWorld) c.getSourceWorld();
+		level = (ServerWorld) c.getCommandSourceWorld();
 		newQueue.setMode(modeKey);
 		TickPhase phase = new TickPhase(level, newQueue.getPhase());
 
