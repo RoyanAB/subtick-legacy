@@ -175,9 +175,9 @@ public class TickHandler implements ITickHandler {
 		}
 
 		state = State.FREEZING;
-		TickPhase tickPhase = new TickPhase((ServerWorld) c.getSourceWorld(), phase);
+		TickPhase tickPhase = new TickPhase((ServerWorld) c.getCommandSourceWorld(), phase);
 		targetPhase = tickPhase;
-		ServerNetworkHandler.sendFrozen((ServerWorld) c.getSourceWorld(), tickPhase);
+		ServerNetworkHandler.sendFrozen((ServerWorld) c.getCommandSourceWorld(), tickPhase);
 		Translations.m(c, "tickCommand.freeze.success", tickPhase);
 		return 1;
 	}
@@ -188,17 +188,17 @@ public class TickHandler implements ITickHandler {
 			case FROZEN:
 				state = State.UNFREEZING;
 				queues.scheduleEnd();
-				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getSourceWorld());
+				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getCommandSourceWorld());
 				Translations.m(c, "tickCommand.unfreeze.success");
 				return 1;
 			case FREEZING:
 				state = State.UNFROZEN;
-				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getSourceWorld());
+				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getCommandSourceWorld());
 				Translations.m(c, "tickCommand.unfreeze.success");
 				return 1;
 			case STEPPING:
 				state = State.UNFREEZING;
-				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getSourceWorld());
+				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getCommandSourceWorld());
 				Translations.m(c, "tickCommand.unfreeze.success");
 				return 1;
 			default:
@@ -215,9 +215,9 @@ public class TickHandler implements ITickHandler {
 		switch (state) {
 			case UNFROZEN:
 				state = State.FREEZING;
-				TickPhase tickPhase = new TickPhase((ServerWorld) c.getSourceWorld(), phase);
+				TickPhase tickPhase = new TickPhase((ServerWorld) c.getCommandSourceWorld(), phase);
 				targetPhase = tickPhase;
-				ServerNetworkHandler.sendFrozen((ServerWorld) c.getSourceWorld(), tickPhase);
+				ServerNetworkHandler.sendFrozen((ServerWorld) c.getCommandSourceWorld(), tickPhase);
 				Translations.m(c, "tickCommand.freeze.success", tickPhase);
 				return 1;
 
@@ -228,19 +228,19 @@ public class TickHandler implements ITickHandler {
 			case FROZEN:
 				state = State.UNFREEZING;
 				queues.scheduleEnd();
-				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getSourceWorld());
+				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getCommandSourceWorld());
 				Translations.m(c, "tickCommand.unfreeze.success");
 				return 1;
 
 			case FREEZING:
 				state = State.UNFROZEN;
-				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getSourceWorld());
+				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getCommandSourceWorld());
 				Translations.m(c, "tickCommand.unfreeze.success");
 				return 1;
 
 			case STEPPING:
 				state = State.UNFREEZING;
-				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getSourceWorld());
+				ServerNetworkHandler.sendUnfrozen((ServerWorld) c.getCommandSourceWorld());
 				Translations.m(c, "tickCommand.unfreeze.success");
 				return 1;
 		}
@@ -249,7 +249,7 @@ public class TickHandler implements ITickHandler {
 
 	@Override
 	public int step(CommandSource c, int ticks, int phase) {
-		TickPhase tickPhase = new TickPhase((ServerWorld) c.getSourceWorld(), phase);
+		TickPhase tickPhase = new TickPhase((ServerWorld) c.getCommandSourceWorld(), phase);
 		if (!canStep(c, ticks, tickPhase)) return 0;
 
 		if (ticks == 1)
@@ -263,7 +263,7 @@ public class TickHandler implements ITickHandler {
 		targetPhase = tickPhase;
 		if (ticks != 0 || !tickPhase.equals(currentPhase)) {
 			queues.scheduleEnd();
-			ServerNetworkHandler.sendTickStep((ServerWorld) c.getSourceWorld(), ticks, tickPhase);
+			ServerNetworkHandler.sendTickStep((ServerWorld) c.getCommandSourceWorld(), ticks, tickPhase);
 		}
 		return 1;
 	}
@@ -289,7 +289,7 @@ public class TickHandler implements ITickHandler {
 		targetPhase = phase;
 		if (ticks != 0 || !phase.equals(currentPhase)) {
 			queues.scheduleEnd();
-			ServerNetworkHandler.sendTickStep((ServerWorld) c.getSourceWorld(), ticks, phase);
+			ServerNetworkHandler.sendTickStep((ServerWorld) c.getCommandSourceWorld(), ticks, phase);
 		}
 		return 1;
 	}

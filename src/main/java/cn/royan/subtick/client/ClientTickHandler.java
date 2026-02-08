@@ -104,7 +104,7 @@ public class ClientTickHandler {
 			for (int i = queueIndex1; i < queueIndex2; i++) {
 				try {
 					QueueElement element = queue.get(i);
-					if (rangeCheck(new BlockPos(element.x, element.y, element.z), mc.player.getSourceBlockPos(), 64)) {
+					if (rangeCheck(new BlockPos(element.x, element.y, element.z), mc.player.getCommandSourceBlockPos(), 64)) {
 						if (level.getEntity(element.depth) != null)
 							((IEntity) level.getEntity(element.depth)).setCGlowing(true);
 					}

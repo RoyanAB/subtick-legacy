@@ -48,20 +48,20 @@ public class EntityQueue extends TickingQueue {
 			}
 
 			if (!entity.removed && !(entity instanceof ServerPlayerEntity)) {
-				level.updateEntity(entity);
+				level.tickEntity(entity);
 			}
 
 			if (entity.removed) {
 				int k = entity.chunkX;
 				int l = entity.chunkZ;
-				if (entity.isLoaded && level.isChunkLoadedAt(k, l, true)) {
+				if (entity.inChunk && level.isChunkLoadedAt(k, l, true)) {
 					level.getChunkAt(k, l).removeEntity(entity);
 				}
 
 				iterator.remove();
-				level.onEntityRemoved(entity);
+				level.notifyEntityRemoved(entity);
 			}
-			if (rangeCheck(entity.getSourceBlockPos(), pos, range))
+			if (rangeCheck(entity.getCommandSourceBlockPos(), pos, range))
 				success_steps++;
 			executed_steps++;
 		}

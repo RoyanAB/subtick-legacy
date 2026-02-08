@@ -1,11 +1,10 @@
 package cn.royan.subtick.client.render.shape;
 
 import cn.royan.subtick.client.render.interfaces.Text;
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.render.TextRenderer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
-
+import net.minecraft.client.render.platform.GlStateManager;
 import java.util.Objects;
 
 public class DepthLabel implements Text {

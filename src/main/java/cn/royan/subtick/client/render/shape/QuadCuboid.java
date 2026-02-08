@@ -1,9 +1,8 @@
 package cn.royan.subtick.client.render.shape;
 
 import cn.royan.subtick.client.render.interfaces.Quad;
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import malilib.util.data.Color4f;
-
+import net.minecraft.client.render.vertex.BufferBuilder;
 import java.util.Objects;
 
 public class QuadCuboid implements Quad {

@@ -7,12 +7,12 @@ import cn.royan.subtick.client.render.shape.DepthLabel;
 import cn.royan.subtick.client.render.shape.LineCuboid;
 import cn.royan.subtick.client.render.shape.QuadCuboid;
 import cn.royan.subtick.client.render.shape.TextBasic;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tessellator;
 import malilib.util.data.Color4f;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.render.platform.GlStateManager;
+import net.minecraft.client.render.vertex.BufferBuilder;
+import net.minecraft.client.render.vertex.DefaultVertexFormat;
+import net.minecraft.client.render.vertex.Tesselator;
 import net.minecraft.entity.living.player.PlayerEntity;
 
 import java.util.HashSet;
@@ -34,12 +34,12 @@ public class LevelRenderer {
 			GlStateManager.lineWidth(1.0F);
 
 			PlayerEntity playerEntity = mc.player;
-			double d = playerEntity.prevTickX + (playerEntity.x - playerEntity.prevTickX) * (double) tickDelta;
-			double e = playerEntity.prevTickY + (playerEntity.y - playerEntity.prevTickY) * (double) tickDelta;
-			double f = playerEntity.prevTickZ + (playerEntity.z - playerEntity.prevTickZ) * (double) tickDelta;
+			double d = playerEntity.prevX + (playerEntity.x - playerEntity.prevX) * (double) tickDelta;
+			double e = playerEntity.prevY + (playerEntity.y - playerEntity.prevY) * (double) tickDelta;
+			double f = playerEntity.prevZ + (playerEntity.z - playerEntity.prevZ) * (double) tickDelta;
 
-			Tessellator tessellator = Tessellator.getInstance();
-			BufferBuilder bufferBuilder = tessellator.getBuilder();
+			Tesselator tessellator = Tesselator.getInstance();
+			BufferBuilder bufferBuilder = tessellator.getBuffer();
 			bufferBuilder.begin(3, DefaultVertexFormat.POSITION_COLOR);
 			for (Line line : lines)
 				line.render(bufferBuilder, d, e, f);

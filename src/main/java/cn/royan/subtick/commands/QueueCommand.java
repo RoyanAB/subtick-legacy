@@ -75,7 +75,7 @@ public class QueueCommand extends AbstractCommand {
 	}
 
 	private static int step(CommandSource c, String commandKey, String modeKey, int count, int range, boolean force) {
-		IQueues.get(c).schedule(c, TickingQueue.byCommandKey(commandKey), modeKey, count, new BlockPos(c.getSourcePos()), range, force);
+		IQueues.get(c).schedule(c, TickingQueue.byCommandKey(commandKey), modeKey, count, new BlockPos(c.getCommandSourcePos()), range, force);
 		return 1;
 	}
 }
