@@ -17,6 +17,7 @@ import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.source.CommandSource;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
+import net.minecraft.server.integrated.IntegratedServer;
 import net.minecraft.server.world.ServerWorld;
 
 import java.util.ArrayList;
@@ -38,8 +39,12 @@ public class ServerNetworkHandler {
 		if (level.server.isDedicated())
 			return false;
 
+		if (((IntegratedServer) level.server).isPublished())
+			return false;
+
 		Minecraft minecraft = Minecraft.getInstance();
 		ClientNetworkHandler.onServerData(tag, minecraft.player);
+
 		return true;
 	}
 
