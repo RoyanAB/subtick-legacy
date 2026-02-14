@@ -8,11 +8,11 @@ import cn.royan.subtick.utils.TickPhase;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.command.AbstractCommand;
 import net.minecraft.server.command.exception.CommandException;
+import net.minecraft.server.command.exception.IncorrectUsageException;
 import net.minecraft.server.command.source.CommandSource;
 import net.minecraft.server.entity.living.player.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -33,6 +33,9 @@ public class TickCommand extends AbstractCommand {
 
 	@Override
 	public void run(MinecraftServer minecraftServer, CommandSource commandSource, String[] strings) throws CommandException {
+		if (strings.length == 0) {
+			throw new IncorrectUsageException(getUsage(commandSource));
+		}
 		if (strings.length == 1) {
 			String action = strings[0].toLowerCase();
 			switch (action) {
@@ -45,11 +48,8 @@ public class TickCommand extends AbstractCommand {
 				case "rate":
 					queryTps(commandSource);
 					break;
-//				case "superhot":
-//					toggleSuperHot(commandSource);
-//					break;
 				case "warp":
-					setWarp(commandSource, 0, null);
+					toggleWarp(commandSource);
 					break;
 				case "when":
 					freezeStatus(commandSource);
@@ -57,6 +57,7 @@ public class TickCommand extends AbstractCommand {
 				default:
 					break;
 			}
+			return;
 		}
 
 		if (strings.length == 2 && "freeze".equalsIgnoreCase(strings[0])) {
@@ -68,18 +69,22 @@ public class TickCommand extends AbstractCommand {
 				setFreeze(commandSource, SubtickMod.settings.subtickDefaultPhase, false);
 			} else if (Arrays.asList(TickPhase.commandSuggestions).contains(strings[1]))
 				setFreeze(commandSource, strings[1], true);
+			return;
 		}
 
 		if (strings.length == 2 && "step".equalsIgnoreCase(strings[0])) {
-			step(commandSource, MathHelper.clamp(Integer.parseInt(strings[1]), 1, 72000), SubtickMod.settings.subtickDefaultPhase);
+			step(commandSource, parseInt(strings[1], 1, 72000), SubtickMod.settings.subtickDefaultPhase);
+			return;
 		}
 
 		if (strings.length == 2 && "rate".equalsIgnoreCase(strings[0])) {
-			setTps(commandSource, MathHelper.clamp(Float.parseFloat(strings[1]), 0.1F, 500.0F));
+			setTps(commandSource, (float) parseDouble(strings[1], 0.1F, 500.0F));
+			return;
 		}
 
 		if (strings.length == 2 && "warp".equalsIgnoreCase(strings[0])) {
-			setWarp(commandSource, Math.max(Integer.parseInt(strings[1]), 1), null);
+			setWarp(commandSource, parseInt(strings[1], 1), null);
+			return;
 		}
 
 		if (
@@ -88,17 +93,19 @@ public class TickCommand extends AbstractCommand {
 				Arrays.asList(TickPhase.commandSuggestions).contains(strings[2])
 		) {
 			setFreeze(commandSource, strings[2], true);
+			return;
 		}
 
 		if (
 			strings.length == 3 && "step".equalsIgnoreCase(strings[0]) &&
 				Arrays.asList(TickPhase.commandSuggestions).contains(strings[2])
 		) {
-			step(commandSource, MathHelper.clamp(Integer.parseInt(strings[1]), 1, 72000), strings[2]);
+			step(commandSource, parseInt(strings[1], 1, 72000), strings[2]);
+			return;
 		}
 
 		if (strings.length == 3 && "warp".equalsIgnoreCase(strings[0])) {
-			setWarp(commandSource, Math.max(Integer.parseInt(strings[1]), 1), strings[2]);
+			setWarp(commandSource, parseInt(strings[1], 1), strings[2]);
 		}
 	}
 
@@ -110,12 +117,11 @@ public class TickCommand extends AbstractCommand {
 	@Override
 	public List<String> getSuggestions(MinecraftServer minecraftServer, CommandSource commandSource, String[] strings, @Nullable BlockPos blockPos) {
 		if (strings.length == 1) {
-			return suggestMatching(strings, Arrays.asList(
+			return suggestMatching(strings,
 				"freeze",
 				"step",
 				"rate",
-//				"superhot",
-				"warp"));
+				"warp");
 		} else if (strings.length == 2) {
 			if ("freeze".equalsIgnoreCase(strings[0])) {
 				ArrayList<String> suggestions = new ArrayList<>(Arrays.asList(TickPhase.commandSuggestions));
@@ -123,16 +129,16 @@ public class TickCommand extends AbstractCommand {
 				return suggestMatching(strings, suggestions);
 			}
 			if ("step".equalsIgnoreCase(strings[0]))
-				return suggestMatching(strings, Collections.singletonList("20"));
+				return suggestMatching(strings, "20");
 			if ("rate".equalsIgnoreCase(strings[0]))
-				return suggestMatching(strings, Collections.singletonList("20"));
+				return suggestMatching(strings, "20");
 			if ("warp".equalsIgnoreCase(strings[0]))
-				return suggestMatching(strings, Arrays.asList("3600", "72000"));
+				return suggestMatching(strings, "3600", "72000");
 		} else if (strings.length == 3) {
 			if ("freeze".equalsIgnoreCase(strings[0]) && "on".equalsIgnoreCase(strings[1]))
-				return suggestMatching(strings, Arrays.asList(TickPhase.commandSuggestions));
+				return suggestMatching(strings, TickPhase.commandSuggestions);
 			if ("step".equalsIgnoreCase(strings[0]))
-				return suggestMatching(strings, Arrays.asList(TickPhase.commandSuggestions));
+				return suggestMatching(strings, TickPhase.commandSuggestions);
 			return Collections.emptyList();
 		}
 		return Collections.emptyList();
@@ -176,16 +182,15 @@ public class TickCommand extends AbstractCommand {
 		return (int) trm.tickrate();
 	}
 
-//	private static int toggleSuperHot(CommandSource source) {
-//		ServerTickRateManager trm = ((MinecraftServerInterface) source.getServer()).getTickRateManager();
-//		trm.setSuperHot(!trm.isSuperHot());
-//		if (trm.isSuperHot()) {
-//			Messenger.m(source, "gi Superhot enabled");
-//		} else {
-//			Messenger.m(source, "gi Superhot disabled");
-//		}
-//		return 1;
-//	}
+	private static int toggleWarp(CommandSource source) {
+		ServerTickRateManager trm = ((ITickHandleable) source.getServer()).tickHandler().serverTickRateManager;
+		if (trm.isInWarpSpeed()) {
+			setWarp(source, 0, null);
+		} else {
+			setWarp(source, Integer.MAX_VALUE, null);
+		}
+		return 1;
+	}
 
 	private static int setWarp(CommandSource source, int advance, String tail_command) {
 		ServerPlayerEntity player;

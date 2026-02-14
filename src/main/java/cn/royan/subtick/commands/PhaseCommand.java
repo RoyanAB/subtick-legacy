@@ -28,17 +28,22 @@ public class PhaseCommand extends AbstractCommand {
 	public void run(MinecraftServer minecraftServer, CommandSource source, String[] strings) throws CommandException {
 		if (strings.length == 0) {
 			((ITickHandleable) source.getServer()).tickHandler().phaseStep(source, 1);
+			return;
 		}
 
 		if (strings.length == 1) {
 			if (Arrays.asList(TickPhase.commandSuggestions).contains(strings[0])) {
 				((ITickHandleable) source.getServer()).tickHandler().stepToPhase(source, TickPhase.byCommandKey(strings[0]), false);
 			} else {
-				((ITickHandleable) source.getServer()).tickHandler().phaseStep(source, Integer.parseInt(strings[0]));
+				((ITickHandleable) source.getServer()).tickHandler().phaseStep(source, parseInt(strings[0], 1));
 			}
+			return;
 		}
 
-		if (strings.length == 2 && Arrays.asList(TickPhase.commandSuggestions).contains(strings[0])) {
+		if (strings.length == 2 &&
+			Arrays.asList(TickPhase.commandSuggestions).contains(strings[0]) &&
+			strings[1].equalsIgnoreCase("force")
+		) {
 			((ITickHandleable) source.getServer()).tickHandler().stepToPhase(source, TickPhase.byCommandKey(strings[0]), true);
 		}
 	}
@@ -51,10 +56,10 @@ public class PhaseCommand extends AbstractCommand {
 	@Override
 	public List<String> getSuggestions(MinecraftServer minecraftServer, CommandSource commandSource, String[] strings, @Nullable BlockPos blockPos) {
 		if (strings.length == 1) {
-			return suggestMatching(strings, Arrays.asList(TickPhase.commandSuggestions));
+			return suggestMatching(strings, TickPhase.commandSuggestions);
 		} else if (strings.length == 2) {
 			if (Arrays.asList(TickPhase.commandSuggestions).contains(strings[0])) {
-				return suggestMatching(strings, Collections.singletonList("force"));
+				return suggestMatching(strings, "force");
 			}
 		}
 		return Collections.emptyList();
