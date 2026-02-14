@@ -47,15 +47,11 @@ public class SubtickMod implements ModInitializer {
 		return commandSource.canUseCommand(2, name);
 	}
 
-	;
-
 	public static String subtickDefaultPhase() {
 		if (hasCarpet)
 			return CarpetSettings.subtickDefaultPhase;
 		return settings.subtickDefaultPhase;
 	}
-
-	;
 
 	public static String subtickTextFormat() {
 		if (hasCarpet)
@@ -63,17 +59,11 @@ public class SubtickMod implements ModInitializer {
 		return settings.subtickTextFormat;
 	}
 
-	;
-
-
 	public static String subtickNumberFormat() {
 		if (hasCarpet)
 			return CarpetSettings.subtickNumberFormat;
 		return settings.subtickNumberFormat;
 	}
-
-	;
-
 
 	public static String subtickPhaseFormat() {
 		if (hasCarpet)
@@ -81,17 +71,11 @@ public class SubtickMod implements ModInitializer {
 		return settings.subtickPhaseFormat;
 	}
 
-	;
-
-
 	public static String subtickDimensionFormat() {
 		if (hasCarpet)
 			return CarpetSettings.subtickDimensionFormat;
 		return settings.subtickDimensionFormat;
 	}
-
-	;
-
 
 	public static String subtickErrorFormat() {
 		if (hasCarpet)
@@ -99,24 +83,16 @@ public class SubtickMod implements ModInitializer {
 		return settings.subtickErrorFormat;
 	}
 
-	;
-
-
 	public static int subtickDefaultRange() {
 		if (hasCarpet)
 			return CarpetSettings.subtickDefaultRange;
 		return settings.subtickDefaultRange;
 	}
 
-	;
-
-
 	public static boolean yeetCrash() {
 		if (hasCarpet)
 			return CarpetSettings.yeetCrash;
 		return settings.subtickYeetCrash;
 	}
-
-	;
 
 }
