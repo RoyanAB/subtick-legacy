@@ -3,10 +3,12 @@
   "minVersion": "0.8",
   "package": "cn.royan.subtick.mixin",
   "compatibilityLevel": "JAVA_8",
+  "plugin": "cn.royan.subtick.SubtickMixinPlugin",
   "mixins": [
     "CommandManagerMixin",
     "MinecraftServerMixin",
     "ServerPlayNetworkHandlerMixin",
+    "carpet.HudControllerMixin",
     "freeze.LivingEntityMixin",
     "freeze.ServerWorldMixin",
     "freeze.ServerWorldMixin_entity",

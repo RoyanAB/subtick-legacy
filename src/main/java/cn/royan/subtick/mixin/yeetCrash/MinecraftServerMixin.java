@@ -15,7 +15,7 @@ public abstract class MinecraftServerMixin implements ITickHandleable {
 		method = "tick"
 	)
 	private void yeetCrashOnTickServer(Operation<Void> original) {
-		if (SubtickMod.settings.subtickYeetCrash) {
+		if (SubtickMod.yeetCrash()) {
 			try {
 				original.call();
 			} catch (Throwable t) {

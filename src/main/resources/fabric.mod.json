@@ -25,6 +25,9 @@
     "client-init": [
       "cn.royan.subtick.client.SubtickClientMod"
     ],
+    "preLaunch": [
+      "cn.royan.subtick.SubtickMod::preLaunch"
+    ],
     "modmenu": [
       "cn.royan.subtick.client.compat.modmenu.ModMenuApiImpl"
     ]

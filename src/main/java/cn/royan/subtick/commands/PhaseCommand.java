@@ -1,5 +1,6 @@
 package cn.royan.subtick.commands;
 
+import cn.royan.subtick.SubtickMod;
 import cn.royan.subtick.interfaces.ITickHandleable;
 import cn.royan.subtick.utils.TickPhase;
 import net.minecraft.server.MinecraftServer;
@@ -49,8 +50,8 @@ public class PhaseCommand extends AbstractCommand {
 	}
 
 	@Override
-	public int getRequiredPermissionLevel() {
-		return 2;
+	public boolean canUse(MinecraftServer server, CommandSource source) {
+		return SubtickMod.tickCommand(source, this.getName());
 	}
 
 	@Override

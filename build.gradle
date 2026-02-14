@@ -28,6 +28,7 @@ dependencies {
 	modImplementation "malilib:malilib-ornithe-${project.minecraft_version}:${project.malilib_version}"
 
 	include(implementation("net.fabricmc:tiny-mappings-parser:0.3.0+build.17"))
+	modImplementation files('lib/ornithe-carpet-0.1.0+mc1.12.2-tickcommanddeleted.jar')
 
 	ploceus.dependOsl(project.osl_version)
 }

@@ -1,4 +1,4 @@
-package cn.royan.subtick;
+package cn.royan.subtick.setting;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

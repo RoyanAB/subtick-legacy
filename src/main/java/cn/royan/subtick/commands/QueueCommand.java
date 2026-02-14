@@ -31,35 +31,35 @@ public class QueueCommand extends AbstractCommand {
 		}
 
 		if (strings.length == 1 && Arrays.asList(TickingQueue.commandKeys).contains(strings[0])) {
-			step(commandSource, strings[0], "", 1, SubtickMod.settings.subtickDefaultRange, false);
+			step(commandSource, strings[0], "", 1, SubtickMod.subtickDefaultRange(), false);
 			return;
 		}
 
 		if (strings.length == 2 && Arrays.asList(TickingQueue.commandKeys).contains(strings[0])) {
 			if ("force".equalsIgnoreCase(strings[1]))
-				step(commandSource, strings[0], "", 1, SubtickMod.settings.subtickDefaultRange, true);
-			step(commandSource, strings[0], "", parseInt(strings[1], 1), SubtickMod.settings.subtickDefaultRange, false);
+				step(commandSource, strings[0], "", 1, SubtickMod.subtickDefaultRange(), true);
+			step(commandSource, strings[0], "", parseInt(strings[1], 1), SubtickMod.subtickDefaultRange(), false);
 			return;
 		}
 
 		if (strings.length == 3 && Arrays.asList(TickingQueue.commandKeys).contains(strings[0])) {
 			Set<String> modes = TickingQueue.byCommandKey(strings[0]).getModes();
 			if ("force".equalsIgnoreCase(strings[2]))
-				step(commandSource, strings[0], "", parseInt(strings[1], 1), SubtickMod.settings.subtickDefaultRange, true);
+				step(commandSource, strings[0], "", parseInt(strings[1], 1), SubtickMod.subtickDefaultRange(), true);
 			if (modes.contains(strings[2]))
-				step(commandSource, strings[0], strings[2], parseInt(strings[1], 1), SubtickMod.settings.subtickDefaultRange, false);
+				step(commandSource, strings[0], strings[2], parseInt(strings[1], 1), SubtickMod.subtickDefaultRange(), false);
 			return;
 		}
 
 		if (strings.length == 4 && Arrays.asList(TickingQueue.commandKeys).contains(strings[0])) {
 			if ("force".equalsIgnoreCase(strings[3]))
-				step(commandSource, strings[0], strings[2], parseInt(strings[1], 1), SubtickMod.settings.subtickDefaultRange, true);
+				step(commandSource, strings[0], strings[2], parseInt(strings[1], 1), SubtickMod.subtickDefaultRange(), true);
 		}
 	}
 
 	@Override
-	public int getRequiredPermissionLevel() {
-		return 2;
+	public boolean canUse(MinecraftServer server, CommandSource source) {
+		return SubtickMod.tickCommand(source, this.getName());
 	}
 
 	@Override
