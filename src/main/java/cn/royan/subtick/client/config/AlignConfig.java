@@ -45,21 +45,21 @@ public class AlignConfig extends BaseOptionListConfigValue {
 	}
 
 	public int getX(int w) {
-		return (int) (x * (getScaledWindowHeight() - w));
+		return x * ((getGuiScaledWidth() - w) / 2);
 	}
 
 	public int getY(int h) {
-		return (int) (y * ((getScaledWindowWidth() - h) / 4));
+		return y * ((getGuiScaledHeight() - h) / 2);
 	}
 
-	public static double getScaledWindowWidth() {
+	public static int getGuiScaledWidth() {
 		Window sr = new Window(Minecraft.getInstance());
-		return sr.getScaledWidth();
+		return sr.getWidth();
 	}
 
-	public static double getScaledWindowHeight() {
+	public static int getGuiScaledHeight() {
 		Window sr = new Window(Minecraft.getInstance());
-		return sr.getScaledHeight();
+		return sr.getHeight();
 	}
 
 }
