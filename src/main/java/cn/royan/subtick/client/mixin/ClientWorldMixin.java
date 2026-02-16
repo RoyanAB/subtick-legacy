@@ -29,7 +29,7 @@ public class ClientWorldMixin {
 		)
 	)
 	public boolean wrapClientWorldTimeUpdate(ClientWorld instance, long l) {
-		return !ClientTickHandler.frozen;
+		return ClientTickHandler.shouldTick();
 	}
 
 	@ModifyExpressionValue(
@@ -41,7 +41,7 @@ public class ClientWorldMixin {
 		)
 	)
 	private boolean wrapClientDayTimeUpdate(boolean original) {
-		if (!ClientTickHandler.frozen) {
+		if (ClientTickHandler.shouldTick()) {
 			return original;
 		}
 		return false;
