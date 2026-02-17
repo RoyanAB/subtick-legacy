@@ -9,9 +9,9 @@ name: Gradle Package
 
 on:
   push:
-    branches: [ merge ]
+    branches: [ gen2/merge ]
   pull_request:
-    branches: [ merge ]
+    branches: [ gen2/merge ]
   workflow_dispatch:
 
 jobs:
