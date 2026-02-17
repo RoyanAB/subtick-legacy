@@ -1,6 +1,6 @@
 plugins {
 	id 'maven-publish'
-	id 'net.fabricmc.fabric-loom-remap' version '1.15-SNAPSHOT'
+	id 'fabric-loom' version '1.15-SNAPSHOT'
 	id 'ploceus' version '1.15-SNAPSHOT'
 }
 
@@ -9,6 +9,10 @@ base {
 }
 version = "${project.version}+mc${project.minecraft_version}"
 group = project.maven_group
+
+ploceus {
+	setIntermediaryGeneration(2)
+}
 
 repositories {
 	// Add repositories to retrieve artifacts from in here.
@@ -25,10 +29,9 @@ dependencies {
 
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "com.terraformersmc:modmenu:${project.mod_menu_version}"
-	modImplementation "malilib:malilib-ornithe-${project.minecraft_version}:${project.malilib_version}"
 
 	include(implementation("net.fabricmc:tiny-mappings-parser:0.3.0+build.17"))
-	modImplementation files('lib/ornithe-carpet-0.1.0+mc1.12.2-tickcommanddeleted.jar')
+	modImplementation files('lib/malilib-ornithe-1.12.2-0.60.2.jar')
 
 	ploceus.dependOsl(project.osl_version)
 }
