@@ -46,12 +46,6 @@ public class BlockEntityQueue extends TickingQueue {
 		while (success_steps < count && iterator.hasNext()) {
 			BlockEntity blockEntity = iterator.next();
 			BlockPos tpos = blockEntity.getPos();
-			if (tpos == null) {
-				queue.remove(new QueueElement(blockEntity));
-				continue;
-			} else if (rangeCheck(tpos, pos, range))
-				success_steps++;
-			executed_steps++;
 
 			if (!blockEntity.isRemoved() && blockEntity.hasWorld()) {
 				BlockPos blockPos = blockEntity.getPos();
@@ -67,6 +61,10 @@ public class BlockEntityQueue extends TickingQueue {
 					level.getChunk(blockEntity.getPos()).removeBlockEntity(blockEntity.getPos());
 				}
 			}
+
+			if (rangeCheck(tpos, pos, range))
+				success_steps++;
+			executed_steps++;
 		}
 		return Triple.of(executed_steps, success_steps, exhausted = !iterator.hasNext());
 	}
