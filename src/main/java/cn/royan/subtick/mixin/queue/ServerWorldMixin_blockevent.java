@@ -2,6 +2,7 @@ package cn.royan.subtick.mixin.queue;
 
 import cn.royan.subtick.helpers.TickHandler;
 import cn.royan.subtick.interfaces.ITickHandleable;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.block.Block;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.BlockEvent;
@@ -18,13 +19,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ServerWorldMixin_blockevent {
 	@Shadow
 	@Final
-	public ServerWorld.BlockEventQueue[] blockEvents;
-
-	@Shadow
-	public int nextBlockEventQueueIndex;
-
-	@Shadow
-	@Final
 	private MinecraftServer server;
 
 	private TickHandler tickHandler() {
@@ -35,20 +29,12 @@ public class ServerWorldMixin_blockevent {
 	@Inject(
 		method = "addBlockEvent",
 		at = @At(
-			"HEAD"
+			value = "INVOKE",
+			target = "Lnet/minecraft/server/world/ServerWorld$BlockEventQueue;add(Ljava/lang/Object;)Z"
 		)
 	)
-	private void onAddBlockEvent(BlockPos pos, Block block, int type, int data, CallbackInfo ci) {
-		BlockEvent blockEvent = new BlockEvent(pos, block, type, data);
-		boolean add = true;
-		for (BlockEvent blockEvent2 : this.blockEvents[this.nextBlockEventQueueIndex]) {
-			if (blockEvent2.equals(blockEvent)) {
-				add = false;
-				break;
-			}
-		}
-
-		if (tickHandler().frozen() && add)
+	private void onAddBlockEvent(BlockPos pos, Block block, int type, int data, CallbackInfo ci, @Local BlockEvent blockEvent) {
+		if (tickHandler().frozen())
 			tickHandler().queues().onScheduleBlockEvent((ServerWorld) (Object) this, blockEvent);
 	}
 }
