@@ -8,6 +8,7 @@
     "CommandManagerMixin",
     "MinecraftServerMixin",
     "ServerPlayNetworkHandlerMixin",
+    "carpet.CarpetServerMixin",
     "carpet.HudControllerMixin",
     "freeze.LivingEntityMixin",
     "freeze.ServerWorldMixin",

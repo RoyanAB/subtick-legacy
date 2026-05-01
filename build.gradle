@@ -17,6 +17,8 @@ repositories {
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
 	maven { url 'https://masa.dy.fi/maven' }
+	maven { url 'https://fastdl.crazyh.fun/maven' }
+	maven { url = "https://maven.bawnorton.com/releases" }
 }
 
 dependencies {
@@ -26,9 +28,10 @@ dependencies {
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "com.terraformersmc:modmenu:${project.mod_menu_version}"
 	modImplementation "malilib:malilib-ornithe-${project.minecraft_version}:${project.malilib_version}"
+	modImplementation "carpet:ornithe-carpet:${carpet_core_version}"
 
 	include(implementation("net.fabricmc:tiny-mappings-parser:0.3.0+build.17"))
-	modImplementation files('lib/ornithe-carpet-0.1.0+mc1.12.2-tickcommanddeleted.jar')
+	include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.3.7-beta.2")))
 
 	ploceus.dependOsl(project.osl_version)
 }

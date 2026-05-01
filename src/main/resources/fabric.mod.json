@@ -30,6 +30,9 @@
     ],
     "modmenu": [
       "cn.royan.subtick.client.compat.modmenu.ModMenuApiImpl"
+    ],
+    "mixinsquared": [
+      "cn.royan.subtick.SubtickMixinCanceller"
     ]
   },
   "mixins": [
