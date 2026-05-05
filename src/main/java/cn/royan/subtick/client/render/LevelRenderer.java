@@ -15,12 +15,12 @@ import net.minecraft.client.render.vertex.DefaultVertexFormat;
 import net.minecraft.client.render.vertex.Tesselator;
 import net.minecraft.entity.living.player.PlayerEntity;
 
-import java.util.HashSet;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class LevelRenderer {
-	private static final HashSet<Line> lines = new HashSet<>();
-	private static final HashSet<Quad> quads = new HashSet<>();
-	private static final HashSet<Text> texts = new HashSet<>();
+	private static final CopyOnWriteArraySet<Line> lines = new CopyOnWriteArraySet<>();
+	private static final CopyOnWriteArraySet<Quad> quads = new CopyOnWriteArraySet<>();
+	private static final CopyOnWriteArraySet<Text> texts = new CopyOnWriteArraySet<>();
 
 	public static synchronized void render(float tickDelta) {
 		Minecraft mc = Minecraft.getInstance();

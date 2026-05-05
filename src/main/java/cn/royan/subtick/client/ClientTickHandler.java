@@ -8,6 +8,7 @@ import cn.royan.subtick.queue.QueueElement;
 import cn.royan.subtick.utils.TickPhase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -16,12 +17,13 @@ import net.minecraft.util.math.BlockPos;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ClientTickHandler {
 	private static final Minecraft mc = Minecraft.getInstance();
-	public static final List<QueueElement> queue = new ArrayList<>();
+	public static final List<QueueElement> queue = new CopyOnWriteArrayList<>();
 	public static int newQueueElementCount = 0;
-	public static final List<String> dimensions = new ArrayList<>();
+	public static final List<String> dimensions = new CopyOnWriteArrayList<>();
 	public static boolean frozen;
 	public static TickPhase tickPhase = TickPhase.INVALID;
 	public static int queueIndex1 = 0, queueIndex2 = 0;
@@ -34,7 +36,8 @@ public class ClientTickHandler {
 
 	private static void clearRenders() {
 		LevelRenderer.clear();
-		mc.world.entities.forEach((entity) -> ((IEntity) entity).setCGlowing(false));
+		List<Entity> thisTickEntity = new ArrayList<>(mc.world.entities);
+		thisTickEntity.forEach((entity) -> ((IEntity) entity).setCGlowing(false));
 	}
 
 	public static void setTickRate(float rate) {

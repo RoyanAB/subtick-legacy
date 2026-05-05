@@ -94,5 +94,4 @@ public class SubtickMod implements ModInitializer {
 			return CarpetSettings.yeetCrash;
 		return settings.subtickYeetCrash;
 	}
-
 }
