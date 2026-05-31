@@ -20,7 +20,6 @@
   "subtick.tickPhase.globalEntity": "Global Entity",
   "subtick.tickPhase.entity": "Entity",
   "subtick.tickPhase.blockEntity": "Block Entity",
-  "subtick.tickPhase.entityTracker": "Entity Tracker",
   "subtick.feedback.tickCommand.when.frozen": "Server frozen at {dim} {phase} phase",
   "subtick.feedback.tickCommand.when.unfrozen": "Server unfrozen at {dim} {phase} phase",
   "subtick.feedback.tickCommand.when.freezing": "Server freezing at {dim} {phase} phase",

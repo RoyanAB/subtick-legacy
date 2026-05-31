@@ -28,8 +28,7 @@ public class CarpetSettings {
 			"blockEvent",
 			"globalEntity",
 			"entity",
-			"blockEntity",
-			"entityTracker"
+			"blockEntity"
 		},
 		strict = true,
 		categories = "subtick"

@@ -20,7 +20,6 @@
   "subtick.tickPhase.globalEntity": "Global Entity",
   "subtick.tickPhase.entity": "Entity",
   "subtick.tickPhase.blockEntity": "Block Entity",
-  "subtick.tickPhase.entityTracker": "Entity Tracker",
   "subtick.feedback.tickCommand.when.frozen": "伺服器已在 {dim} 的 {phase} 階段凍結",
   "subtick.feedback.tickCommand.when.unfrozen": "伺服器已在 {dim} 的 {phase} 階段解除凍結",
   "subtick.feedback.tickCommand.when.freezing": "伺服器正在 {dim} 的 {phase} 階段凍結",

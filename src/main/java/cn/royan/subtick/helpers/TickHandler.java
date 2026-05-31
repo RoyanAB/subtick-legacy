@@ -154,7 +154,7 @@ public class TickHandler implements ITickHandler {
 					}
 				}
 
-				if (phase.isLast())
+				if (phase.isLast(level))
 					remainingTicks--;
 
 				advancePhase(level);

@@ -27,8 +27,8 @@ public class TickPhase {
 		"blockEvent",
 		"globalEntity",
 		"entity",
-		"blockEntity",
-		"entityTracker"
+		"blockEntity"
+//		"entityTracker"
 	);
 	public static final String[] commandSuggestions = commandKeys.toArray(new String[]{});
 
@@ -44,10 +44,9 @@ public class TickPhase {
 		BLOCK_EVENT = commandKeys.indexOf("blockEvent"),
 		GLOBAL_ENTITY = commandKeys.indexOf("globalEntity"),
 		ENTITY = commandKeys.indexOf("entity"),
-		BLOCK_ENTITY = commandKeys.indexOf("blockEntity"),
-		ENTITY_TRACKER = commandKeys.indexOf("entityTracker");
-	private static final int lastPhase = 12;
-	public static final int totalPhases = 13;
+		BLOCK_ENTITY = commandKeys.indexOf("blockEntity");
+	private static final int lastPhase = 11;
+	public static final int totalPhases = 12;
 
 	public static void reset() {
 		dims.clear();
@@ -79,7 +78,7 @@ public class TickPhase {
 			return new TickPhase(dim + 1 == dims.size() ? 0 : dim + 1, 0);
 
 		if (phase == BLOCK_EVENT && dimensionUnloaded(level))
-			return new TickPhase(dim, phase + 4);
+			return new TickPhase(dim + 1 == dims.size() ? 0 : dim + 1, 0);
 
 		return new TickPhase(dim, phase + 1);
 	}
@@ -91,8 +90,11 @@ public class TickPhase {
 		return new TickPhase(dim, (phase + i) % totalPhases);
 	}
 
-	public boolean isLast() {
-		return phase == lastPhase && dim == dims.size() - 1;
+	public boolean isLast(ServerWorld level) {
+		if (dimensionUnloaded(level))
+			return phase == lastPhase - 3 && dim == dims.size() - 1;
+		else
+			return phase == lastPhase && dim == dims.size() - 1;
 	}
 
 	public boolean isPriorTo(TickPhase phase2) {

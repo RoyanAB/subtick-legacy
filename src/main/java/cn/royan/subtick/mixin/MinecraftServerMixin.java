@@ -73,15 +73,4 @@ public class MinecraftServerMixin implements ITickHandleable {
 	public boolean wrapAutosave(MinecraftServer instance, boolean silent) {
 		return !this.tickHandler().frozen();
 	}
-
-	@WrapWithCondition(
-		method = "tickWorlds",
-		at = @At(
-			value = "INVOKE",
-			target = "Lnet/minecraft/server/EntityMap;tick()V"
-		)
-	)
-	public boolean wrapEntityTracker(EntityMap instance, @Local ServerWorld serverWorld) {
-		return tickHandler().shouldTick(serverWorld, TickPhase.ENTITY_TRACKER);
-	}
 }
