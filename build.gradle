@@ -1,7 +1,7 @@
 plugins {
 	id 'maven-publish'
-	id 'net.fabricmc.fabric-loom-remap' version '1.15-SNAPSHOT'
-	id 'ploceus' version '1.15-SNAPSHOT'
+	id 'fabric-loom' version '1.17-SNAPSHOT'
+	id 'ploceus' version '1.17-SNAPSHOT'
 }
 
 base {
@@ -31,7 +31,7 @@ dependencies {
 	modImplementation files('lib/ornithe-carpet-0.2.1+mc1.12.2.jar')
 
 	include(implementation("net.fabricmc:tiny-mappings-parser:0.3.0+build.17"))
-	include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.3.7-beta.2")))
+	include(implementation(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-fabric:0.3.7-beta.3")))
 
 	ploceus.dependOsl(project.osl_version)
 }
